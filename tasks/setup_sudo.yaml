@@ -1,0 +1,6 @@
+- name: Enable passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: "^%sudo"
+    line: "%sudo  ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"

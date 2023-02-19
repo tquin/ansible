@@ -1,0 +1,12 @@
+- name: Disable ssh password auth
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#PasswordAuthentication yes"
+    line: "PasswordAuthentication no"
+  register: sshd_restart_required
+
+- name: Restart ssh daemon if needed
+  service:
+    name: sshd
+    state: restarted
+  when: sshd_restart_required.changed

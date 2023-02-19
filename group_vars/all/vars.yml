@@ -1,0 +1,22 @@
+# ##### ##### ##### ##### #####
+# Shared variables across all hosts
+# ##### ##### ##### ##### #####
+
+username: till
+
+core_packages:
+  # Terminal tools
+  - zsh
+  - exa # ls replacement
+  - htop
+  - btop # fancy htop
+  - tmux
+
+  # Text editing
+  - nano
+  - vim
+
+  # Misc
+  - neofetch
+  - tlp # CPU / power profiles
+  - speedtest-cli
