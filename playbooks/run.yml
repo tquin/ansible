@@ -6,3 +6,11 @@
       with_fileglob:
         - "../tasks/**.yaml"
         - "../tasks/**.yml"
+
+  roles:
+    # https://github.com/artis3n/ansible-role-tailscale
+    - role: artis3n.tailscale
+      vars:
+        tailscale_authkey: "{{ secret_tailscale_authkey }}"
+        tailscale_args: "--ssh"
+        state: latest
