@@ -14,3 +14,9 @@
         tailscale_authkey: "{{ secret_tailscale_authkey }}"
         tailscale_args: "--ssh"
         state: latest
+
+  handlers:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../handlers/**.yaml"
+        - "../handlers/**.yml"
