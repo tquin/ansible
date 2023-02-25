@@ -20,3 +20,4 @@ core_packages:
   - neofetch
   - tlp # CPU / power profiles
   - speedtest-cli
+  - 7zip

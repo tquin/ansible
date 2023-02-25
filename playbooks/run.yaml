@@ -1,0 +1,35 @@
+- hosts: all
+  become: yes
+
+  tasks:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../tasks/core/**.yaml"
+        - "../tasks/core/**.yml"
+
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../tasks/applications/**.yaml"
+        - "../tasks/applications/**.yml"
+
+    # https://github.com/artis3n/ansible-role-tailscale
+    - name: Install tailscale
+      include_role: artis3n.tailscale
+      vars:
+        tailscale_authkey: "{{ secret_tailscale_authkey }}"
+        tailscale_args: "--ssh"
+        state: latest
+
+  #roles:
+  #  # https://github.com/artis3n/ansible-role-tailscale
+  #  - role: artis3n.tailscale
+  #    vars:
+  #      tailscale_authkey: "{{ secret_tailscale_authkey }}"
+  #      tailscale_args: "--ssh"
+  #      state: latest
+
+  handlers:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../handlers/**.yaml"
+        - "../handlers/**.yml"

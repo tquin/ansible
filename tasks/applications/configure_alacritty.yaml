@@ -1,0 +1,12 @@
+- name: Add alacritty PPA for ubuntu
+  apt_repository:
+    repo: ppa:aslatter/ppa
+    state: present
+    update_cache: true
+
+- name: Install alacritty through PPA repo
+  package:
+    name: alacritty
+    state: latest
+
+# TODO - PREFS
