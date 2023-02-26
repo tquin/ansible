@@ -4,6 +4,9 @@
 
 username: till
 
+dotfiles_repo: https://github.com/tquin/dotfiles
+dotfiles_dir: "/home/{{ username }}/code/dotfiles"
+
 core_packages:
   # Terminal tools
   - zsh
@@ -21,3 +24,5 @@ core_packages:
   - tlp # CPU / power profiles
   - speedtest-cli
   - 7zip
+  - stow
+  - git
