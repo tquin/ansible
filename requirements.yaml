@@ -3,4 +3,5 @@
 roles:
     - name: artis3n.tailscale
 
-#collections:
+collections:
+    - name: community.general

@@ -8,21 +8,33 @@ dotfiles_repo: https://github.com/tquin/dotfiles
 dotfiles_dir: "/home/{{ username }}/code/dotfiles"
 
 core_packages:
-  # Terminal tools
+  # CLI tools
   - zsh
   - exa # ls replacement
   - htop
   - btop # fancy htop
-  - tmux
+  - tmux # needed for alacritty config
+  - bat # fancy cat
+  - neofetch
+  - tlp # CPU / power profiles
 
   # Text editing
   - nano
   - vim
 
+  # Code
+  - git
+  - cargo
+  - rustc
+
   # Misc
-  - neofetch
-  - tlp # CPU / power profiles
   - speedtest-cli
   - 7zip
   - stow
-  - git
+  - cmake # Needed for cargo installs
+
+cargo_packages:
+  - starship
+  - du-dust
+  - bacon
+  - ripgrep

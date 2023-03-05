@@ -1,0 +1,36 @@
+
+- name: Chown the repo
+  file:
+      path: "{{ dotfiles_dir }}"
+      recurse: yes
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+
+- name: Clone the latest dotfiles repo
+  become_user: "{{ username }}"
+  git:
+      repo: "{{ dotfiles_repo }}"
+      dest: "{{ dotfiles_dir }}"
+      recursive: no
+      force: yes
+
+- name: Stow the dotfiles
+  become_user: "{{ username }}"
+  shell:
+      cmd: "stow -v --target=/home/{{ username }} ."
+      chdir: "{{ dotfiles_dir }}"
+  register: stow_result
+  changed_when: stow_result.stdout != ""
+
+- name: Add shell sourcing
+  become_user: "{{ username }}"
+  shell:
+    cmd: "echo 'source {{ dotfiles_dir }}/bashrc.till' >> {{ rc_file }}"
+    executable: /bin/bash
+  loop:
+    - ~/.bashrc
+    - ~/.zshrc
+  # Got some weird error just using default "item", so:
+  loop_control:
+    loop_var: rc_file
