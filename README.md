@@ -18,13 +18,17 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Install OS from ISO
   * ✔ Ubuntu Jammy 22.04
   * 🛠 Deb Bullseye 11
-* Generate an SSH key on the controller and copy it to the client
+* If needed, install the SSH server on the ansible_client
+  * `su -c 'usermod -Ag sudo <username>'`
+  * `su -c 'apt install -y openssh-server'`
+  * Then reboot for the sudo to take effect
+* Generate an SSH key on the controller and copy it to the ansible_client
   * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
-  * `ssh-copy-id -i ~/.ssh/ansible <username>@<client>`
-* Fill in the specific client hostname/IP details in the `hosts` file
+  * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
+* Fill in the specific ansible_client hostname/IP details in the `hosts` file
   ```
   [home]
-  <client_name> ansible_host=<client_ip> ansible_user="{{ username }}" ansible_connection=ssh ansible_ssh_private_key_file="/home/{{ username }}/.ssh/ansible"
+  <ansible_client> ansible_host=<client_ip> ansible_user="{{ username }}" ansible_connection=ssh ansible_ssh_private_key_file="/home/{{ username }}/.ssh/ansible"
   ```
 * Test the key is working without requiring a password
   * `ansible all -m ping`
