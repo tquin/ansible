@@ -32,3 +32,9 @@ The only steps needed to do manually on a new machine is to install from a fresh
   ```
 * Test the key is working without requiring a password
   * `ansible all -m ping`
+
+### Usage
+
+```
+ansible-playbook playbooks/run.yaml
+```

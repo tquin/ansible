@@ -38,3 +38,13 @@ cargo_packages:
   - du-dust
   - bacon
   - ripgrep
+
+nerdfonts_users:
+  - root
+  - "{{ username }}"
+
+nerdfonts_fonts:
+  - fontname: 'FiraCode'
+    name: 'font-fira-code-nerd-font'
+  - fontname: 'FiraMono'
+    name: 'font-fira-mono-nerd-font'

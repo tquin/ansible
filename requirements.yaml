@@ -2,6 +2,9 @@
 
 roles:
     - name: artis3n.tailscale
+    - name: drew1kun.fancyfonts.nerdfonts
+    - name: drew1kun.fancyfonts.terminus_powerline
 
 collections:
     - name: community.general
+    - name: drew1kun.fancyfonts
