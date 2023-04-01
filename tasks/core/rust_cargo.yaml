@@ -1,4 +1,4 @@
-- name: check if cargo is installed
+- name: Check if cargo is installed
   shell: command -v cargo
   register: cargo_exists
   ignore_errors: yes
@@ -11,16 +11,20 @@
     mode: '0755'
 
 - name: Install rust, cargo toolset
+  become_user: "{{ username }}"
   when: cargo_exists is failed
   shell: /tmp/sh.rustup.rs -y
 
 - name: Install cargo/rust packages
+  become_user: "{{ username }}"
   community.general.cargo:
     name: "{{ cargo_item }}"
     state: latest
   loop: "{{ cargo_packages }}"
   loop_control:
     loop_var: cargo_item
+
+# User's cargo path will be added by dotfiles.yaml
 
 - name: Cleanup installer
   file:

@@ -7,12 +7,14 @@
       owner: "{{ username }}"
       group: "{{ username }}"
 
+# TODO - tmux is not loading plugins properly 
 - name: Clone the latest dotfiles repo
   become_user: "{{ username }}"
   git:
       repo: "{{ dotfiles_repo }}"
       dest: "{{ dotfiles_dir }}"
-      recursive: no
+      recursive: yes
+      track_submodules: yes
       force: yes
 
 - name: Stow the dotfiles
@@ -23,8 +25,15 @@
   register: stow_result
   changed_when: stow_result.stdout != ""
 
+- name: Check if shell sourcing is already done
+  become_user: "{{ username }}"
+  shell: cat ~/.bashrc | grep 'bashrc.till'
+  register: shell_sourcing_exists
+  ignore_errors: yes
+
 - name: Add shell sourcing
   become_user: "{{ username }}"
+  when: shell_sourcing_exists is failed
   shell:
     cmd: "echo 'source {{ dotfiles_dir }}/bashrc.till' >> {{ rc_file }}"
     executable: /bin/bash

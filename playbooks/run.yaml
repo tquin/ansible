@@ -1,6 +1,8 @@
 - hosts: all
   become: yes
 
+  # ----- ----- ----- ----- -----
+
   tasks:
     - include_tasks: "{{ item }}"
       with_fileglob:
@@ -20,6 +22,18 @@
         tailscale_authkey: "{{ secret_tailscale_authkey }}"
         tailscale_args: "--ssh"
         state: latest
+
+    # https://github.com/drew1kun/ansible-collection-fancyfonts
+    - name: Install Nerdfonts
+      include_role:
+        name: "{{ nerdfont_item }}"
+      loop:
+        - drew1kun.fancyfonts.nerdfonts
+        - drew1kun.fancyfonts.terminus_powerline
+      loop_control:
+        loop_var: nerdfont_item
+
+  # ----- ----- ----- ----- -----
 
   handlers:
     - include_tasks: "{{ item }}"

@@ -4,19 +4,23 @@
 
 username: till
 
+# ----- ----- ----- ----- -----
+
 dotfiles_repo: https://github.com/tquin/dotfiles
 dotfiles_dir: "/home/{{ username }}/code/dotfiles"
+
+# ----- ----- ----- ----- -----
 
 core_packages:
   # CLI tools
   - zsh
-  - exa # ls replacement
   - htop
   - btop # fancy htop
   - tmux # needed for alacritty config
   - bat # fancy cat
   - neofetch
   - tlp # CPU / power profiles
+  - exa
 
   # Text editing
   - nano
@@ -26,12 +30,14 @@ core_packages:
   - git
   - cargo
   - rustc
+  - cmake # Needed for cargo installs
 
   # Misc
   - speedtest-cli
   - 7zip
   - stow
-  - cmake # Needed for cargo installs
+
+# ----- ----- ----- ----- -----
 
 cargo_packages:
   - starship
@@ -39,12 +45,15 @@ cargo_packages:
   - bacon
   - ripgrep
 
+cargo_dir: "/home/{{ username }}/.cargo/bin"
+
+# ----- ----- ----- ----- -----
+
 nerdfonts_users:
   - root
   - "{{ username }}"
 
 nerdfonts_fonts:
   - fontname: 'FiraCode'
-    name: 'font-fira-code-nerd-font'
   - fontname: 'FiraMono'
-    name: 'font-fira-mono-nerd-font'
+  - fontname: 'JetBrainsMono'
