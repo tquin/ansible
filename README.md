@@ -35,6 +35,17 @@ The only steps needed to do manually on a new machine is to install from a fresh
 
 ### Usage
 
+Just run the main playbook:
 ```
 ansible-playbook playbooks/run.yaml
 ```
+
+### Todo
+
+- Plex
+- ZFS
+- ZSH
+- Gnome extensions
+- Fedora
+- VPN
+- Unattended upgrades
