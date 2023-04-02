@@ -3,6 +3,13 @@
 
   # ----- ----- ----- ----- -----
 
+  # Anything with an earlier dependency should go here
+  pre_tasks:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        # Required before we can do git actions in dotfiles
+        - "../tasks/core/setup_ssh.yaml"
+
   tasks:
     - include_tasks: "{{ item }}"
       with_fileglob:

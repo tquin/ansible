@@ -7,12 +7,12 @@
       owner: "{{ username }}"
       group: "{{ username }}"
 
-# TODO - tmux is not loading plugins properly 
 - name: Clone the latest dotfiles repo
   become_user: "{{ username }}"
   git:
       repo: "{{ dotfiles_repo }}"
       dest: "{{ dotfiles_dir }}"
+      clone: yes
       recursive: yes
       track_submodules: yes
       force: yes

@@ -4,3 +4,16 @@
     regexp: "^#PasswordAuthentication yes"
     line: "PasswordAuthentication no"
   notify: "sshd_restart_required"
+
+- name: Copy ssh private key for git
+  become_user: "{{ username }}"
+  copy:
+    content: "{{ secret_ssh_private_key_ed25519 }}"
+    dest: "/home/{{ username }}/.ssh/id_ed25519"
+    mode: 0600
+
+- name: Start ssh agent & add key 
+  become_user: "{{ username }}"
+  shell: |
+    eval "$(ssh-agent -s)"
+    ssh-add "/home/{{ username }}/.ssh/id_ed25519"
