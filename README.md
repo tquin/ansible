@@ -45,6 +45,7 @@ ansible-playbook playbooks/run.yaml
 
 ### Todo
 
+- Fix starship on Debian
 - Plex
 - ZFS
 - ZSH

@@ -11,31 +11,31 @@ dotfiles_dir: "/home/{{ username }}/code/dotfiles"
 
 # ----- ----- ----- ----- -----
 
-core_packages:
+common_packages:
   # CLI tools
   - zsh
   - htop
-  - btop # fancy htop
   - tmux # needed for alacritty config
   - bat # fancy cat
-  - neofetch
-  - tlp # CPU / power profiles
   - exa
-
-  # Text editing
   - nano
   - vim
 
   # Code
   - git
-  - cargo
-  - rustc
   - cmake # Needed for cargo installs
 
   # Misc
   - speedtest-cli
-  - 7zip
   - stow
+  - neofetch
+  - tlp # CPU / power profiles
+
+ubuntu_packages:
+  - btop # fancy htop
+  - 7zip
+  - cargo
+  - rustc
 
 # ----- ----- ----- ----- -----
 

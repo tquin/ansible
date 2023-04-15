@@ -5,5 +5,11 @@
 
 - name: Install essential packages
   package:
-    name: "{{ core_packages }}"
+    name: "{{ common_packages }}"
     state: latest
+
+- name: Install Ubuntu-only packages
+  package:
+    name: "{{ ubuntu_packages }}"
+    state: latest
+  when: ansible_distribution == 'Ubuntu'

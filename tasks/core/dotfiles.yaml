@@ -16,6 +16,7 @@
       recursive: yes
       track_submodules: yes
       force: yes
+      accept_newhostkey: yes
 
 - name: Stow the dotfiles
   become_user: "{{ username }}"

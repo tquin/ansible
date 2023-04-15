@@ -1,6 +1,9 @@
 - hosts: vm
   become: yes
 
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
+
   # ----- ----- ----- ----- -----
 
   # Anything with an earlier dependency should go here

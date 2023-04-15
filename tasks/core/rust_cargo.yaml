@@ -1,3 +1,29 @@
+# Debian Bullseye ships an ancient version of Cargo,
+# so we need to manaully update it outside apt.
+- name: Check if cargo is outdated from Debian
+  when: ansible_distribution == 'Debian'
+  shell: cargo --version | grep 'cargo 1.4'
+  register: cargo_deb_outdated
+  ignore_errors: yes
+
+- name: Remove apt version of cargo from Debian (apt-remove)
+  when: ansible_distribution == 'Debian' and cargo_deb_outdated
+  package:
+    name: "{{ remove_pkg_item }}"
+    state: absent
+  loop:
+    - cargo
+    - rustc
+  loop_control:
+    loop_var: remove_pkg_item
+
+- name: Remove apt version of cargo from Debian (apt-autoremove)
+  when: ansible_distribution == 'Debian' and cargo_deb_outdated
+  apt:
+    autoremove: true
+
+# ----- ----- ----- ----- -----
+
 - name: Check if cargo is installed
   shell: command -v cargo
   register: cargo_exists
