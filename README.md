@@ -25,6 +25,9 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Generate an SSH key on the controller and copy it to the ansible_client
   * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
   * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
+* Ensure your user has sudo privileges on the ansible_client
+  * `su` to root
+  * `sudo usermod -aG sudo <username>`
 * Fill in the specific ansible_client hostname/IP details in the `hosts` file
   ```
   [home]
