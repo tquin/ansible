@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: vm
   become: yes
 
   # ----- ----- ----- ----- -----
@@ -21,6 +21,8 @@
         - "../tasks/applications/**.yaml"
         - "../tasks/applications/**.yml"
 
+    # ----- ----- ----- ----- -----
+
     # https://github.com/artis3n/ansible-role-tailscale
     - name: Install tailscale
       include_role: 
@@ -39,6 +41,12 @@
         - drew1kun.fancyfonts.terminus_powerline
       loop_control:
         loop_var: nerdfont_item
+
+    # https://docs.debops.org/en/master/ansible/roles/fail2ban/
+    - name: Install fail2ban
+      include_role: 
+        name: debops.debops.fail2ban
+      when: inventory_hostname in groups.debops_service_fail2ban
 
   # ----- ----- ----- ----- -----
 
