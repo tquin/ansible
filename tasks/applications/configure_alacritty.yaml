@@ -13,14 +13,13 @@
 
 # ----- ----- ----- ----- -----
 
-- name: Install alacritty through Debian
+- name: Install alacritty through Docker for Debian
   when: ansible_distribution == 'Debian'
   community.docker.docker_container:
     name: build-alacritty
     image: bstlang/build-alacritty
     state: started
-    mounts:
-      - source: /usr/local
-        target: /out
+    volumes:
+      - /usr/local:/out
     cleanup: true
     debug: true
