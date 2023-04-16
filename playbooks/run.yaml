@@ -4,7 +4,9 @@
   environment:
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
-  # ----- ----- ----- ----- -----
+    # ----- ----- ----- ----- -----
+    # Local
+    # ----- ----- ----- ----- -----
 
   # Anything with an earlier dependency should go here
   pre_tasks:
@@ -25,6 +27,8 @@
         - "../tasks/workstation_apps/**.yaml"
         - "../tasks/workstation_apps/**.yml"
 
+    # ----- ----- ----- ----- -----
+    # Galaxy
     # ----- ----- ----- ----- -----
 
     # https://github.com/artis3n/ansible-role-tailscale
@@ -48,10 +52,17 @@
 
     # https://docs.debops.org/en/master/ansible/roles/fail2ban/
     - name: Install fail2ban
-      when: inventory_hostname in groups.debops_service_fail2ban
+      when: inventory_hostname in groups.internet_facing
       include_role: 
         name: debops.debops.fail2ban
 
+    # https://docs.debops.org/en/master/ansible/roles/fail2ban/
+    - name: Install nullmailer forwarder
+      include_role: 
+        name: debops.debops.nullmailer
+
+  # ----- ----- ----- ----- -----
+  # Handlers
   # ----- ----- ----- ----- -----
 
   handlers:

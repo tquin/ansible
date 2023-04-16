@@ -4,6 +4,8 @@
 
 username: till
 
+os_version: "{{ 'jammy' if ansible_distribution == 'Ubuntu' else 'bullseye' }}"
+
 # ----- ----- ----- ----- -----
 
 dotfiles_repo: https://github.com/tquin/dotfiles
@@ -64,10 +66,12 @@ nerdfonts_users:
   - "{{ username }}"
 
 nerdfonts_fonts:
-  - fontname: 'FiraCode'
-  - fontname: 'FiraMono'
-  - fontname: 'JetBrainsMono'
+  - fontname: FiraCode
+  - fontname: FiraMono
+  - fontname: JetBrainsMono
 
 # ----- ----- ----- ----- -----
 
-os_version: "{{ 'jammy' if ansible_distribution == 'Ubuntu' else 'bullseye' }}"
+nullmailer__relayhost: "{{ secret_email_server }}"
+nullmailer__adminaddr:
+  - "{{ secret_email_address }}"
