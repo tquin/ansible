@@ -20,9 +20,10 @@
         - "../tasks/core/**.yml"
 
     - include_tasks: "{{ item }}"
+      when: inventory_hostname in groups.workstation
       with_fileglob:
-        - "../tasks/applications/**.yaml"
-        - "../tasks/applications/**.yml"
+        - "../tasks/workstation_apps/**.yaml"
+        - "../tasks/workstation_apps/**.yml"
 
     # ----- ----- ----- ----- -----
 
@@ -47,9 +48,9 @@
 
     # https://docs.debops.org/en/master/ansible/roles/fail2ban/
     - name: Install fail2ban
+      when: inventory_hostname in groups.debops_service_fail2ban
       include_role: 
         name: debops.debops.fail2ban
-      when: inventory_hostname in groups.debops_service_fail2ban
 
   # ----- ----- ----- ----- -----
 
