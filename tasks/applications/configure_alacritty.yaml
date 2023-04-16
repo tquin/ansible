@@ -1,10 +1,26 @@
-- name: Add alacritty PPA for ubuntu
+- name: Add alacritty PPA for Ubuntu
+  when: ansible_distribution == 'Ubuntu'
   apt_repository:
     repo: ppa:aslatter/ppa
     state: present
     update_cache: true
 
 - name: Install alacritty through PPA repo
+  when: ansible_distribution == 'Ubuntu'
   package:
     name: alacritty
     state: latest
+
+# ----- ----- ----- ----- -----
+
+- name: Install alacritty through Debian
+  when: ansible_distribution == 'Debian'
+  community.docker.docker_container:
+    name: build-alacritty
+    image: bstlang/build-alacritty
+    state: started
+    mounts:
+      - source: /usr/local
+        target: /out
+    cleanup: true
+    debug: true

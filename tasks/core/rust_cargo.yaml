@@ -2,12 +2,14 @@
 # so we need to manaully update it outside apt.
 - name: Check if cargo is outdated from Debian
   when: ansible_distribution == 'Debian'
-  shell: cargo --version | grep 'cargo 1.4'
+  shell: |
+    rustup default stable
+    cargo --version | grep 'cargo 1.4'
   register: cargo_deb_outdated
   ignore_errors: yes
 
 - name: Remove apt version of cargo from Debian (apt-remove)
-  when: ansible_distribution == 'Debian' and cargo_deb_outdated
+  when: ansible_distribution == 'Debian' and cargo_deb_outdated is defined
   package:
     name: "{{ remove_pkg_item }}"
     state: absent
@@ -18,7 +20,7 @@
     loop_var: remove_pkg_item
 
 - name: Remove apt version of cargo from Debian (apt-autoremove)
-  when: ansible_distribution == 'Debian' and cargo_deb_outdated
+  when: ansible_distribution == 'Debian' and cargo_deb_outdated is defined
   apt:
     autoremove: true
 
@@ -39,7 +41,9 @@
 - name: Install rust, cargo toolset
   become_user: "{{ username }}"
   when: cargo_exists is failed
-  shell: /tmp/sh.rustup.rs -y
+  shell: |
+    /tmp/sh.rustup.rs -y
+    rustup default stable
 
 - name: Install cargo/rust packages
   become_user: "{{ username }}"

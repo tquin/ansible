@@ -37,6 +37,16 @@ ubuntu_packages:
   - cargo
   - rustc
 
+debian_packages:
+  # Requirements for setup_docker.yaml
+  - git
+  - apt-transport-https
+  - ca-certificates
+  - wget
+  - software-properties-common
+  - gnupg2
+  - curl
+
 # ----- ----- ----- ----- -----
 
 cargo_packages:
@@ -57,3 +67,7 @@ nerdfonts_fonts:
   - fontname: 'FiraCode'
   - fontname: 'FiraMono'
   - fontname: 'JetBrainsMono'
+
+# ----- ----- ----- ----- -----
+
+os_version: "{{ 'jammy' if ansible_distribution == 'Ubuntu' else 'bullseye' }}"

@@ -9,7 +9,13 @@
     state: latest
 
 - name: Install Ubuntu-only packages
+  when: ansible_distribution == 'Ubuntu'
   package:
     name: "{{ ubuntu_packages }}"
     state: latest
-  when: ansible_distribution == 'Ubuntu'
+
+- name: Install Debian-only packages
+  when: ansible_distribution == 'Debian'
+  package:
+    name: "{{ debian_packages }}"
+    state: latest
