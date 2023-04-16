@@ -1,0 +1,20 @@
+- name: Install python-psutil package
+  package:
+    name: python3-psutil
+    state: latest
+
+- name: Copy wallpaper file
+  become_user: "{{ username }}"
+  copy: 
+    src: resources/slow_rush_wallpaper.jpg 
+    dest: "/home/{{ username }}/Pictures/slow_rush_wallpaper.jpg"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+
+- name: Set GNOME wallpaper
+  become_user: "{{ username }}"
+  community.general.dconf: 
+    key: "/org/gnome/desktop/background/picture-uri" 
+    value: "'file:///home/{{ username }}/Pictures/slow_rush_wallpaper.jpg'"

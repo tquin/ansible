@@ -11,7 +11,7 @@
 ansible-galaxy install -r requirements.yaml
 ```
 
-### Manual Client Setup
+### Manual Setup
 
 The only steps needed to do manually on a new machine is to install from a fresh ISO, configure a user account with a password, and add the SSH key to the Ansible controller. Everything after that, including SSH hardening, can be done via the playbook.
 
@@ -33,14 +33,15 @@ The only steps needed to do manually on a new machine is to install from a fresh
   [home]
   <ansible_client> ansible_host=<client_ip> ansible_user="{{ username }}" ansible_connection=ssh ansible_ssh_private_key_file="/home/{{ username }}/.ssh/ansible"
   ```
+* Optionally add the hostname into other host groups if you like (eg: add to [workstation] if you want GUI apps installed)
 * Test the key is working without requiring a password
   * `ansible all -m ping`
 
 ### Usage
 
-Just run the main playbook:
+The included script will ensure all requirements are installed through `ansible-galaxy`, then run the main playbook.
 ```
-ansible-playbook playbooks/run.yaml
+./run.sh
 ```
 
 ### Todo
