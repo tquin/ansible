@@ -49,7 +49,6 @@
   become_user: "{{ username }}"
   community.general.cargo:
     name: "{{ cargo_item }}"
-    state: latest
   loop: "{{ cargo_packages }}"
   loop_control:
     loop_var: cargo_item

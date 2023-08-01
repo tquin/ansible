@@ -1,12 +1,23 @@
-- hosts: vm
+- hosts: all
   become: yes
 
   environment:
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
-    # ----- ----- ----- ----- -----
-    # Local
-    # ----- ----- ----- ----- -----
+  # ----- ----- ----- ----- -----
+  # Handlers
+  # ----- ----- ----- ----- -----
+
+  handlers:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../handlers/**.yaml"
+        - "../handlers/**.yml"
+
+
+  # ----- ----- ----- ----- -----
+  # Local tasks
+  # ----- ----- ----- ----- -----
 
   # Anything with an earlier dependency should go here
   pre_tasks:
@@ -28,7 +39,7 @@
         - "../tasks/workstation_apps/**.yml"
 
     # ----- ----- ----- ----- -----
-    # Galaxy
+    # Galaxy tasks/PBs
     # ----- ----- ----- ----- -----
 
     # https://github.com/artis3n/ansible-role-tailscale
@@ -53,12 +64,13 @@
     # https://docs.debops.org/en/master/ansible/roles/fail2ban/
     - name: Install fail2ban
       when: inventory_hostname in groups.internet_facing
-      include_role: 
+      include_role:
         name: debops.debops.fail2ban
 
-    # https://docs.debops.org/en/master/ansible/roles/fail2ban/
+    # https://docs.debops.org/en/master/ansible/roles/nullmailer/
     - name: Install nullmailer forwarder
-      include_role: 
+      when: inventory_hostname in groups.server
+      include_role:
         name: debops.debops.nullmailer
 
     # https://docs.debops.org/en/master/ansible/roles/unattended_upgrades/
@@ -66,13 +78,3 @@
       when: inventory_hostname in groups.server
       include_role:
         name: debops.debops.unattended_upgrades
-
-  # ----- ----- ----- ----- -----
-  # Handlers
-  # ----- ----- ----- ----- -----
-
-  handlers:
-    - include_tasks: "{{ item }}"
-      with_fileglob:
-        - "../handlers/**.yaml"
-        - "../handlers/**.yml"

@@ -4,7 +4,10 @@
 
 * This is currently configured to run on apt-based distros only; I need to add pacman or dnf at a later stage.
 
-* A `vault.key` file needs to be added to the root of the repo. This allows decryption of the `secrets.yaml` file.
+* A `.vault.key` file needs to be added to the root of the repo. This allows decryption of the `secrets.yaml` file. To manually edit variables in the vault, use:
+```
+ansible-vault edit group_vars/all/secrets.yaml
+```
 
 * Run the below to install all of the third-party dependencies from Galaxy:
 ```
@@ -54,3 +57,6 @@ The included script will ensure all requirements are installed through `ansible-
 - Fedora
 - VPN
 - Unattended upgrades
+- Minecraft
+- Gnome dock pins
+- Obsidian & drive sync

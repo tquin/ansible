@@ -6,7 +6,7 @@
 - name: Copy wallpaper file
   become_user: "{{ username }}"
   copy: 
-    src: resources/slow_rush_wallpaper.jpg 
+    src: resources/gnome/slow_rush_wallpaper.jpg 
     dest: "/home/{{ username }}/Pictures/slow_rush_wallpaper.jpg"
     owner: "{{ username }}"
     group: "{{ username }}"

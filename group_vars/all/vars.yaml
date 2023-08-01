@@ -4,8 +4,6 @@
 
 username: till
 
-os_version: "{{ 'jammy' if ansible_distribution == 'Ubuntu' else 'bullseye' }}"
-
 # ----- ----- ----- ----- -----
 
 dotfiles_repo: https://github.com/tquin/dotfiles
@@ -22,11 +20,9 @@ common_packages:
   - exa
   - nano
   - vim
-
   # Code
   - git
   - cmake # Needed for cargo installs
-
   # Misc
   - speedtest-cli
   - stow
@@ -48,6 +44,8 @@ debian_packages:
   - software-properties-common
   - gnupg2
   - curl
+  - python3-dnspython
+  - python3-dns
 
 # ----- ----- ----- ----- -----
 
