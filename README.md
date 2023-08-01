@@ -49,7 +49,6 @@ The included script will ensure all requirements are installed through `ansible-
 
 ### Todo
 
-- Fix starship on Debian
 - Plex
 - ZFS
 - ZSH

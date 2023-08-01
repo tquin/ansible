@@ -55,3 +55,17 @@ cargo_packages:
   - ripgrep
 
 cargo_dir: "/home/{{ username }}/.cargo/bin"
+
+# ----- ----- ----- ----- -----
+
+flatpak_packages:
+  - io.github.shiftey.Desktop # Github Desktop
+  - md.obsidian.Obsidian
+  - org.signal.Signal
+  - com.spotify.Client
+  - org.gnome.baobab # Disk Usage Analyzer
+  - org.gimp.GIMP
+  - com.discordapp.Discord
+  - com.valvesoftware.Steam
+  - org.gnome.Extensions
+  - com.github.tchx84.Flatseal # Flatpak permission manager
