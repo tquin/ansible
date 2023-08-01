@@ -38,6 +38,12 @@
         - "../tasks/workstation_apps/**.yaml"
         - "../tasks/workstation_apps/**.yml"
 
+    - include_tasks: "{{ item }}"
+      when: inventory_hostname in groups.minecraft
+      with_fileglob:
+        - "../tasks/minecraft/**.yaml"
+        - "../tasks/minecraft/*.yaml"
+
     # ----- ----- ----- ----- -----
     # Galaxy tasks/PBs
     # ----- ----- ----- ----- -----
@@ -63,15 +69,16 @@
 
     # https://docs.debops.org/en/master/ansible/roles/fail2ban/
     - name: Install fail2ban
-      when: inventory_hostname in groups.internet_facing
+      when: inventory_hostname in groups.server
       include_role:
         name: debops.debops.fail2ban
 
+    # TBD - BROKEN BY DIG/DNSPYTHON ISSUE
     # https://docs.debops.org/en/master/ansible/roles/nullmailer/
-    - name: Install nullmailer forwarder
-      when: inventory_hostname in groups.server
-      include_role:
-        name: debops.debops.nullmailer
+    #- name: Install nullmailer forwarder
+    #  when: inventory_hostname in groups.server
+    #  include_role:
+    #    name: debops.debops.nullmailer
 
     # https://docs.debops.org/en/master/ansible/roles/unattended_upgrades/
     - name: Enable unattended upgrades

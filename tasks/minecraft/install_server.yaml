@@ -1,0 +1,28 @@
+- name: Create minecraft user account
+  user:
+    name: "{{ minecraft_user }}"
+
+- name: Install Java environment
+  package:
+    name: "openjdk-17-jre-headless"
+    state: latest
+
+- name: Create minecraft server jar directory
+  file:
+    path: /srv/minecraft/jar_versions/
+    state: directory
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_user }}"
+
+- name: Download latest Fabric JAR
+  args:
+    chdir: /srv/minecraft/jar_versions/
+  shell: |
+    wget -O "fabric-{{ minecraft_version }}.jar" "https://meta.fabricmc.net/v2/versions/loader/{{ minecraft_version }}/{{ minecraft_fabric_version }}/server/jar"
+
+- name: Create symlink to minecraft server.jar
+  become_user: "{{ minecraft_user }}"
+  file:
+    src: "/srv/minecraft/jar_versions/fabric-{{ minecraft_version }}.jar"
+    dest: /srv/minecraft/server.jar
+    state: link

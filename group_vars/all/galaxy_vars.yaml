@@ -1,0 +1,14 @@
+nerdfonts_users:
+  - root
+  - "{{ username }}"
+
+nerdfonts_fonts:
+  - fontname: FiraCode
+  - fontname: FiraMono
+  - fontname: JetBrainsMono
+
+# ----- ----- ----- ----- -----
+
+nullmailer__relayhost: "{{ secret_email_server }}"
+nullmailer__adminaddr:
+  - "{{ secret_email_address }}"

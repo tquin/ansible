@@ -1,0 +1,11 @@
+- name: Copy minecraft service file
+  copy: 
+    src: resources/minecraft/systemd/minecraft.service
+    dest: "/etc/systemd/system/minecraft.service"
+
+- name: Enable and start minecraft service
+  systemd:
+    daemon_reload: true
+    enabled: true
+    state: started
+    name: minecraft.service

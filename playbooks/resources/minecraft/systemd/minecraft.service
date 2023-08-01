@@ -1,0 +1,19 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User=minecraft
+Nice=1
+KillMode=none
+SuccessExitStatus=0 1
+ProtectHome=true
+ProtectSystem=full
+PrivateDevices=true
+NoNewPrivileges=true
+WorkingDirectory=/srv/minecraft
+ExecStart=/srv/minecraft/start.sh
+ExecStop=/srv/minecraft/stop.sh
+
+[Install]
+WantedBy=multi-user.target

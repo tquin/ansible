@@ -1,3 +1,4 @@
 /vault.key
 /.vault.key
 /.fact_cache
+/group_vars/all/secret_vars.yaml

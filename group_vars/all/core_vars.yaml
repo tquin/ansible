@@ -1,6 +1,6 @@
-# ##### ##### ##### ##### #####
+# ----- ----- ----- ----- -----
 # Shared variables across all hosts
-# ##### ##### ##### ##### #####
+# ----- ----- ----- ----- -----
 
 username: till
 
@@ -28,6 +28,7 @@ common_packages:
   - stow
   - neofetch
   - tlp # CPU / power profiles
+  - python3-dns
 
 ubuntu_packages:
   - btop # fancy htop
@@ -44,8 +45,6 @@ debian_packages:
   - software-properties-common
   - gnupg2
   - curl
-  - python3-dnspython
-  - python3-dns
 
 # ----- ----- ----- ----- -----
 
@@ -56,20 +55,3 @@ cargo_packages:
   - ripgrep
 
 cargo_dir: "/home/{{ username }}/.cargo/bin"
-
-# ----- ----- ----- ----- -----
-
-nerdfonts_users:
-  - root
-  - "{{ username }}"
-
-nerdfonts_fonts:
-  - fontname: FiraCode
-  - fontname: FiraMono
-  - fontname: JetBrainsMono
-
-# ----- ----- ----- ----- -----
-
-nullmailer__relayhost: "{{ secret_email_server }}"
-nullmailer__adminaddr:
-  - "{{ secret_email_address }}"

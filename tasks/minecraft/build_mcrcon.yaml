@@ -1,0 +1,36 @@
+- name: Create minecraft user account
+  user:
+    name: "{{ minecraft_user }}"
+
+- name: Create required mcrcon directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_user }}"
+  with_items:
+    - { path: "/srv/minecraft" }
+    - { path: "/srv/minecraft/build_mcrcon" }
+
+- name: Clone the latest mcrcon repo
+  become_user: "{{ minecraft_user }}"
+  git:
+      repo: "https://github.com/Tiiffi/mcrcon"
+      dest: "/srv/minecraft/build_mcrcon"
+      clone: yes
+      recursive: yes
+      track_submodules: yes
+      force: yes
+      accept_newhostkey: yes
+
+- name: Compile and install mcrcon
+  args:
+    chdir: /srv/minecraft/build_mcrcon
+  shell: make && make install
+
+- name: Create mcrcon binary symlink
+  become_user: "{{ minecraft_user }}"
+  file:
+    src: /srv/minecraft/build_mcrcon/mcrcon
+    dest: /srv/minecraft/mcrcon
+    state: link

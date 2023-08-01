@@ -1,0 +1,28 @@
+- name: Create minecraft user account
+  user:
+    name: "{{ minecraft_user }}"
+
+- name: Create required mods directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_user }}"
+  with_items:
+    - { path: "/srv/minecraft/" }
+    - { path: "/srv/minecraft/mods_{{ minecraft_version }}/"}
+
+- name: Download minecraft mod JARs to mods specifc version directory
+  become_user: "{{ minecraft_user }}"
+  args:
+    chdir: "/srv/minecraft/mods_{{ minecraft_version }}/"
+  shell: |
+    wget --no-clobber "{{ item }}"
+  loop: "{{ minecraft_mods }}"
+
+- name: Create symlink to current mods folder
+  become_user: "{{ minecraft_user }}"
+  file:
+    src: "/srv/minecraft/mods_{{ minecraft_version }}/"
+    dest: /srv/minecraft/mods
+    state: link

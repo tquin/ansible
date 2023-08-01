@@ -20,7 +20,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 
 * Install OS from ISO
   * ✔ Ubuntu Jammy 22.04
-  * 🛠 Deb Bullseye 11
+  * ✔ Deb Bookworm 12
 * If needed, install the SSH server on the ansible_client
   * `su -c 'usermod -Ag sudo <username>'`
   * `su -c 'apt install -y openssh-server'`
@@ -56,7 +56,7 @@ The included script will ensure all requirements are installed through `ansible-
 - Gnome extensions
 - Fedora
 - VPN
-- Unattended upgrades
-- Minecraft
+- Minecraft 
+  - World is currently re-generated and needs replacing from backups manually
 - Gnome dock pins
 - Obsidian & drive sync
