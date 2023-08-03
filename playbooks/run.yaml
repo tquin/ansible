@@ -21,28 +21,36 @@
 
   # Anything with an earlier dependency should go here
   pre_tasks:
-    - include_tasks: "{{ item }}"
+    - include_tasks: "{{ task_items }}"
       with_fileglob:
         # Required before we can do git actions in dotfiles
         - "../tasks/core/setup_ssh.yaml"
+      loop_control:
+        loop_var: task_items
 
   tasks:
-    - include_tasks: "{{ item }}"
+    - include_tasks: "{{ task_items }}"
       with_fileglob:
         - "../tasks/core/**.yaml"
         - "../tasks/core/**.yml"
+      loop_control:
+        loop_var: task_items
 
-    - include_tasks: "{{ item }}"
+    - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
       with_fileglob:
         - "../tasks/workstation_apps/**.yaml"
         - "../tasks/workstation_apps/**.yml"
+      loop_control:
+        loop_var: task_items
 
-    - include_tasks: "{{ item }}"
+    - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.minecraft
       with_fileglob:
         - "../tasks/minecraft/**.yaml"
         - "../tasks/minecraft/*.yaml"
+      loop_control:
+        loop_var: task_items
 
     # ----- ----- ----- ----- -----
     # Galaxy tasks/PBs

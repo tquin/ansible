@@ -1,0 +1,11 @@
+[Unit]
+Description=Minecraft Server backups
+After=network.target
+
+[Service]
+User=minecraft
+WorkingDirectory=/srv/minecraft
+ExecStart=/srv/minecraft/backup.sh
+
+[Install]
+WantedBy=multi-user.target

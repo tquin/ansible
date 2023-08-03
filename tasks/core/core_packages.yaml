@@ -19,3 +19,8 @@
   package:
     name: "{{ debian_packages }}"
     state: latest
+
+- name: Clean orphaned apt packages
+  when: (ansible_distribution == 'Debian') or (ansible_distribution == 'Ubuntu')
+  apt:
+    autoremove: true

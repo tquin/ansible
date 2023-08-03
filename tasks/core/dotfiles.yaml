@@ -36,11 +36,8 @@
   become_user: "{{ username }}"
   when: shell_sourcing_exists is failed
   shell:
-    cmd: "echo 'source {{ dotfiles_dir }}/bashrc.till' >> {{ rc_file }}"
+    cmd: "echo 'source {{ dotfiles_dir }}/bashrc.till' >> {{ item }}"
     executable: /bin/bash
   loop:
     - ~/.bashrc
     - ~/.zshrc
-  # Got some weird error just using default "item", so:
-  loop_control:
-    loop_var: rc_file

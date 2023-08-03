@@ -2,6 +2,7 @@
 
 roles:
     - name: artis3n.tailscale
+    - name: petermosmans.customize-gnome
 
 collections:
     - name: community.general

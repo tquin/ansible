@@ -4,7 +4,7 @@
 
 - name: Copy minecraft scripts and config files
   copy: 
-    src: resources/minecraft/srv/
+    src: ../resources/minecraft/srv/
     dest: /srv/minecraft/
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
@@ -18,20 +18,18 @@
 
 - name: Add minecraft script x permissions
   file:
-    path: /srv/minecraft/{{ script_name }}
+    path: /srv/minecraft/{{ item }}
     mode: a+x
   loop:
     - start.sh
     - stop.sh
     - backup.sh
-  loop_control:
-    loop_var: script_name
 
 - name: Write minecraft variables to files
   no_log: true
   copy:
-    content: "{{ variable_file.content }}"
-    dest: "/srv/minecraft/{{ variable_file.dest }}"
+    content: "{{ item.content }}"
+    dest: "/srv/minecraft/{{ item.dest }}"
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
   with_items:
@@ -39,19 +37,15 @@
     - { dest: ".world.name", content: "{{ minecraft_world_name }}" }
     - { dest: "ops.json", content: "{{ secret_minecraft_ops }}" }
     - { dest: "whitelist.json", content: "{{ secret_minecraft_allowlist }}" }
-  loop_control:
-    loop_var: variable_file
 
 - name: Write variables in minecraft properties file
   no_log: true
   lineinfile:
     path: /srv/minecraft/server.properties
-    regexp: "^{{ property.property_name }}"
-    line: "{{ property.property_name }}={{ property.property_value }}"
+    regexp: "^{{ item.property_name }}"
+    line: "{{ item.property_name }}={{ item.property_value }}"
   with_items:
     - { property_name: "level-seed", property_value: "{{ minecraft_world_name }}" }
     - { property_name: "motd", property_value: "{{ minecraft_motd }}" }
     - { property_name: "level-seed", property_value: "{{ minecraft_seed }}" }
     - { property_name: "rcon.password", property_value: "{{ secret_mcrcon_pass }}" }
-  loop_control:
-    loop_var: property

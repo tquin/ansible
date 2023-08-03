@@ -10,5 +10,18 @@ nerdfonts_fonts:
 # ----- ----- ----- ----- -----
 
 nullmailer__relayhost: "{{ secret_email_server }}"
+
 nullmailer__adminaddr:
   - "{{ secret_email_address }}"
+
+# ----- ----- ----- ----- -----
+
+gnome_user: "{{ username }}"
+
+gnome_extensions:
+  - id: 6 # https://extensions.gnome.org/extension/6/applications-menu/
+  - id: 7 # https://extensions.gnome.org/extension/7/removable-drive-menu/
+  - id: 8 # https://extensions.gnome.org/extension/8/places-status-indicator/
+  - id: 307 # https://extensions.gnome.org/extension/307/dash-to-dock/
+  - id: 517 # https://extensions.gnome.org/extension/517/caffeine/
+  - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/

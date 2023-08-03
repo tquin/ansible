@@ -33,8 +33,6 @@ common_packages:
 ubuntu_packages:
   - btop # fancy htop
   - 7zip
-  - cargo
-  - rustc
 
 debian_packages:
   # Requirements for setup_docker.yaml

@@ -1,7 +1,7 @@
-- name: Copy minecraft service file
+- name: Copy minecraft service files
   copy: 
-    src: resources/minecraft/systemd/minecraft.service
-    dest: "/etc/systemd/system/minecraft.service"
+    src: ../resources/minecraft/systemd/
+    dest: "/etc/systemd/system"
 
 - name: Enable and start minecraft service
   systemd:
@@ -9,3 +9,12 @@
     enabled: true
     state: started
     name: minecraft.service
+
+- name: Enable minecraft backup service and timer
+  systemd:
+    daemon_reload: true
+    enabled: true
+    name: "{{ item }}"
+  loop:
+    - minecraft-backup.service
+    - minecraft-backup.timer

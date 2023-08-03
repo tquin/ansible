@@ -6,7 +6,7 @@
 - name: Copy wallpaper file
   become_user: "{{ username }}"
   copy: 
-    src: resources/gnome/slow_rush_wallpaper.jpg 
+    src: ../resources/gnome/slow_rush_wallpaper.jpg 
     dest: "/home/{{ username }}/Pictures/slow_rush_wallpaper.jpg"
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -18,3 +18,14 @@
   community.general.dconf: 
     key: "/org/gnome/desktop/background/picture-uri" 
     value: "'file:///home/{{ username }}/Pictures/slow_rush_wallpaper.jpg'"
+
+- name: Set GNOME pinned apps
+  become_user: "{{ username }}"
+  community.general.dconf: 
+    key: "/org/gnome/shell/favorite-apps" 
+    value: "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'sublime_text.desktop', 'md.obsidian.Obsidian.desktop']"
+
+# https://galaxy.ansible.com/petermosmans/customize-gnome
+- name: Install GNOME extensions
+  include_role: 
+    name: petermosmans.customize-gnome

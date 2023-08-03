@@ -10,7 +10,7 @@
 
 - name: Install Docker packages
   apt:
-    name: "{{  docker_package }}"
+    name: "{{ item }}"
     state: latest
   loop:
     - docker-ce 
@@ -18,5 +18,3 @@
     - containerd.io
     - docker-buildx-plugin 
     - docker-compose-plugin
-  loop_control:
-    loop_var: docker_package
