@@ -13,8 +13,8 @@
 
 # ----- ----- ----- ----- -----
 
-- name: Install alacritty through Docker for Debian
-  when: ansible_distribution == 'Debian'
+- name: Install alacritty through Docker for Debian or Fedora
+  when: (ansible_distribution == 'Debian') or (ansible_distribution == 'Fedora')
   community.docker.docker_container:
     name: build-alacritty
     image: bstlang/build-alacritty

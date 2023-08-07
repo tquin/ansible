@@ -1,7 +1,16 @@
-- name: Update packages
+- name: Update apt packages
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
   apt: 
     update_cache: yes
     upgrade: yes
+
+- name: Update dnf packages
+  when: ansible_distribution == 'Fedora'
+  dnf: 
+    name: "*"
+    state: latest
+
+# ----- ----- ----- ----- -----
 
 - name: Install essential packages
   package:
@@ -20,7 +29,20 @@
     name: "{{ debian_packages }}"
     state: latest
 
-- name: Clean orphaned apt packages
-  when: (ansible_distribution == 'Debian') or (ansible_distribution == 'Ubuntu')
-  apt:
+- name: Install Fedora-only packages
+  when: ansible_distribution == 'Fedora'
+  package:
+    name: "{{ fedora_packages }}"
+    state: latest
+
+# ----- ----- ----- ----- -----
+
+- name: Autoremove apt packages
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  apt: 
     autoremove: true
+
+- name: Autoremove dnf packages
+  when: ansible_distribution == 'Fedora'
+  dnf: 
+    autoremove: yes

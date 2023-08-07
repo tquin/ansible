@@ -1,12 +1,21 @@
 - name: Add Apt signing key from official docker repo
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
   apt_key:
     url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
     state: present
 
-- name: Add Docker official repository
+- name: Add Docker apt repository
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
     state: present
+
+- name: Add Docker dnf repository
+  when: ansible_distribution == 'Fedora'
+  yum_repository:
+    name: docker
+    description: Docker repo
+    baseurl: https://download.docker.com/linux/fedora/docker-ce.repo
 
 - name: Install Docker packages
   apt:
@@ -18,3 +27,10 @@
     - containerd.io
     - docker-buildx-plugin 
     - docker-compose-plugin
+
+- name: Enable and start Docker service
+  systemd:
+    daemon_reload: true
+    enabled: true
+    state: started
+    name: docker.service

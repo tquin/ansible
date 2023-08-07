@@ -44,6 +44,14 @@ debian_packages:
   - gnupg2
   - curl
 
+fedora_packages:
+  # Requirements for setup_docker.yaml
+  - dnf-plugins-core
+  # Requirements for rust_cargo.yaml
+  - cmake
+  - make
+  - gcc
+
 # ----- ----- ----- ----- -----
 
 cargo_packages:

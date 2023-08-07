@@ -16,10 +16,13 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Install OS from ISO
   * ✔ Ubuntu Jammy 22.04
   * ✔ Debian Bookworm 12
+  * ⚒️ Fedora 38
 * Ensure your user has sudo privileges on the ansible_client
   * `su` to root
   * `usermod -aG sudo <username>`
 * If needed, install the SSH server on the ansible_client
+  * `systemctl status sshd.service`
+  * `sudo systemctl enable --now sshd.service`
   * `su -c 'apt install -y openssh-server'`
   * Then reboot for the sudo to take effect
 * Generate an SSH key on the controller and copy it to the ansible_client
@@ -44,12 +47,16 @@ The included script will ensure all requirements are installed through `ansible-
 ### Todo
 
 - Plex
+  - *cough* helpers
+  - DB backups
 - ZFS
+  - Sanoid
 - ZSH
-- Gnome extensions
 - Fedora
 - VPN
-- Minecraft 
-  - World is currently re-generated and needs replacing from backups manually
-- Gnome dock pins
 - Obsidian & drive sync
+- Minecraft
+  - BOMBE pub SSH key for backups
+- rclone azure backups
+- Gnome extension settings through dconf
+  - dash to dock: auto hide behaviour
