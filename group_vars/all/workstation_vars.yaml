@@ -1,0 +1,24 @@
+flatpak_packages:
+  - io.github.shiftey.Desktop # Github Desktop
+  - md.obsidian.Obsidian
+  - org.signal.Signal
+  - com.spotify.Client
+  - org.gnome.baobab # Disk Usage Analyzer
+  - org.gimp.GIMP
+  - com.discordapp.Discord
+  - com.valvesoftware.Steam
+  - org.gnome.Extensions
+  - com.github.tchx84.Flatseal # Flatpak permission manager
+
+# ----- ----- ----- ----- -----
+
+# Expected to be in resources/gnome/
+gnome_wallpaper: "slow_rush_wallpaper.jpg"
+
+# Note this is in left -> right order on the dock
+gnome_pinned_apps:
+  - firefox_firefox.desktop
+  - org.gnome.Nautilus.desktop
+  - com.alacritty.Alacritty.desktop
+  - sublime_text.desktop
+  - md.obsidian.Obsidian.desktop
