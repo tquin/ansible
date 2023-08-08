@@ -1,3 +1,11 @@
+# Either 'default' for all or 'security'
+dnf_automatic_upgrade_type: default
+
+dnf_automatic_reboot: true
+dnf_automatic_reboot_time: "03:00" # 3AM
+
+# ----- ----- ----- ----- -----
+
 #nullmailer__relayhost: "{{ secret_email_server }}"
 
 #nullmailer__adminaddr:

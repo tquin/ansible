@@ -1,5 +1,11 @@
 # https://docs.debops.org/en/master/ansible/roles/unattended_upgrades/
-- name: Enable unattended upgrades
+- name: Enable unattended upgrades for Debian-based
   when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
   include_role:
     name: debops.debops.unattended_upgrades
+
+# https://galaxy.ansible.com/exploide/dnf-automatic
+- name: Enable unattended upgrades for Fedora
+  when: ansible_distribution == 'Fedora'
+  include_role:
+    name: exploide.dnf-automatic

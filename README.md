@@ -1,6 +1,6 @@
 # tquin/ansible
 
-## Usage Requirements
+## Host Setup
 
 * This is currently configured to run on apt-based distros only; I need to add pacman or dnf at a later stage.
 
@@ -9,14 +9,14 @@
 ansible-vault edit group_vars/all/secret_vars.yaml
 ```
 
-### Manual Client Setup
+### Client Setup
 
 The only steps needed to do manually on a new machine is to install from a fresh ISO, configure a user account with a password, and add the SSH key to the Ansible controller. Everything after that, including SSH hardening, can be done via the playbook.
 
 * Install OS from ISO
   * ✔ Ubuntu Jammy 22.04
   * ✔ Debian Bookworm 12
-  * ⚒️ Fedora 38
+  * ✔ Fedora 38
 * Minimum specs
   * 4GB RAM (mostly for Rust compiles)
 * Ensure your user has sudo privileges on the ansible_client
@@ -56,8 +56,6 @@ Note that for machines configured in the `[workstation]` group, they must have a
 - ZFS
   - Sanoid
 - ZSH
-- Fedora
-  - Debops alternatives
 - VPN
 - Obsidian & drive sync
 - Minecraft

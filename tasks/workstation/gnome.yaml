@@ -27,7 +27,7 @@
 
 - name: Add 'enabled' to all GNOME extension parameters
   set_fact:
-    gnome_extensions: "{{ gnome_extensions + [ item | combine({'enable': True}) ] }}"
+    gnome_extensions: "{{ gnome_extensions + [ item | combine({'enable': true}) ] }}"
   loop: "{{ gnome_extensions }}"
 
 # https://galaxy.ansible.com/petermosmans/customize-gnome

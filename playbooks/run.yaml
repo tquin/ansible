@@ -5,16 +5,6 @@
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
   # ----- ----- ----- ----- -----
-  # Handlers
-  # ----- ----- ----- ----- -----
-
-  handlers:
-    - include_tasks: "{{ item }}"
-      with_fileglob:
-        - "../handlers/**.yaml"
-        - "../handlers/**.yml"
-
-  # ----- ----- ----- ----- -----
   # Bootstrap tasks
   # ----- ----- ----- ----- -----
 
@@ -62,3 +52,13 @@
         - "../tasks/minecraft/*.yaml"
       loop_control:
         loop_var: task_items
+
+  # ----- ----- ----- ----- -----
+  # Handlers
+  # ----- ----- ----- ----- -----
+
+  handlers:
+    - include_tasks: "{{ item }}"
+      with_fileglob:
+        - "../handlers/**.yaml"
+        - "../handlers/**.yml"
