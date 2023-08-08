@@ -8,7 +8,7 @@
     state: directory
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
-  with_items:
+  loop:
     - { path: "/srv/minecraft/" }
     - { path: "/srv/minecraft/mods_{{ minecraft_version }}/"}
 

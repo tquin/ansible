@@ -28,7 +28,7 @@
 - name: Add 'enabled' to all GNOME extension parameters
   set_fact:
     gnome_extensions: "{{ gnome_extensions + [ item | combine({'enable': True}) ] }}"
-  with_items: "{{ gnome_extensions }}"
+  loop: "{{ gnome_extensions }}"
 
 # https://galaxy.ansible.com/petermosmans/customize-gnome
 - name: Install GNOME extensions
@@ -36,11 +36,10 @@
     name: petermosmans.customize-gnome
   vars:
     gnome_user: "{{ username }}"
-    gnome_extensions: "{{ gnome_extensions }}"
 
 - name: Set GNOME extension settings
   become_user: "{{ username }}"
   community.general.dconf:
     key: "/org/gnome/shell/extensions/{{ item.key }}"
     value: "{{ item.value | string }}"
-  with_items: "{{ gnome_extension_settings }}"
+  loop: "{{ gnome_extension_settings }}"

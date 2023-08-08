@@ -32,7 +32,7 @@
     dest: "/srv/minecraft/{{ item.dest }}"
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
-  with_items:
+  loop:
     - { dest: ".mcrcon.pass", content: "{{ secret_mcrcon_pass }}" }
     - { dest: ".world.name", content: "{{ minecraft_world_name }}" }
     - { dest: "ops.json", content: "{{ secret_minecraft_ops }}" }
@@ -44,7 +44,7 @@
     path: /srv/minecraft/server.properties
     regexp: "^{{ item.property_name }}"
     line: "{{ item.property_name }}={{ item.property_value }}"
-  with_items:
+  loop:
     - { property_name: "level-name", property_value: "{{ minecraft_world_name }}" }
     - { property_name: "motd", property_value: "{{ minecraft_motd }}" }
     - { property_name: "level-seed", property_value: "{{ minecraft_seed }}" }
