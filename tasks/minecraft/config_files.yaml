@@ -25,6 +25,24 @@
     - stop.sh
     - backup.sh
 
+# ----- ----- ----- ----- -----
+
+- name: Set SELinux permissions on minecraft scripts
+  when: ansible_distribution == 'Fedora'
+  sefcontext:
+    target: "/srv/minecraft/{{ item }}"
+    setype: bin_t
+  loop:
+    - start.sh
+    - stop.sh
+    - backup.sh
+
+- name: reload SELinux policy for minecraft scripts
+  when: ansible_distribution == 'Fedora'
+  command: restorecon -irv /srv/minecraft/
+
+# ----- ----- ----- ----- -----
+
 - name: Write minecraft variables to files
   no_log: true
   copy:

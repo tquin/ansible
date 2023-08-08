@@ -57,7 +57,6 @@ Note that for machines configured in the `[workstation]` group, they must have a
   - Sanoid
 - ZSH
 - Fedora
-  - Nerdfonts alternative
   - Debops alternatives
 - VPN
 - Obsidian & drive sync

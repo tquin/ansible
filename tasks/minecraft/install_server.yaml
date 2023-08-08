@@ -2,10 +2,22 @@
   user:
     name: "{{ minecraft_user }}"
 
+# ----- ----- ----- ----- -----
+
+- set_fact:
+    java_package: >-
+      {% if ansible_distribution == 'Fedora' %}
+      java-17-openjdk
+      {% elif (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian') %}
+      openjdk-17-jre-headless
+      {% endif %}
+
 - name: Install Java environment
   package:
-    name: "openjdk-17-jre-headless"
+    name: "{{ java_package | regex_replace('\\s', '') }}"
     state: latest
+
+# ----- ----- ----- ----- -----
 
 - name: Create minecraft server jar directory
   file:

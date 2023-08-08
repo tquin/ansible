@@ -21,11 +21,18 @@ flatpak_packages:
 # Expected to be in resources/gnome/
 gnome_wallpaper: "slow_rush_wallpaper.jpg"
 
+firefox_pinned_app: >-
+  {% if ansible_distribution == 'Fedora' %}
+  firefox.desktop
+  {% elif (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian') %}
+  firefox_firefox.desktop
+  {% endif %}
+
 # Note this is in left -> right order on the dock
 gnome_pinned_apps:
-  - firefox_firefox.desktop
+  - "{{ firefox_pinned_app | regex_replace('\\s', '') }}"
   - org.gnome.Nautilus.desktop
-  - com.alacritty.Alacritty.desktop
+  - Alacritty.desktop
   - sublime_text.desktop
   - md.obsidian.Obsidian.desktop
 
