@@ -1,0 +1,5 @@
+# https://docs.debops.org/en/master/ansible/roles/fail2ban/
+- name: Install fail2ban
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  include_role:
+    name: debops.debops.fail2ban

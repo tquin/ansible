@@ -14,9 +14,8 @@
         - "../handlers/**.yaml"
         - "../handlers/**.yml"
 
-
   # ----- ----- ----- ----- -----
-  # Local tasks
+  # Bootstrap tasks
   # ----- ----- ----- ----- -----
 
   # Anything with an earlier dependency should go here
@@ -27,6 +26,10 @@
         - "../tasks/core/setup_ssh.yaml"
       loop_control:
         loop_var: task_items
+
+  # ----- ----- ----- ----- -----
+  # Task imports
+  # ----- ----- ----- ----- -----
 
   tasks:
     - include_tasks: "{{ task_items }}"
@@ -45,56 +48,17 @@
         loop_var: task_items
 
     - include_tasks: "{{ task_items }}"
+      when: inventory_hostname in groups.server
+      with_fileglob:
+        - "../tasks/server/**.yaml"
+        - "../tasks/server/*.yaml"
+      loop_control:
+        loop_var: task_items
+
+    - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.minecraft
       with_fileglob:
         - "../tasks/minecraft/**.yaml"
         - "../tasks/minecraft/*.yaml"
       loop_control:
         loop_var: task_items
-
-    # ----- ----- ----- ----- -----
-    # Galaxy tasks/PBs
-    # ----- ----- ----- ----- -----
-
-    # https://github.com/artis3n/ansible-role-tailscale
-    - name: Install tailscale
-      include_role: 
-        name: artis3n.tailscale
-      vars:
-        tailscale_authkey: "{{ secret_tailscale_authkey }}"
-        tailscale_args: "--ssh"
-        state: latest
-
-    # https://github.com/drew1kun/ansible-collection-fancyfonts
-    - name: Install Nerdfonts
-      when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-      include_role:
-        name: "{{ nerdfont_item }}"
-      loop:
-        - drew1kun.fancyfonts.nerdfonts
-        - drew1kun.fancyfonts.terminus_powerline
-      loop_control:
-        loop_var: nerdfont_item
-
-    # https://docs.debops.org/en/master/ansible/roles/fail2ban/
-    - name: Install fail2ban
-      when: 
-        - inventory_hostname in groups.server
-        - (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-      include_role:
-        name: debops.debops.fail2ban
-
-    # TBD - BROKEN BY DIG/DNSPYTHON ISSUE
-    # https://docs.debops.org/en/master/ansible/roles/nullmailer/
-    #- name: Install nullmailer forwarder
-    #  when: inventory_hostname in groups.server
-    #  include_role:
-    #    name: debops.debops.nullmailer
-
-    # https://docs.debops.org/en/master/ansible/roles/unattended_upgrades/
-    - name: Enable unattended upgrades
-      when: 
-        - inventory_hostname in groups.server
-        - (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-      include_role:
-        name: debops.debops.unattended_upgrades

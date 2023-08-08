@@ -1,0 +1,8 @@
+# https://github.com/drew1kun/ansible-collection-fancyfonts
+- name: Install Nerdfonts
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  include_role:
+    name: "{{ item }}"
+  loop:
+    - drew1kun.fancyfonts.nerdfonts
+    - drew1kun.fancyfonts.terminus_powerline

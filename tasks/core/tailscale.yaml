@@ -1,0 +1,8 @@
+# https://github.com/artis3n/ansible-role-tailscale
+- name: Install tailscale
+  include_role: 
+    name: artis3n.tailscale
+  vars:
+    tailscale_authkey: "{{ secret_tailscale_authkey }}"
+    tailscale_args: "--ssh"
+    state: latest
