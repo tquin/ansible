@@ -1,3 +1,7 @@
+# ----- ----- ----- ----- -----
+# Flatpak
+# ----- ----- ----- ----- -----
+
 flatpak_packages:
   - io.github.shiftey.Desktop # Github Desktop
   - md.obsidian.Obsidian
@@ -11,11 +15,11 @@ flatpak_packages:
   - com.github.tchx84.Flatseal # Flatpak permission manager
 
 # ----- ----- ----- ----- -----
+# GNOME
+# ----- ----- ----- ----- -----
 
 # Expected to be in resources/gnome/
 gnome_wallpaper: "slow_rush_wallpaper.jpg"
-
-gnome_user: "{{ username }}"
 
 # Note this is in left -> right order on the dock
 gnome_pinned_apps:
@@ -39,13 +43,20 @@ gnome_extensions:
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
     enable: yes
 
+gnome_extension_settings:
+  - {key: 'dash-to-dock/dock-fixed', value: "0"}
+  - {key: 'dash-to-dock/apply-custom-theme', value: "1"}
+
+# ----- ----- ----- ----- -----
+# Nerd Fonts
 # ----- ----- ----- ----- -----
 
-nerdfonts_users:
-  - root
-  - "{{ username }}"
+font_details:
+  - {name: 'FiraCode', path: '', ext: 'ttf'}
+  - {name: 'FiraMono', path: '', ext: 'otf'}
+  - {name: 'JetBrainsMono', path: 'Ligatures/', ext: 'ttf'}
 
-nerdfonts_fonts:
-  - fontname: FiraCode
-  - fontname: FiraMono
-  - fontname: JetBrainsMono
+font_types:
+  - Regular
+  - Bold
+  - Medium

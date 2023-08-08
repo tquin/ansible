@@ -1,8 +1,12 @@
-# https://github.com/drew1kun/ansible-collection-fancyfonts
+# https://galaxy.ansible.com/ctorgalson/nerdfonts
 - name: Install Nerdfonts
-  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-  include_role:
-    name: "{{ item }}"
-  loop:
-    - drew1kun.fancyfonts.nerdfonts
-    - drew1kun.fancyfonts.terminus_powerline
+  include_role: 
+    name: ctorgalson.nerdfonts
+  vars:
+    nf_user: "{{ username }}"
+    nf_group: "{{ username }}"
+    nf_single_fonts: 
+      - "{{ item[0].name }}/{{ item[0].path }}{{ item[1] }}/{{ item[0].name }}NerdFont-{{ item[1] }}.{{ item[0].ext }}"
+  with_nested: 
+    - "{{ font_details }}"
+    - "{{ font_types }}"

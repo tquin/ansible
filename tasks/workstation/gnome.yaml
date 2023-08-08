@@ -29,3 +29,12 @@
 - name: Install GNOME extensions
   include_role: 
     name: petermosmans.customize-gnome
+  vars:
+    gnome_user: "{{ username }}"
+
+- name: Set GNOME extension settings
+  become_user: "{{ username }}"
+  community.general.dconf:
+    key: "/org/gnome/shell/extensions/{{ item.key }}"
+    value: "{{ item.value | string }}"
+  with_items: "{{ gnome_extension_settings }}"
