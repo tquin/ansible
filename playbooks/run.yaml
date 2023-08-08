@@ -39,8 +39,8 @@
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
       with_fileglob:
-        - "../tasks/workstation_apps/**.yaml"
-        - "../tasks/workstation_apps/**.yml"
+        - "../tasks/workstation/**.yaml"
+        - "../tasks/workstation/**.yml"
       loop_control:
         loop_var: task_items
 
@@ -67,6 +67,7 @@
 
     # https://github.com/drew1kun/ansible-collection-fancyfonts
     - name: Install Nerdfonts
+      when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
       include_role:
         name: "{{ nerdfont_item }}"
       loop:
@@ -77,7 +78,9 @@
 
     # https://docs.debops.org/en/master/ansible/roles/fail2ban/
     - name: Install fail2ban
-      when: inventory_hostname in groups.server
+      when: 
+        - inventory_hostname in groups.server
+        - (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
       include_role:
         name: debops.debops.fail2ban
 
@@ -90,6 +93,8 @@
 
     # https://docs.debops.org/en/master/ansible/roles/unattended_upgrades/
     - name: Enable unattended upgrades
-      when: inventory_hostname in groups.server
+      when: 
+        - inventory_hostname in groups.server
+        - (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
       include_role:
         name: debops.debops.unattended_upgrades

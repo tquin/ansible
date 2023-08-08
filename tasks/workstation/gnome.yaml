@@ -23,7 +23,7 @@
   become_user: "{{ username }}"
   community.general.dconf: 
     key: "/org/gnome/shell/favorite-apps" 
-    value: "['{{ gnome_pinned_apps | join("','") }}']"
+    value: "['{{ gnome_pinned_apps | join(\"','\") }}']"
 
 # https://galaxy.ansible.com/petermosmans/customize-gnome
 - name: Install GNOME extensions

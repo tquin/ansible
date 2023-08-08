@@ -22,10 +22,9 @@
 
 - name: Add Sublime Text repo to dnf
   when: ansible_distribution == 'Fedora'
-  yum_repository:
-    name: sublime-text
-    description: Sublime Text repo
-    baseurl: https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+  get_url:
+    url: https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
+    dest: /etc/yum.repos.d
 
 # ----- ----- ----- ----- -----
 

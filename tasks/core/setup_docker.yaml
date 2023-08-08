@@ -12,13 +12,14 @@
 
 - name: Add Docker dnf repository
   when: ansible_distribution == 'Fedora'
-  yum_repository:
-    name: docker
-    description: Docker repo
-    baseurl: https://download.docker.com/linux/fedora/docker-ce.repo
+  get_url:
+    url: https://download.docker.com/linux/fedora/docker-ce.repo
+    dest: /etc/yum.repos.d
+
+# ----- ----- ----- ----- -----
 
 - name: Install Docker packages
-  apt:
+  package:
     name: "{{ item }}"
     state: latest
   loop:
