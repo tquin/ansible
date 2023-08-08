@@ -25,12 +25,18 @@
     key: "/org/gnome/shell/favorite-apps" 
     value: "['{{ gnome_pinned_apps | join(\"','\") }}']"
 
+- name: Add 'enabled' to all GNOME extension parameters
+  set_fact:
+    gnome_extensions: "{{ gnome_extensions + [ item | combine({'enable': True}) ] }}"
+  with_items: "{{ gnome_extensions }}"
+
 # https://galaxy.ansible.com/petermosmans/customize-gnome
 - name: Install GNOME extensions
   include_role: 
     name: petermosmans.customize-gnome
   vars:
     gnome_user: "{{ username }}"
+    gnome_extensions: "{{ gnome_extensions }}"
 
 - name: Set GNOME extension settings
   become_user: "{{ username }}"

@@ -45,7 +45,7 @@
     regexp: "^{{ item.property_name }}"
     line: "{{ item.property_name }}={{ item.property_value }}"
   with_items:
-    - { property_name: "level-seed", property_value: "{{ minecraft_world_name }}" }
+    - { property_name: "level-name", property_value: "{{ minecraft_world_name }}" }
     - { property_name: "motd", property_value: "{{ minecraft_motd }}" }
     - { property_name: "level-seed", property_value: "{{ minecraft_seed }}" }
     - { property_name: "rcon.password", property_value: "{{ secret_mcrcon_pass }}" }

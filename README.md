@@ -46,6 +46,8 @@ The included script will ensure all requirements are installed through `ansible-
 ./run.sh
 ```
 
+Note that for machines configured in the `[workstation]` group, they must have an active display session (not locked) during processing to allow for GNOME actions. Use the Caffeine extension once installed to support this. 
+
 ### Todo
 
 - Plex
@@ -62,6 +64,4 @@ The included script will ensure all requirements are installed through `ansible-
 - Minecraft
   - BOMBE pub SSH key for backups
 - rclone azure backups
-- Gnome extension settings through dconf
-  - dash to dock: auto hide behaviour
 - Error mailing for servers

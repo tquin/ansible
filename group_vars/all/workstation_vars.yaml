@@ -31,17 +31,11 @@ gnome_pinned_apps:
 
 gnome_extensions:
   - id: 6 # https://extensions.gnome.org/extension/6/applications-menu/
-    enable: yes
   - id: 7 # https://extensions.gnome.org/extension/7/removable-drive-menu/
-    enable: yes
   - id: 8 # https://extensions.gnome.org/extension/8/places-status-indicator/
-    enable: yes
   - id: 307 # https://extensions.gnome.org/extension/307/dash-to-dock/
-    enable: yes
   - id: 517 # https://extensions.gnome.org/extension/517/caffeine/
-    enable: yes
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
-    enable: yes
 
 gnome_extension_settings:
   - {key: 'dash-to-dock/dock-fixed', value: "0"}
