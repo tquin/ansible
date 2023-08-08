@@ -1,20 +1,4 @@
-- name: Add alacritty PPA for Ubuntu
-  when: ansible_distribution == 'Ubuntu'
-  apt_repository:
-    repo: ppa:aslatter/ppa
-    state: present
-    update_cache: true
-
-- name: Install alacritty through PPA repo
-  when: ansible_distribution == 'Ubuntu'
-  package:
-    name: alacritty
-    state: latest
-
-# ----- ----- ----- ----- -----
-
-- name: Install alacritty through Docker for Debian or Fedora
-  when: (ansible_distribution == 'Debian') or (ansible_distribution == 'Fedora')
+- name: Install alacritty through Docker build environment
   community.docker.docker_container:
     name: build-alacritty
     image: bstlang/build-alacritty
@@ -23,3 +7,18 @@
       - /usr/local:/out
     cleanup: true
     debug: true
+
+- name: Download alacritty extras from GitHub
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - url: https://raw.githubusercontent.com/alacritty/alacritty/master/extra/linux/Alacritty.desktop
+      dest: /tmp/Alacritty.desktop
+    - url: https://raw.githubusercontent.com/alacritty/alacritty/master/extra/logo/alacritty-term.svg
+      dest: /usr/share/pixmaps/Alacritty.svg
+
+- name: Add alacritty to application list
+  shell: |
+    desktop-file-install /tmp/Alacritty.desktop
+    update-desktop-database
