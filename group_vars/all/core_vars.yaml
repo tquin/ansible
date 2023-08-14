@@ -12,31 +12,30 @@ dotfiles_dir: "/home/{{ username }}/code/dotfiles"
 # ----- ----- ----- ----- -----
 
 common_packages:
-  # CLI tools
   - zsh
-  - htop
-  - tmux # needed for alacritty config
-  - bat # fancy cat
-  - exa
   - nano
   - vim
-  # Code
+  - micro
   - git
-  - cmake # Needed for cargo installs
-  # Misc
+  - tmux # needed for alacritty config
+  - htop
+  - btop # fancy htop
+  - bat # fancy cat
+  - exa # fancy ls
   - speedtest-cli
   - stow
   - neofetch
   - tlp # CPU / power profiles
-  - python3-dns
+  # Requirements for rust_cargo.yaml
+  - cmake
+  - make
+  - gcc
 
 ubuntu_packages:
-  - btop # fancy htop
   - 7zip
 
 debian_packages:
   # Requirements for setup_docker.yaml
-  - git
   - apt-transport-https
   - ca-certificates
   - wget
@@ -47,10 +46,6 @@ debian_packages:
 fedora_packages:
   # Requirements for setup_docker.yaml
   - dnf-plugins-core
-  # Requirements for rust_cargo.yaml
-  - cmake
-  - make
-  - gcc
 
 # ----- ----- ----- ----- -----
 
@@ -59,5 +54,6 @@ cargo_packages:
   - du-dust
   - bacon
   - ripgrep
+  - gping
 
 cargo_dir: "/home/{{ username }}/.cargo/bin"
