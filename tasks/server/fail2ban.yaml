@@ -1,11 +1,4 @@
-# https://docs.debops.org/en/master/ansible/roles/fail2ban/
-- name: Install fail2ban for Debian-based
-  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-  include_role:
-    name: debops.debops.fail2ban
-
 # https://github.com/robertdebock/ansible-role-fail2ban
-- name: Install fail2ban for Fedora
-  when: ansible_distribution == 'Fedora'
+- name: Install fail2ban
   include_role:
     name: robertdebock.fail2ban
