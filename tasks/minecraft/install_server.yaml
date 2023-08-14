@@ -4,17 +4,17 @@
 
 # ----- ----- ----- ----- -----
 
-- set_fact:
-    java_package: >-
-      {% if ansible_distribution == 'Fedora' %}
-      java-17-openjdk
-      {% elif (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian') %}
-      openjdk-17-jre-headless
-      {% endif %}
+- when: ansible_distribution == 'Fedora'
+  set_fact:
+    java_package: java-17-openjdk
 
-- name: Install Java environment
+- when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  set_fact:
+    java_package: openjdk-17-jdk
+
+- name: "Install Java environment {{ java_packages }}"
   package:
-    name: "{{ java_package | regex_replace('\\s', '') }}"
+    name: "{{ java_package }}"
     state: latest
 
 # ----- ----- ----- ----- -----

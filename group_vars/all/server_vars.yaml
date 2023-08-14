@@ -6,7 +6,10 @@ dnf_automatic_reboot_time: "03:00" # 3AM
 
 # ----- ----- ----- ----- -----
 
-#nullmailer__relayhost: "{{ secret_email_server }}"
+postfix_relayhost: "[{{ secret_email_server }}]"
 
-#nullmailer__adminaddr:
-#  - "{{ secret_email_address }}"
+postfix_aliases:
+  - name: root
+    destination: "{{ secret_email_address }}"
+  - name: "{{ username }}"
+    destination: "{{ secret_email_address }}"

@@ -44,6 +44,7 @@ gnome_extensions:
   - id: 517 # https://extensions.gnome.org/extension/517/caffeine/
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
 
+# DConf values
 gnome_extension_settings:
   - {key: 'dash-to-dock/dock-fixed', value: "0"}
   - {key: 'dash-to-dock/apply-custom-theme', value: "1"}

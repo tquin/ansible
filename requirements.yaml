@@ -6,6 +6,7 @@ roles:
     - name: ctorgalson.nerdfonts
     - name: exploide.dnf-automatic
     - name: robertdebock.fail2ban
+    - name: robertdebock.postfix
 
 collections:
     - name: community.general

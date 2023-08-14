@@ -20,7 +20,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Minimum specs
   * 4GB RAM (mostly for Rust compiles)
 * Ensure your user has sudo privileges on the ansible_client
-  * `su` to root
+  * `su -` to root
   * `usermod -aG sudo <username>`
 * If needed, install the SSH server on the ansible_client
   * `systemctl status sshd.service`

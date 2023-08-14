@@ -1,0 +1,4 @@
+# https://galaxy.ansible.com/robertdebock/postfix
+- name: Install postfix mail forwarding
+  include_role:
+    name: robertdebock.postfix
