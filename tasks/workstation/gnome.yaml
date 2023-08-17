@@ -6,7 +6,7 @@
 - name: Copy wallpaper file
   become_user: "{{ username }}"
   copy: 
-    src: "../resources/gnome/{{ gnome_wallpaper }}"
+    src: "../resources/workstation/{{ gnome_wallpaper }}"
     dest: "/home/{{ username }}/Pictures/{{ gnome_wallpaper }}"
     owner: "{{ username }}"
     group: "{{ username }}"
