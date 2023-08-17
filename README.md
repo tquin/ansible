@@ -46,7 +46,10 @@ The included script will ensure all requirements are installed through `ansible-
 ./run.sh
 ```
 
-Note that for machines configured in the `[workstation]` group, they must have an active display session (not locked) during processing to allow for GNOME actions. Use the Caffeine extension once installed to support this. 
+### Role-Specific Usage
+
+* Machines configured in the `[workstation]` group, they must have an active display session (not locked) during processing to allow for GNOME actions. Use the Caffeine extension once installed to support this. 
+* If using the `[media]` group, the `.opml` file in `resources/` needs to be updated. The provided example only contains one podcast as a proof-of-concept to avoid taking unnecessary disk space on test VMs.
 
 ### Todo
 
@@ -62,4 +65,3 @@ Note that for machines configured in the `[workstation]` group, they must have a
   - BOMBE pub SSH key for backups
 - rclone azure backups
 - Error mailing for servers
-- podqueue

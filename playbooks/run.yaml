@@ -25,7 +25,6 @@
     - include_tasks: "{{ task_items }}"
       with_fileglob:
         - "../tasks/core/**.yaml"
-        - "../tasks/core/**.yml"
       loop_control:
         loop_var: task_items
 
@@ -33,7 +32,6 @@
       when: inventory_hostname in groups.workstation
       with_fileglob:
         - "../tasks/workstation/**.yaml"
-        - "../tasks/workstation/**.yml"
       loop_control:
         loop_var: task_items
 
@@ -41,7 +39,6 @@
       when: inventory_hostname in groups.server
       with_fileglob:
         - "../tasks/server/**.yaml"
-        - "../tasks/server/*.yaml"
       loop_control:
         loop_var: task_items
 
@@ -49,7 +46,13 @@
       when: inventory_hostname in groups.minecraft
       with_fileglob:
         - "../tasks/minecraft/**.yaml"
-        - "../tasks/minecraft/*.yaml"
+      loop_control:
+        loop_var: task_items
+
+    - include_tasks: "{{ task_items }}"
+      when: inventory_hostname in groups.media
+      with_fileglob:
+        - "../tasks/media/**.yaml"
       loop_control:
         loop_var: task_items
 

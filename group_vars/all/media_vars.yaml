@@ -1,0 +1,2 @@
+podqueue_output_dir: "/home/{{ username }}/podqueue"
+podqueue_opml_file_name: "podqueue.opml"

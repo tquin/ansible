@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<opml version="1.0">
+  <head>
+    <title>Pocket Casts Feeds</title>
+  </head>
+  <body>
+    <outline text="feeds">
+      <outline type="rss" text="20 Macs for 2020" xmlUrl="https://www.relay.fm/20macs/feed" />
+    </outline>
+  </body>
+</opml>
