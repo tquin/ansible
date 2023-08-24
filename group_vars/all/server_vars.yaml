@@ -3,13 +3,3 @@ dnf_automatic_upgrade_type: default
 
 dnf_automatic_reboot: true
 dnf_automatic_reboot_time: "03:00" # 3AM
-
-# ----- ----- ----- ----- -----
-
-postfix_relayhost: "[{{ secret_email_server }}]"
-
-postfix_aliases:
-  - name: root
-    destination: "{{ secret_email_address }}"
-  - name: "{{ username }}"
-    destination: "{{ secret_email_address }}"

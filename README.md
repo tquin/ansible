@@ -61,4 +61,4 @@ The included script will ensure all requirements are installed through `ansible-
 - VPN
 - Obsidian & drive sync
 - rclone azure backups
-- Error mailing for servers
+- mail forwarding for servers
