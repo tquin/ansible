@@ -30,6 +30,7 @@ common_packages:
   - cmake
   - make
   - gcc
+  - curl
 
 ubuntu_packages:
   - 7zip
@@ -41,7 +42,6 @@ debian_packages:
   - wget
   - software-properties-common
   - gnupg2
-  - curl
 
 fedora_packages:
   # Requirements for setup_docker.yaml

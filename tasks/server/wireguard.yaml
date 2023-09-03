@@ -1,0 +1,88 @@
+# ----- ----- ----- ----- -----
+# Copy files to remote
+# ----- ----- ----- ----- -----
+
+- name: Create wireguard directory
+  file:
+    path: "{{ wireguard_dest }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Copy wireguard .conf file
+  become_user: "{{ username }}"
+  copy: 
+    src: "../resources/server/{{ wireguard_conf_file }}"
+    dest: "{{ wireguard_dest }}/wg0.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+
+- name: Write dynamic variables to wg0.conf file
+  no_log: true
+  lineinfile:
+    path: "{{ wireguard_dest }}/wg0.conf"
+    regexp: "^{{ item.key }} ="
+    line: "{{ item.key }} = {{ item.value }}"
+  loop:
+    - {key: "PrivateKey", value: "{{ secret_wireguard_private_key }}"}
+    - {key: "DNS", value: "{{ wireguard_dns_ip }}"}
+
+# ----- ----- ----- ----- -----
+# Host kernel modules
+# ----- ----- ----- ----- -----
+
+- when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  set_fact:
+    wireguard_package: wireguard
+
+- when: ansible_distribution == 'Fedora'
+  set_fact:
+    wireguard_package: wireguard-tools
+
+- name: Install wireguard package
+  package:
+    name: "{{ wireguard_package }}"
+
+- name: Load the wireguard kernel module
+  community.general.modprobe:
+    name: wireguard
+    state: present
+    persistent: present
+
+# ----- ----- ----- ----- -----
+# Create network & container
+# ----- ----- ----- ----- -----
+
+- name: Create wireguard docker network
+  community.docker.docker_network:
+    name: "{{ wireguard_network_name }}"
+    ipam_config:
+      - subnet: "{{ wireguard_subnet }}"
+
+- name: Install and start wireguard through Docker
+  community.docker.docker_container:
+    name: wireguard
+    image: linuxserver/wireguard
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    privileged: true
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - "{{ wireguard_dest }}:/config"
+      - "/lib/modules:/lib/modules"
+    ports:
+      - "51820:51820/udp"
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+    env:
+      TZ: "{{ wireguard_time_zone }}"
+    networks:
+      - name: "{{ wireguard_network_name }}"
+        ipv4_address: "{{ wireguard_static_ip }}"

@@ -30,10 +30,11 @@
     name: podqueue
     image: tquin/podqueue:main
     state: started
-    volumes:
-      - "{{ podqueue_output_dir}}:/pq"
     user: "{{ username_uid_guid }}"
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
+    volumes:
+      - "{{ podqueue_output_dir }}:/pq"
+    network_mode: "{{ wireguard_network_name }}"
