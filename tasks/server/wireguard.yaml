@@ -12,7 +12,7 @@
 - name: Copy wireguard .conf file
   become_user: "{{ username }}"
   copy: 
-    src: "../resources/server/{{ wireguard_conf_file }}"
+    src: "../resources/server/wireguard.conf"
     dest: "{{ wireguard_dest }}/wg0.conf"
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -82,7 +82,7 @@
     sysctls:
       net.ipv4.conf.all.src_valid_mark: 1
     env:
-      TZ: "{{ wireguard_time_zone }}"
+      TZ: "{{ time_zone }}"
     networks:
       - name: "{{ wireguard_network_name }}"
         ipv4_address: "{{ wireguard_static_ip }}"

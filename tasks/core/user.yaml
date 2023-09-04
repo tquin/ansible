@@ -1,0 +1,10 @@
+- name: "Get {{ username }}'s UID and GUID"
+  getent:
+    database: passwd
+    key: "{{ username }}"
+
+- set_fact:
+    username_uid: "{{ getent_passwd[item].1 }}"
+    username_guid: "{{ getent_passwd[item].2 }}"
+  loop: 
+    - "{{ username }}"

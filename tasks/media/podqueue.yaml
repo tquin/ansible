@@ -15,22 +15,12 @@
     # Note: this has to be a string, not an int!!
     mode: '660'
 
-- name: "Get {{ username }}'s UID and GUID"
-  getent:
-    database: passwd
-    key: "{{ username }}"
-
-- set_fact:
-    username_uid_guid: "{{ getent_passwd[item].1 }}:{{ getent_passwd[item].2 }}"
-  loop: 
-    - "{{ username }}"
-
 - name: Install and start podqueue through Docker
   community.docker.docker_container:
     name: podqueue
     image: tquin/podqueue:main
     state: started
-    user: "{{ username_uid_guid }}"
+    user: "{{ username_uid }}:{{ username_guid }}"
     pull: true
     cleanup: false
     detach: true
