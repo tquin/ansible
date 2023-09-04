@@ -1,0 +1,34 @@
+- name: Create Plex directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - "{{ plex_config_dir }}"
+    - "{{ plex_transcode_tmp_dir }}"
+    - "{{ plex_data_dir }}"
+
+- name: Install and start Plex through Docker
+  community.docker.docker_container:
+    name: plex
+    image: plexinc/pms-docker
+    state: started
+    #user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: host
+    # Ports not needed in Host network mode
+    #ports:
+    #  - "32400:32400/tcp"
+    env:
+      TZ: "{{ time_zone }}"
+      PLEX_CLAIM: ""
+      PLEX_UID: "{{ username_uid }}"
+      PLEX_GID: "{{ username_guid }}"
+    volumes:
+      - "{{ plex_config_dir }}:/config"
+      - "{{ plex_transcode_tmp_dir }}:/transcode"
+      - "{{ plex_data_dir }}:/data"
