@@ -12,7 +12,7 @@
   set_fact:
     java_package: openjdk-17-jdk
 
-- name: "Install Java environment {{ java_packages }}"
+- name: "Install Java environment {{ java_package }}"
   package:
     name: "{{ java_package }}"
     state: latest

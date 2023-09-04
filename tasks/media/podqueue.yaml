@@ -1,6 +1,6 @@
 - name: Create podqueue directory
   file:
-    path: "{{ podqueue_output_dir }}"
+    path: "{{ media_data_dir }}/podcasts"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -9,7 +9,7 @@
   become_user: "{{ username }}"
   copy: 
     src: "../resources/media/{{ podqueue_opml_file_name }}"
-    dest: "{{ podqueue_output_dir }}/podqueue.opml"
+    dest: "{{ media_data_dir }}/podcasts/podqueue.opml"
     owner: "{{ username }}"
     group: "{{ username }}"
     # Note: this has to be a string, not an int!!
@@ -25,6 +25,6 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
+    network_mode: "{{ media_network_modes['podqueue'] }}"
     volumes:
-      - "{{ podqueue_output_dir }}:/pq"
-    network_mode: "{{ wireguard_network_name }}"
+      - "{{ media_data_dir }}/podcasts:/pq"

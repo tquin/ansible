@@ -1,0 +1,27 @@
+- name: Create Prowlarr directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - "{{ docker_container_dir }}/prowlarr/config"
+
+- name: Install and start Prowlarr through Docker
+  community.docker.docker_container:
+    name: prowlarr
+    image: hotio/prowlarr
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ media_network_modes['prowlarr'] }}"
+    ports:
+      - "9696:9696"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+    volumes:
+      - "{{ docker_container_dir }}/prowlarr/config:/config"

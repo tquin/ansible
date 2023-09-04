@@ -1,0 +1,29 @@
+- name: Create Radarr directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - "{{ docker_container_dir }}/radarr/config"
+    - "{{ media_data_dir }}"
+
+- name: Install and start Radarr through Docker
+  community.docker.docker_container:
+    name: radarr
+    image: hotio/radarr
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ media_network_modes['radarr'] }}"
+    ports:
+      - "7878:7878"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+    volumes:
+      - "{{ docker_container_dir }}/radarr/config:/config"
+      - "{{ media_data_dir }}:/data"

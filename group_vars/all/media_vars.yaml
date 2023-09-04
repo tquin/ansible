@@ -1,14 +1,13 @@
-# ----- ----- ----- ----- -----
-# Podqueue
-# ----- ----- ----- ----- -----
+media_data_dir: "/data"
 
-podqueue_output_dir: "/docker/podqueue"
 podqueue_opml_file_name: "podqueue.opml"
 
-# ----- ----- ----- ----- -----
-# Plex
-# ----- ----- ----- ----- -----
-
-plex_config_dir: "/docker/plex/config"
-plex_transcode_tmp_dir: "/docker/plex/transcode"
-plex_data_dir: "/docker/plex/data"
+# Control which containers route through Wireguard or not
+# Plex is a special case where `host` is reccomended over `default` or `bridge`
+media_network_modes:
+  plex: "host"
+  podqueue: "default"
+  sonarr: "{{ wireguard_network_name }}"
+  radarr: "{{ wireguard_network_name }}"
+  bazarr: "{{ wireguard_network_name }}"
+  prowlarr: "{{ wireguard_network_name }}"

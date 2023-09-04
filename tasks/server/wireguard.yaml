@@ -2,18 +2,20 @@
 # Copy files to remote
 # ----- ----- ----- ----- -----
 
-- name: Create wireguard directory
+- name: Create Wireguard directories
   file:
-    path: "{{ wireguard_dest }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+  loop:
+    - "{{ docker_container_dir }}/wireguard/config"
 
 - name: Copy wireguard .conf file
   become_user: "{{ username }}"
   copy: 
-    src: "../resources/server/wireguard.conf"
-    dest: "{{ wireguard_dest }}/wg0.conf"
+    src: "../resources/server/{{ wireguard_conf_file }}"
+    dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
     owner: "{{ username }}"
     group: "{{ username }}"
     # Note: this has to be a string, not an int!!
@@ -22,7 +24,7 @@
 - name: Write dynamic variables to wg0.conf file
   no_log: true
   lineinfile:
-    path: "{{ wireguard_dest }}/wg0.conf"
+    path: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
     regexp: "^{{ item.key }} ="
     line: "{{ item.key }} = {{ item.value }}"
   loop:
@@ -75,7 +77,7 @@
       - NET_ADMIN
       - SYS_MODULE
     volumes:
-      - "{{ wireguard_dest }}:/config"
+      - "{{ docker_container_dir }}/wireguard/config:/config"
       - "/lib/modules:/lib/modules"
     ports:
       - "51820:51820/udp"
