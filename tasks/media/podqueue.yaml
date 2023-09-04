@@ -1,9 +1,12 @@
-- name: Create podqueue directory
+- name: Create podqueue directories
   file:
-    path: "{{ media_data_dir }}/podcasts"
+    path: "{{ item }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+  loop:
+    - "{{ docker_container_dir }}/podqueue/config"
+    - "{{ media_data_dir }}/podcasts"
 
 - name: Copy podqueue.opml file
   become_user: "{{ username }}"
@@ -18,7 +21,7 @@
 - name: Install and start podqueue through Docker
   community.docker.docker_container:
     name: podqueue
-    image: tquin/podqueue:main
+    image: tquin/podqueue
     state: started
     user: "{{ username_uid }}:{{ username_guid }}"
     pull: true
@@ -27,4 +30,5 @@
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['podqueue'] }}"
     volumes:
-      - "{{ media_data_dir }}/podcasts:/pq"
+      - "{{ media_data_dir }}/podcasts:/data"
+      - "{{ docker_container_dir }}/podqueue/config:/config"
