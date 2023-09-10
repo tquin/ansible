@@ -4,7 +4,7 @@
 
 - name: Copy minecraft scripts and config files
   copy: 
-    src: "resources/minecraft/srv/"
+    src: "files/srv/"
     dest: /srv/minecraft/
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
@@ -51,19 +51,13 @@
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
   loop:
-    - { dest: ".mcrcon.pass", content: "{{ secret_mcrcon_pass }}" }
+    - { dest: ".mcrcon.pass", content: "{{ mcrcon_pass }}" }
     - { dest: ".world.name", content: "{{ minecraft_world_name }}" }
-    - { dest: "ops.json", content: "{{ secret_minecraft_ops }}" }
-    - { dest: "whitelist.json", content: "{{ secret_minecraft_allowlist }}" }
+    - { dest: "ops.json", content: "{{ minecraft_ops }}" }
+    - { dest: "whitelist.json", content: "{{ minecraft_allowlist }}" }
 
-- name: Write variables in minecraft properties file
+- name: Write minecraft properties template file
   no_log: true
-  lineinfile:
-    path: /srv/minecraft/server.properties
-    regexp: "^{{ item.property_name }}"
-    line: "{{ item.property_name }}={{ item.property_value }}"
-  loop:
-    - { property_name: "level-name", property_value: "{{ minecraft_world_name }}" }
-    - { property_name: "motd", property_value: "{{ minecraft_motd }}" }
-    - { property_name: "level-seed", property_value: "{{ minecraft_seed }}" }
-    - { property_name: "rcon.password", property_value: "{{ secret_mcrcon_pass }}" }
+  template:
+    src: templates/server.properties.j2
+    dest: /srv/minecraft/server.properties

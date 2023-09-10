@@ -1,0 +1,5 @@
+- include_tasks: install_server.yaml
+- include_tasks: config_files.yaml
+- include_tasks: fabric_mods.yaml
+- include_tasks: systemd_service.yaml
+- include_tasks: build_mcrcon.yaml

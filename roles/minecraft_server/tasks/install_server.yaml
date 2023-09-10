@@ -27,6 +27,7 @@
     group: "{{ minecraft_user }}"
 
 - name: Download latest Fabric JAR
+  become_user: "{{ minecraft_user }}"
   args:
     chdir: /srv/minecraft/jar_versions/
   shell: |

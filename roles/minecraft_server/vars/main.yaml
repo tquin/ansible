@@ -3,10 +3,9 @@ minecraft_user: "minecraft"
 minecraft_version: "1.20"
 minecraft_fabric_version: "0.14.21/0.11.2" # Loader / Installer
 
-minecraft_world_name: "this_is_the_way"
+minecraft_world_name: "my_minecraft_world"
 minecraft_seed: "8624896"
-
-minecraft_motd: "Give me Frogs or give me Death"
+minecraft_motd: "A Minecraft Server"
 
 minecraft_mods:
   - "https://cdn.modrinth.com/data/P7dR8mSH/versions/n2c5lxAo/fabric-api-0.83.0%2B1.20.jar"
@@ -14,3 +13,7 @@ minecraft_mods:
   - "https://cdn.modrinth.com/data/gvQqBUqZ/versions/2KMrj5c1/lithium-fabric-mc1.20-0.11.2.jar"
   - "https://cdn.modrinth.com/data/Ha28R6CL/versions/s10JMAtS/fabric-language-kotlin-1.10.8%2Bkotlin.1.9.0.jar"
   - "https://cdn.modrinth.com/data/Orvt0mRa/versions/WTH3T2cR/indium-1.0.18%2Bmc1.20.jar"
+
+mcrcon_pass: ""
+minecraft_ops: ""
+minecraft_allowlist: ""

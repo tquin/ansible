@@ -22,11 +22,16 @@
   # ----- ----- ----- ----- -----
 
   tasks:
+
+    # ----- ----- ----- ----- -----
+
     - include_tasks: "{{ task_items }}"
       with_fileglob:
         - "tasks/core/**.yaml"
       loop_control:
         loop_var: task_items
+
+    # ----- ----- ----- ----- -----
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
@@ -43,6 +48,8 @@
         gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
         gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
 
+    # ----- ----- ----- ----- -----
+
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.server
       with_fileglob:
@@ -50,12 +57,7 @@
       loop_control:
         loop_var: task_items
 
-    - include_tasks: "{{ task_items }}"
-      when: inventory_hostname in groups.minecraft
-      with_fileglob:
-        - "tasks/minecraft/**.yaml"
-      loop_control:
-        loop_var: task_items
+    # ----- ----- ----- ----- -----
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.media
@@ -63,6 +65,16 @@
         - "tasks/media/**.yaml"
       loop_control:
         loop_var: task_items
+
+    # ----- ----- ----- ----- -----
+
+    - include_role: 
+        name: minecraft_server
+      when: inventory_hostname in groups.minecraft
+      vars:
+        mcrcon_pass: "{{ secret_mcrcon_pass }}"
+        minecraft_ops: "{{ secret_minecraft_user_json }}"
+        minecraft_allowlist: "{{ secret_minecraft_user_json }}"
 
   # ----- ----- ----- ----- -----
   # Handlers
