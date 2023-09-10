@@ -4,7 +4,7 @@
 
 - name: Copy minecraft scripts and config files
   copy: 
-    src: ../resources/minecraft/srv/
+    src: "resources/minecraft/srv/"
     dest: /srv/minecraft/
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"

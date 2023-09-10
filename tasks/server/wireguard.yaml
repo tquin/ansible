@@ -14,7 +14,7 @@
 - name: Copy wireguard .conf file
   become_user: "{{ username }}"
   copy: 
-    src: "../resources/server/{{ wireguard_conf_file }}"
+    src: "resources/server/{{ wireguard_conf_file }}"
     dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
     owner: "{{ username }}"
     group: "{{ username }}"

@@ -13,7 +13,7 @@
     - include_tasks: "{{ task_items }}"
       with_fileglob:
         # Required before we can do git actions in dotfiles
-        - "../tasks/core/setup_ssh.yaml"
+        - "tasks/core/setup_ssh.yaml"
       loop_control:
         loop_var: task_items
 
@@ -24,35 +24,35 @@
   tasks:
     - include_tasks: "{{ task_items }}"
       with_fileglob:
-        - "../tasks/core/**.yaml"
+        - "tasks/core/**.yaml"
       loop_control:
         loop_var: task_items
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
       with_fileglob:
-        - "../tasks/workstation/**.yaml"
+        - "tasks/workstation/**.yaml"
       loop_control:
         loop_var: task_items
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.server
       with_fileglob:
-        - "../tasks/server/**.yaml"
+        - "tasks/server/**.yaml"
       loop_control:
         loop_var: task_items
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.minecraft
       with_fileglob:
-        - "../tasks/minecraft/**.yaml"
+        - "tasks/minecraft/**.yaml"
       loop_control:
         loop_var: task_items
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.media
       with_fileglob:
-        - "../tasks/media/**.yaml"
+        - "tasks/media/**.yaml"
       loop_control:
         loop_var: task_items
 
@@ -63,5 +63,5 @@
   handlers:
     - include_tasks: "{{ item }}"
       with_fileglob:
-        - "../handlers/**.yaml"
-        - "../handlers/**.yml"
+        - "handlers/**.yaml"
+        - "handlers/**.yml"

@@ -1,6 +1,6 @@
 - name: Copy minecraft service files
   copy: 
-    src: ../resources/minecraft/systemd/
+    src: "resources/minecraft/systemd/"
     dest: "/etc/systemd/system"
 
 - name: Enable and start minecraft service
