@@ -1,0 +1,9 @@
+gdrive_client_id: ""
+gdrive_client_secret: ""
+gdrive_root_folder_id: ""
+
+rclone_config_dir: "/home/{{ username }}/.config/rclone"
+rclone_cache_dir: "/home/{{ username }}/.cache/rclone"
+rclone_sync_interval: 60 # seconds
+
+obsidian_vault_dir: "/home/{{ username }}/Documents/obsidian"

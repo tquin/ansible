@@ -1,0 +1,31 @@
+- name: Install rclone binary
+  package:
+    name: rclone
+    state: latest
+
+- name: Create rclone directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - "{{ obsidian_vault_dir }}"
+    - "{{ rclone_config_dir }}"
+    - "{{ rclone_cache_dir }}"
+
+- name: Copy .conf to remote
+  template:
+    src: templates/rclone.conf.j2
+    dest: "{{ rclone_config_dir }}/rclone.conf"
+
+- name: Copy .service to remote
+  template:
+    src: templates/gdrive-obsidian.service.j2
+    dest: "/etc/systemd/system/gdrive-obsidian.service"
+
+- name: Enable systemd unit for gdrive-obsidian
+  systemd_service:
+    name: gdrive-obsidian
+    state: started
+    enabled: true

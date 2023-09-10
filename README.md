@@ -6,6 +6,7 @@
 ```
 ansible-vault edit group_vars/all/secret_vars.yaml
 ```
+---
 
 ### Client Setup
 
@@ -39,21 +40,34 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Test the key is working without requiring a password
   * `ansible all -m ping`
 
+---
+
 ### Usage
 
 The included script will ensure all requirements are installed through `ansible-galaxy`, then run the main playbook.
 ```
 ./run.sh
 ```
+---
 
 ### Role-Specific Usage
 
-* Machines configured in the `[workstation]` group, they must have an active display session (not locked) during processing to allow for GNOME actions. Use the Caffeine extension once installed to support this. 
-* If using the `[media]` group, the `.opml` file in `resources/` needs to be updated. The provided example only contains one podcast as a proof-of-concept to avoid taking unnecessary disk space on test VMs.
-* Plex needs a one-time "claim code" made to authenticate the server with an account. These codes expire within 5 minutes of generation, so they're not suitable for use in long playbooks. Plex also only supports claiming over localhost, not the local network.
-** Forward local port with `ssh <username>@<ansible_client> -L 32400:<ansible_client>:32400 -N`
-** Generate a code at [plex.tv/claim](https://www.plex.tv/claim/)
-** `curl -X POST 'http://127.0.0.1:32400/myplex/claim?token=claim-xxx'`
+**Workstation**
+
+- GNOME actions require an active display session (not locked) during processing to allow actions. Use the Caffeine extension once installed to support this. 
+
+- `gdrive_obsidian` requires interactive authentication after installion. Run `rclone config reconnect gdrive-obsidian:` on the client after running the playbook.
+
+**Media**
+
+- For `podqueue`, the `.opml` file in `resources/` needs to be updated. The provided example only contains one podcast as a proof-of-concept to avoid taking unnecessary disk space on test VMs.
+
+- Plex needs a one-time "claim code" made to authenticate the server with an account. These codes expire within 5 minutes of generation, so they're not suitable for use in long playbooks. Plex also only supports claiming over localhost, not the local network.
+  - Forward local port with `ssh <username>@<ansible_client> -L 32400:<ansible_client>:32400 -N`
+  - Generate a code at [plex.tv/claim](https://www.plex.tv/claim/)
+  - `curl -X POST 'http://127.0.0.1:32400/myplex/claim?token=claim-xxx'`
+
+---
 
 ### Todo
 
@@ -62,6 +76,5 @@ The included script will ensure all requirements are installed through `ansible-
   - DB backups
 - ZFS
   - Sanoid
-- Obsidian & drive sync
 - rclone azure backups
 - mail forwarding for servers

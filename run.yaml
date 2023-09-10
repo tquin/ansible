@@ -35,6 +35,14 @@
       loop_control:
         loop_var: task_items
 
+    - include_role: 
+        name: gdrive_obsidian
+      when: inventory_hostname in groups.workstation
+      vars:
+        gdrive_client_id: "{{ secret_gdrive_client_id }}"
+        gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
+        gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
+
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.server
       with_fileglob:
