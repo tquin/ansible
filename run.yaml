@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: "*"
   become: yes
 
   environment:
@@ -62,6 +62,8 @@
         loop_var: task_items
 
     # ----- ----- ----- ----- -----
+    # MEDIA
+    # ----- ----- ----- ----- -----
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.media
@@ -70,6 +72,8 @@
       loop_control:
         loop_var: task_items
 
+    # ----- ----- ----- ----- -----
+    # MINECRAFT
     # ----- ----- ----- ----- -----
 
     - include_role: 

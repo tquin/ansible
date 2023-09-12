@@ -71,6 +71,10 @@ The included script will ensure all requirements are installed through `ansible-
 
 ### Todo
 
+- Minecraft
+  - clean up mods variable to not need full URL
+  - containerise?
+  - update to 1.20.1
 - Plex
   - *cough* helpers
   - DB backups
