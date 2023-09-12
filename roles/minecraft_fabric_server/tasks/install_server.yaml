@@ -30,7 +30,7 @@
   become_user: "{{ minecraft_user }}"
   args:
     chdir: /srv/minecraft/jar_versions/
-  shell: |
+  shell: |-
     wget -O "fabric-{{ minecraft_version }}.jar" "https://meta.fabricmc.net/v2/versions/loader/{{ minecraft_version }}/{{ minecraft_fabric_version }}/server/jar"
 
 - name: Create symlink to minecraft server.jar

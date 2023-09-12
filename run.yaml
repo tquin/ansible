@@ -32,6 +32,8 @@
         loop_var: task_items
 
     # ----- ----- ----- ----- -----
+    # WORKSTATION
+    # ----- ----- ----- ----- -----
 
     - include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
@@ -48,6 +50,8 @@
         gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
         gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
 
+    # ----- ----- ----- ----- -----
+    # SERVER
     # ----- ----- ----- ----- -----
 
     - include_tasks: "{{ task_items }}"
@@ -69,7 +73,7 @@
     # ----- ----- ----- ----- -----
 
     - include_role: 
-        name: minecraft_server
+        name: minecraft_fabric_server
       when: inventory_hostname in groups.minecraft
       vars:
         mcrcon_pass: "{{ secret_mcrcon_pass }}"
