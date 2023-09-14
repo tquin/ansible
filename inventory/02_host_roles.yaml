@@ -1,9 +1,12 @@
 # Use this file to choose which role-specific actions
 # to apply to each host or group. EG: if you want
-# minecraft server installed, add it to the minecraft group.
+# minecraft server installed, add it to the [minecraft] group.
 
 # You can put entire groups into the children: field,
 # or individual hosts under hosts:
+
+# Children groups can also show dependencies, 
+# such as [media] being dependent on the [server] role
 
 workstation:
   hosts:

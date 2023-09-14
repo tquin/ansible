@@ -60,5 +60,3 @@
   loop:
     - { dest: ".mcrcon.pass", content: "{{ mcrcon_pass }}" }
     - { dest: ".world.name", content: "{{ minecraft_world_name }}" }
-    - { dest: "ops.json", content: "{{ minecraft_ops }}" }
-    - { dest: "whitelist.json", content: "{{ minecraft_allowlist }}" }

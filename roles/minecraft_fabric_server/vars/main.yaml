@@ -17,7 +17,11 @@ minecraft_mods:
   - fabric-language-kotlin
   - indium
 
+minecraft_ops:
+  - Etho
+
+minecraft_allowlist:
+  - Etho
+
 # Should be passed in to the role from a vault
 mcrcon_pass: ""
-minecraft_ops: ""
-minecraft_allowlist: ""

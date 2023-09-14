@@ -1,0 +1,70 @@
+# ----- ----- ----- ----- -----
+# Allowlist
+# ----- ----- ----- ----- -----
+
+- name: Get each allowlist user's UUID
+  uri:
+    url: "https://api.mojang.com/users/profiles/minecraft/{{ item }}"
+  loop: "{{ minecraft_allowlist }}"
+  register: allowlist_player_request
+
+- name: Parse allowlist player UUID json response
+  set_fact:
+    allowlist_player_json_id: "{{ allowlist_player_json_id | default([]) + [item] }}"
+  loop: "{{ allowlist_player_request | community.general.json_query(_query) }}"
+  vars:
+    _query: "results[*].json"
+
+- name: Rename 'id' in dictionaries to 'uuid' and add dashes
+  set_fact:
+    allowlist_player_json_uuid: "{{ allowlist_player_json_uuid | default([]) + [updated_item] }}"
+  vars:
+    updated_item: "{ 'uuid': '{{ item.id | regex_replace('(\\S{8})(\\S{4})(\\S{4})(\\S{4})(.*)', '\\1-\\2-\\3-\\4-\\5') }}', 'name': '{{ item.name }}' }"
+  loop: "{{ allowlist_player_json_id }}"
+
+- debug:
+    var: allowlist_player_json_uuid
+
+# ----- ----- ----- ----- -----
+# OP (Admins)
+# ----- ----- ----- ----- -----
+
+- name: Get each OP user's UUID
+  uri:
+    url: "https://api.mojang.com/users/profiles/minecraft/{{ item }}"
+  loop: "{{ minecraft_ops }}"
+  register: op_player_request
+
+- name: Parse allowlist player UUID json response
+  set_fact:
+    op_player_json_id: "{{ op_player_json_id | default([]) + [item] }}"
+  loop: "{{ op_player_request | community.general.json_query(_query) }}"
+  vars:
+    _query: "results[*].json"
+
+- name: Rename 'id' in dictionaries to 'uuid' and add dashes
+  set_fact:
+    op_player_json_uuid: "{{ op_player_json_uuid | default([]) + [updated_item] }}"
+  vars:
+    updated_item: "{ 'uuid': '{{ item.id | regex_replace('(\\S{8})(\\S{4})(\\S{4})(\\S{4})(.*)', '\\1-\\2-\\3-\\4-\\5') }}', 'name': '{{ item.name }}' }"
+  loop: "{{ op_player_json_id }}"
+
+- debug:
+    var: op_player_json_uuid
+
+# ----- ----- ----- ----- -----
+# Output
+# ----- ----- ----- ----- -----
+
+- name: Write player lists to files
+  no_log: true
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ minecraft_dir }}/{{ item.dest }}"
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_user }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+  loop:
+    - { dest: "ops.json", content: "{{ op_player_json_uuid }}" }
+    - { dest: "whitelist.json", content: "{{ allowlist_player_json_uuid }}" }
