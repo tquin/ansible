@@ -9,14 +9,14 @@
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
   loop:
-    - { path: "/srv/minecraft" }
-    - { path: "/srv/minecraft/build_mcrcon" }
+    - { path: "{{ minecraft_dir }}" }
+    - { path: "{{ minecraft_dir }}/build_mcrcon" }
 
 - name: Clone the latest mcrcon repo
   become_user: "{{ minecraft_user }}"
   git:
       repo: "https://github.com/Tiiffi/mcrcon"
-      dest: "/srv/minecraft/build_mcrcon"
+      dest: "{{ minecraft_dir }}/build_mcrcon"
       clone: yes
       recursive: yes
       track_submodules: yes
@@ -25,12 +25,12 @@
 
 - name: Compile and install mcrcon
   args:
-    chdir: /srv/minecraft/build_mcrcon
+    chdir: "{{ minecraft_dir }}/build_mcrcon"
   shell: make && make install
 
 - name: Create mcrcon binary symlink
   become_user: "{{ minecraft_user }}"
   file:
-    src: /srv/minecraft/build_mcrcon/mcrcon
-    dest: /srv/minecraft/mcrcon
+    src: "{{ minecraft_dir }}/build_mcrcon/mcrcon"
+    dest: "{{ minecraft_dir }}/mcrcon"
     state: link

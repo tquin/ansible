@@ -21,7 +21,7 @@
 
 - name: Create minecraft server jar directory
   file:
-    path: /srv/minecraft/jar_versions/
+    path: "{{ minecraft_dir }}/jar_versions/"
     state: directory
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
@@ -30,11 +30,11 @@
   become_user: "{{ minecraft_user }}"
   get_url:
     url: "https://meta.fabricmc.net/v2/versions/loader/{{ minecraft_version }}/{{ minecraft_fabric_version }}/server/jar"
-    dest: "/srv/minecraft/jar_versions/fabric-{{ minecraft_version }}.jar"
+    dest: "{{ minecraft_dir }}/jar_versions/fabric-{{ minecraft_version }}.jar"
 
 - name: Create symlink to minecraft server.jar
   become_user: "{{ minecraft_user }}"
   file:
-    src: "/srv/minecraft/jar_versions/fabric-{{ minecraft_version }}.jar"
-    dest: /srv/minecraft/server.jar
+    src: "{{ minecraft_dir }}/jar_versions/fabric-{{ minecraft_version }}.jar"
+    dest: "{{ minecraft_dir }}/server.jar"
     state: link

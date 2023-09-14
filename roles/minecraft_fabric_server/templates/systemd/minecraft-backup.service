@@ -3,9 +3,9 @@ Description=Minecraft Server backups
 After=network.target
 
 [Service]
-User=minecraft
-WorkingDirectory=/srv/minecraft
-ExecStart=/srv/minecraft/backup.sh
+User={{ minecraft_user }}
+WorkingDirectory={{ minecraft_dir }}
+ExecStart={{ minecraft_dir }}/backup.sh
 
 [Install]
 WantedBy=multi-user.target

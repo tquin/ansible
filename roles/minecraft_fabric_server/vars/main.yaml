@@ -1,4 +1,5 @@
 minecraft_user: "minecraft"
+minecraft_dir: "/srv/minecraft"
 
 minecraft_version: "1.20.1"
 minecraft_fabric_version: "0.14.22/0.11.2" # Loader / Installer
@@ -6,6 +7,7 @@ minecraft_fabric_version: "0.14.22/0.11.2" # Loader / Installer
 minecraft_world_name: "my_minecraft_world"
 minecraft_seed: "8624896"
 minecraft_motd: "A Minecraft Server"
+minecraft_difficulty: "hard"
 
 # This should be the 'slug' from the URL, eg: modrinth.com/mods/<slug>
 minecraft_mods:

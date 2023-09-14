@@ -9,8 +9,8 @@
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
   loop:
-    - { path: "/srv/minecraft/" }
-    - { path: "/srv/minecraft/mods_{{ minecraft_version }}/"}
+    - { path: "{{ minecraft_dir }}/" }
+    - { path: "{{ minecraft_dir }}/mods_{{ minecraft_version }}/"}
 
 - name: Get latest mod versions from Modrinth API
   uri:
@@ -32,12 +32,12 @@
   become_user: "{{ minecraft_user }}"
   get_url:
     url: "{{ item }}"
-    dest: "/srv/minecraft/mods_{{ minecraft_version }}/"
+    dest: "{{ minecraft_dir }}/mods_{{ minecraft_version }}/"
   loop: "{{ mod_versions_url }}"
 
 - name: Create symlink to current mods folder
   become_user: "{{ minecraft_user }}"
   file:
-    src: "/srv/minecraft/mods_{{ minecraft_version }}/"
-    dest: /srv/minecraft/mods
+    src: "{{ minecraft_dir }}/mods_{{ minecraft_version }}/"
+    dest: "{{ minecraft_dir }}/mods"
     state: link

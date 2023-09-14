@@ -1,0 +1,14 @@
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+User={{ minecraft_user }}
+Nice=1
+SuccessExitStatus=0 1
+WorkingDirectory={{ minecraft_dir }}
+ExecStart={{ minecraft_dir }}/start.sh
+ExecStop={{ minecraft_dir }}/stop.sh
+
+[Install]
+WantedBy=multi-user.target

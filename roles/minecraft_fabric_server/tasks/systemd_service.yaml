@@ -1,7 +1,10 @@
-- name: Copy minecraft service files
-  copy: 
-    src: "files/systemd/"
-    dest: "/etc/systemd/system"
+- name: Write minecraft systemd template files
+  no_log: true
+  become_user: "{{ minecraft_user }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "/etc/systemd/system/{{ item.path }}"
+  with_filetree: templates/systemd
 
 - name: Enable and start minecraft service
   systemd:

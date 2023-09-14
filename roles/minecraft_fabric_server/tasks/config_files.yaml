@@ -2,23 +2,28 @@
   user:
     name: "{{ minecraft_user }}"
 
-- name: Copy minecraft scripts and config files
-  copy: 
-    src: "files/srv/"
-    dest: /srv/minecraft/
-    owner: "{{ minecraft_user }}"
-    group: "{{ minecraft_user }}"
-
 - name: Create minecraft backups directory
   file:
-    path: /srv/minecraft/backups/
+    path: "{{ minecraft_dir }}/backups/"
     state: directory
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
 
+- name: Write minecraft server template files
+  no_log: true
+  become_user: "{{ minecraft_user }}"
+  template:
+    owner: "{{ minecraft_user }}"
+    group: "{{ minecraft_user }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+    src: "{{ item.src }}"
+    dest: "{{ minecraft_dir }}/{{ item.path }}"
+  with_filetree: templates/server
+
 - name: Add minecraft script x permissions
   file:
-    path: /srv/minecraft/{{ item }}
+    path: "{{ minecraft_dir }}/{{ item }}"
     mode: a+x
   loop:
     - start.sh
@@ -30,7 +35,7 @@
 - name: Set SELinux permissions on minecraft scripts
   when: ansible_distribution == 'Fedora'
   sefcontext:
-    target: "/srv/minecraft/{{ item }}"
+    target: "{{ minecraft_dir }}/{{ item }}"
     setype: bin_t
   loop:
     - start.sh
@@ -39,7 +44,7 @@
 
 - name: reload SELinux policy for minecraft scripts
   when: ansible_distribution == 'Fedora'
-  command: restorecon -irv /srv/minecraft/
+  command: "restorecon -irv {{ minecraft_dir }}/"
 
 # ----- ----- ----- ----- -----
 
@@ -47,17 +52,13 @@
   no_log: true
   copy:
     content: "{{ item.content }}"
-    dest: "/srv/minecraft/{{ item.dest }}"
+    dest: "{{ minecraft_dir }}/{{ item.dest }}"
     owner: "{{ minecraft_user }}"
     group: "{{ minecraft_user }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
   loop:
     - { dest: ".mcrcon.pass", content: "{{ mcrcon_pass }}" }
     - { dest: ".world.name", content: "{{ minecraft_world_name }}" }
     - { dest: "ops.json", content: "{{ minecraft_ops }}" }
     - { dest: "whitelist.json", content: "{{ minecraft_allowlist }}" }
-
-- name: Write minecraft properties template file
-  no_log: true
-  template:
-    src: templates/server.properties.j2
-    dest: /srv/minecraft/server.properties
