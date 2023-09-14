@@ -28,10 +28,9 @@
 
 - name: Download latest Fabric JAR
   become_user: "{{ minecraft_user }}"
-  args:
-    chdir: /srv/minecraft/jar_versions/
-  shell: |-
-    wget -O "fabric-{{ minecraft_version }}.jar" "https://meta.fabricmc.net/v2/versions/loader/{{ minecraft_version }}/{{ minecraft_fabric_version }}/server/jar"
+  get_url:
+    url: "https://meta.fabricmc.net/v2/versions/loader/{{ minecraft_version }}/{{ minecraft_fabric_version }}/server/jar"
+    dest: "/srv/minecraft/jar_versions/fabric-{{ minecraft_version }}.jar"
 
 - name: Create symlink to minecraft server.jar
   become_user: "{{ minecraft_user }}"
