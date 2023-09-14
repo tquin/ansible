@@ -6,6 +6,11 @@
 ```
 ansible-vault edit group_vars/all/secret_vars.yaml
 ```
+
+* The `jmespath` package needs to be installed on the Controller in order to use some filters.
+  * `dnf install python3-jmespath`
+  * `apt install python3-jmespath`
+
 ---
 
 ### Client Setup
@@ -75,6 +80,8 @@ The included script will ensure all requirements are installed through `ansible-
   - clean up mods variable to not need full URL
   - containerise?
   - update to 1.20.1
+  - build the ops/allowlist json based on username list
+  - clean up jar download url vars
 - Plex
   - *cough* helpers
   - DB backups
@@ -82,3 +89,4 @@ The included script will ensure all requirements are installed through `ansible-
   - Sanoid
 - rclone azure backups
 - mail forwarding for servers
+- youtube-dlp under [media]

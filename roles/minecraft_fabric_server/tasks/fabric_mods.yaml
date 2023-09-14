@@ -12,13 +12,28 @@
     - { path: "/srv/minecraft/" }
     - { path: "/srv/minecraft/mods_{{ minecraft_version }}/"}
 
-- name: Download minecraft mod JARs to mods specifc version directory
-  become_user: "{{ minecraft_user }}"
-  args:
-    chdir: "/srv/minecraft/mods_{{ minecraft_version }}/"
-  shell: |
-    wget --no-clobber "{{ item }}"
+- name: Get latest mod versions from Modrinth API
+  uri:
+    url: "https://api.modrinth.com/v2/\
+          project/{{ item }}/version\
+          ?game_versions=[%22{{ minecraft_version }}%22]\
+          &version_type=release"
   loop: "{{ minecraft_mods }}"
+  register: mod_versions_json
+
+- name: Parse json output into latest URLs
+  set_fact:
+    mod_versions_url: "{{ mod_versions_url | default([]) + item }}"
+  loop: "{{ mod_versions_json | community.general.json_query(_query) }}"
+  vars:
+    _query: "results[*].json[0].files[?primary].url"
+
+- name: Download mods to specific version directory
+  become_user: "{{ minecraft_user }}"
+  get_url:
+    url: "{{ item }}"
+    dest: "/srv/minecraft/mods_{{ minecraft_version }}/"
+  loop: "{{ mod_versions_url }}"
 
 - name: Create symlink to current mods folder
   become_user: "{{ minecraft_user }}"
