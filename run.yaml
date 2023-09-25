@@ -87,7 +87,7 @@
     # ----- ----- ----- ----- -----
 
     - include_role: 
-        name: minecraft_fabric_server
+        name: tquin.minecraft_fabric_server
       when: inventory_hostname in groups.minecraft
       vars:
         mcrcon_pass: "{{ secret_mcrcon_pass }}"
