@@ -1,7 +1,8 @@
 - name: Check if cargo is installed
-  shell: command -v cargo
+  command: which cargo
   register: cargo_exists
   ignore_errors: yes
+  changed_when: no
 
 # ----- ----- ----- ----- -----
 
@@ -18,6 +19,7 @@
   shell: |
     /tmp/sh.rustup.rs -y
     rustup default stable
+  changed_when: yes
 
 - name: Cleanup installer
   when: cargo_exists is failed
@@ -32,6 +34,7 @@
   when: cargo_exists is succeeded
   shell: |
     rustup update
+  changed_when: yes
 
 # ----- ----- ----- ----- -----
 

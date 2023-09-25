@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
     - "{{ docker_container_dir }}/sonarr/config"
     - "{{ media_data_dir }}"

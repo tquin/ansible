@@ -4,9 +4,10 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
-    - "{{ docker_container_dir}}/plex/config"
-    - "{{ docker_container_dir}}/plex/transcode"
+    - "{{ docker_container_dir }}/plex/config"
+    - "{{ docker_container_dir }}/plex/transcode"
     - "{{ media_data_dir }}/media"
 
 - name: Install and start Plex through Docker
@@ -20,13 +21,13 @@
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['plex'] }}"
     # Ports not needed in Host network mode
-    #ports:
+    # ports:
     #  - "32400:32400/tcp"
     env:
       TZ: "{{ time_zone }}"
       PLEX_UID: "{{ username_uid }}"
       PLEX_GID: "{{ username_guid }}"
     volumes:
-      - "{{ docker_container_dir}}/plex/config:/config"
-      - "{{ docker_container_dir}}/plex/transcode:/transcode"
+      - "{{ docker_container_dir }}/plex/config:/config"
+      - "{{ docker_container_dir }}/plex/transcode:/transcode"
       - "{{ media_data_dir }}/media:/data"

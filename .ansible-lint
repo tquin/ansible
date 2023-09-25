@@ -1,0 +1,23 @@
+---
+#
+# Ansible managed
+#
+exclude_paths:
+  - molecule/
+  - .tox
+  - .cache
+  - .github
+  - requirements.yml
+  - tasks/main.yaml
+
+skip_list:
+  - yaml[truthy]
+  - package-latest
+  - fqcn-builtins
+  - latest[git]
+
+  # Bug: 'undefined' using 'register:'
+  - jinja[invalid]
+
+  # Bug: https://github.com/ansible/ansible-lint/issues/3646
+  - deprecated-bare-vars

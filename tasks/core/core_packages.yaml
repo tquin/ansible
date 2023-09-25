@@ -1,12 +1,12 @@
 - name: Update apt packages
   when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-  apt: 
+  apt:
     update_cache: yes
     upgrade: yes
 
 - name: Update dnf packages
   when: ansible_distribution == 'Fedora'
-  dnf: 
+  dnf:
     name: "*"
     state: latest
 
@@ -39,10 +39,10 @@
 
 - name: Autoremove apt packages
   when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
-  apt: 
+  apt:
     autoremove: true
 
 - name: Autoremove dnf packages
   when: ansible_distribution == 'Fedora'
-  dnf: 
+  dnf:
     autoremove: yes

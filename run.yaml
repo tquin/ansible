@@ -1,4 +1,5 @@
-- hosts: "*"
+- name: Core playbook
+  hosts: "*"
   become: yes
 
   environment:
@@ -9,7 +10,8 @@
   # ----- ----- ----- ----- -----
 
   handlers:
-    - include_tasks: "{{ item }}"
+    - name: Handlers
+      include_tasks: "{{ item }}"
       with_fileglob:
         - "handlers/**.yaml"
         - "handlers/**.yml"
@@ -20,7 +22,8 @@
 
   # Anything with an earlier dependency should go here
   pre_tasks:
-    - include_tasks: "{{ task_items }}"
+    - name: Pre tasks
+      include_tasks: "{{ task_items }}"
       with_fileglob:
         # Required before we can do git actions in dotfiles
         - "tasks/core/setup_ssh.yaml"
@@ -35,7 +38,8 @@
 
     # ----- ----- ----- ----- -----
 
-    - include_tasks: "{{ task_items }}"
+    - name: Core tasks
+      include_tasks: "{{ task_items }}"
       with_fileglob:
         - "tasks/core/**.yaml"
       loop_control:
@@ -45,14 +49,16 @@
     # WORKSTATION
     # ----- ----- ----- ----- -----
 
-    - include_tasks: "{{ task_items }}"
+    - name: Workstation tasks
+      include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.workstation
       with_fileglob:
         - "tasks/workstation/**.yaml"
       loop_control:
         loop_var: task_items
 
-    - include_role: 
+    - name: Workstation role - Obsidian sync
+      include_role:
         name: gdrive_obsidian
       when: inventory_hostname in groups.workstation
       vars:
@@ -64,7 +70,8 @@
     # SERVER
     # ----- ----- ----- ----- -----
 
-    - include_tasks: "{{ task_items }}"
+    - name: Server tasks
+      include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.server
       with_fileglob:
         - "tasks/server/**.yaml"
@@ -75,7 +82,8 @@
     # MEDIA
     # ----- ----- ----- ----- -----
 
-    - include_tasks: "{{ task_items }}"
+    - name: Media tasks
+      include_tasks: "{{ task_items }}"
       when: inventory_hostname in groups.media
       with_fileglob:
         - "tasks/media/**.yaml"
@@ -86,7 +94,8 @@
     # MINECRAFT
     # ----- ----- ----- ----- -----
 
-    - include_role: 
+    - name: Minecraft role
+      include_role:
         name: tquin.minecraft_fabric_server
       when: inventory_hostname in groups.minecraft
       vars:

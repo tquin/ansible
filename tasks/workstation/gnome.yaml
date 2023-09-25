@@ -5,7 +5,7 @@
 
 - name: Copy wallpaper file
   become_user: "{{ username }}"
-  copy: 
+  copy:
     src: "resources/workstation/{{ gnome_wallpaper }}"
     dest: "/home/{{ username }}/Pictures/{{ gnome_wallpaper }}"
     owner: "{{ username }}"
@@ -15,24 +15,24 @@
 
 - name: Set GNOME wallpaper
   become_user: "{{ username }}"
-  community.general.dconf: 
-    key: "/org/gnome/desktop/background/picture-uri" 
+  community.general.dconf:
+    key: "/org/gnome/desktop/background/picture-uri"
     value: "'file:///home/{{ username }}/Pictures/{{ gnome_wallpaper }}'"
 
 - name: Set GNOME pinned apps
   become_user: "{{ username }}"
-  community.general.dconf: 
-    key: "/org/gnome/shell/favorite-apps" 
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
     value: "['{{ gnome_pinned_apps | join(\"','\") }}']"
 
 - name: Add 'enabled' to all GNOME extension parameters
   set_fact:
-    gnome_extensions: "{{ gnome_extensions + [ item | combine({'enable': true}) ] }}"
+    gnome_extensions: "{{ gnome_extensions + [item | combine({'enable': true})] }}"
   loop: "{{ gnome_extensions }}"
 
 # https://galaxy.ansible.com/petermosmans/customize-gnome
 - name: Install GNOME extensions
-  include_role: 
+  include_role:
     name: petermosmans.customize-gnome
   vars:
     gnome_user: "{{ username }}"

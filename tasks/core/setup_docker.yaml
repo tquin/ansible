@@ -15,6 +15,7 @@
   get_url:
     url: https://download.docker.com/linux/fedora/docker-ce.repo
     dest: /etc/yum.repos.d
+    mode: '660'
 
 # ----- ----- ----- ----- -----
 
@@ -23,10 +24,10 @@
     name: "{{ item }}"
     state: latest
   loop:
-    - docker-ce 
+    - docker-ce
     - docker-ce-cli
     - containerd.io
-    - docker-buildx-plugin 
+    - docker-buildx-plugin
     - docker-compose-plugin
 
 - name: Enable and start Docker service

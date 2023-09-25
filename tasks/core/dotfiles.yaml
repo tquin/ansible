@@ -1,28 +1,27 @@
-
 - name: Chown the repo
   file:
-      path: "{{ dotfiles_dir }}"
-      recurse: yes
-      state: directory
-      owner: "{{ username }}"
-      group: "{{ username }}"
+    path: "{{ dotfiles_dir }}"
+    recurse: yes
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
 
 - name: Clone the latest dotfiles repo
   become_user: "{{ username }}"
   git:
-      repo: "{{ dotfiles_repo }}"
-      dest: "{{ dotfiles_dir }}"
-      clone: yes
-      recursive: yes
-      track_submodules: yes
-      force: yes
-      accept_newhostkey: yes
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_dir }}"
+    clone: yes
+    recursive: yes
+    track_submodules: yes
+    force: yes
+    accept_newhostkey: yes
 
 - name: Stow the dotfiles
   become_user: "{{ username }}"
   shell:
-      cmd: "stow -v --target=/home/{{ username }} ."
-      chdir: "{{ dotfiles_dir }}"
+    cmd: "stow -v --target=/home/{{ username }} ."
+    chdir: "{{ dotfiles_dir }}"
   register: stow_result
   changed_when: stow_result.stdout != ""
 
@@ -31,6 +30,7 @@
   shell: cat ~/.bashrc | grep 'bashrc.till'
   register: shell_sourcing_exists
   ignore_errors: yes
+  changed_when: no
 
 - name: Add shell sourcing
   become_user: "{{ username }}"
@@ -41,3 +41,4 @@
   loop:
     - ~/.bashrc
     - ~/.zshrc
+  changed_when: yes

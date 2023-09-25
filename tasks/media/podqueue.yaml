@@ -4,13 +4,14 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
     - "{{ docker_container_dir }}/podqueue/config"
     - "{{ media_data_dir }}/podcasts"
 
 - name: Copy podqueue.opml file
   become_user: "{{ username }}"
-  copy: 
+  copy:
     src: "resources/media/{{ podqueue_opml_file_name }}"
     dest: "{{ media_data_dir }}/podcasts/podqueue.opml"
     owner: "{{ username }}"

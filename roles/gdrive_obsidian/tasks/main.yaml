@@ -9,6 +9,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
     - "{{ obsidian_vault_dir }}"
     - "{{ rclone_config_dir }}"
@@ -18,11 +19,17 @@
   template:
     src: templates/rclone.conf.j2
     dest: "{{ rclone_config_dir }}/rclone.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
 
 - name: Copy .service to remote
   template:
     src: templates/gdrive-obsidian.service.j2
     dest: "/etc/systemd/system/gdrive-obsidian.service"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
 
 - name: Enable systemd unit for gdrive-obsidian
   systemd_service:

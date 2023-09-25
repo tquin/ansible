@@ -8,12 +8,13 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
     - "{{ docker_container_dir }}/wireguard/config"
 
 - name: Copy wireguard .conf file
   become_user: "{{ username }}"
-  copy: 
+  copy:
     src: "resources/server/{{ wireguard_conf_file }}"
     dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
     owner: "{{ username }}"
@@ -35,11 +36,13 @@
 # Host kernel modules
 # ----- ----- ----- ----- -----
 
-- when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+- name: Wireguard package name (Deb-based)
+  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
   set_fact:
     wireguard_package: wireguard
 
-- when: ansible_distribution == 'Fedora'
+- name: Wireguard package name (Fedora)
+  when: ansible_distribution == 'Fedora'
   set_fact:
     wireguard_package: wireguard-tools
 

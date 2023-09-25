@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
+    mode: '755'
   loop:
     - "{{ docker_container_dir }}/tdarr/configs"
     - "{{ docker_container_dir }}/tdarr/server"
