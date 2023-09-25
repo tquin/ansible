@@ -11,6 +11,9 @@ ansible-vault edit group_vars/all/secret_vars.yaml
   * `dnf install python3-jmespath`
   * `apt install python3-jmespath`
 
+* Generate an SSH key on the controller
+  * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
+
 ---
 
 ### Client Setup
@@ -33,14 +36,9 @@ The only steps needed to do manually on a new machine is to install from a fresh
   * `su -c 'dnf install -y openssh-server'`
   * `sudo systemctl enable --now sshd.service`
   * Then reboot for the sudo to take effect
-* Generate an SSH key on the controller and copy it to the ansible_client
-  * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
+* Copy the controller SSH key to the ansible_client
   * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
-* Fill in the specific client hostname/IP details in the `hosts` file on the controller
-  ```
-  [all]
-  <ansible_client> ansible_host=<client_ip> ansible_user="{{ username }}" ansible_connection=ssh ansible_ssh_private_key_file="/home/{{ username }}/.ssh/ansible"
-  ```
+* Fill in the specific client hostname/IP details in the `inventory/` files on the controller
 * Optionally add the hostname into other host groups if you like (eg: add to `[workstation]` if you want GUI apps installed)
 * Test the key is working without requiring a password
   * `ansible all -m ping`
@@ -77,7 +75,7 @@ The included script will ensure all requirements are installed through `ansible-
 ### Todo
 
 - Minecraft
-  - containerise?
+  - containerise
 - Plex
   - *cough* helpers
   - DB backups
@@ -86,3 +84,9 @@ The included script will ensure all requirements are installed through `ansible-
 - rclone azure backups
 - mail forwarding for servers
 - youtube-dlp under [media]
+- file share / samba
+- borg backups
+- localhost playbook
+  - jmespath dependency
+  - controller setup steps
+- vscodium and extensions
