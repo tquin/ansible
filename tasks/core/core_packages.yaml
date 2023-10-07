@@ -1,11 +1,11 @@
 - name: Update apt packages
-  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  when: ansible_os_family == 'Debian'
   apt:
     update_cache: yes
     upgrade: yes
 
 - name: Update dnf packages
-  when: ansible_distribution == 'Fedora'
+  when: ansible_os_family == 'RedHat'
   dnf:
     name: "*"
     state: latest
@@ -38,11 +38,11 @@
 # ----- ----- ----- ----- -----
 
 - name: Autoremove apt packages
-  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+  when: ansible_os_family == 'Debian'
   apt:
     autoremove: true
 
 - name: Autoremove dnf packages
-  when: ansible_distribution == 'Fedora'
+  when: ansible_os_family == 'RedHat'
   dnf:
     autoremove: yes

@@ -36,13 +36,13 @@
 # Host kernel modules
 # ----- ----- ----- ----- -----
 
-- name: Wireguard package name (Deb-based)
-  when: (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian')
+- name: Wireguard package name (Debian)
+  when: ansible_os_family == 'Debian'
   set_fact:
     wireguard_package: wireguard
 
-- name: Wireguard package name (Fedora)
-  when: ansible_distribution == 'Fedora'
+- name: Wireguard package name (RedHat)
+  when: ansible_os_family == 'RedHat'
   set_fact:
     wireguard_package: wireguard-tools
 
