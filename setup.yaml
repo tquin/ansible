@@ -1,0 +1,10 @@
+- name: Controller setup playbook
+  hosts: localhost
+  become: yes
+
+  tasks:
+
+    - name: Install controller package dependencies
+      package:
+        name:
+          - python3-jmespath

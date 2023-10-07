@@ -7,10 +7,6 @@
 ansible-vault edit group_vars/all/secret_vars.yaml
 ```
 
-* The `jmespath` package needs to be installed on the Controller in order to use some filters.
-  * `dnf install python3-jmespath`
-  * `apt install python3-jmespath`
-
 * Generate an SSH key on the controller
   * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
 
@@ -47,7 +43,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 
 ### Usage
 
-The included script will ensure all requirements are installed through `ansible-galaxy`, then run the main playbook.
+The included script will ensure all requirements are installed through `ansible-galaxy`, the controller is configured correctly, and then run the main playbook.
 ```
 ./run.sh
 ```
@@ -63,9 +59,7 @@ The included script will ensure all requirements are installed through `ansible-
 
 **Media**
 
-- For `podqueue`, the `.opml` file in `resources/` needs to be updated. The provided example only contains one podcast as a proof-of-concept to avoid taking unnecessary disk space on test VMs.
-
-- Plex needs a one-time "claim code" made to authenticate the server with an account. These codes expire within 5 minutes of generation, so they're not suitable for use in long playbooks. Plex also only supports claiming over localhost, not the local network.
+- Plex needs a one-time "claim code" made to authenticate the server with an account. These codes expire within 5 minutes of generation, so they're not suitable for use in automated playbooks. Plex also only supports claiming over localhost, not the local network.
   - Forward local port with `ssh <username>@<ansible_client> -L 32400:<ansible_client>:32400 -N`
   - Generate a code at [plex.tv/claim](https://www.plex.tv/claim/)
   - `curl -X POST 'http://127.0.0.1:32400/myplex/claim?token=claim-xxx'`
@@ -74,8 +68,6 @@ The included script will ensure all requirements are installed through `ansible-
 
 ### Todo
 
-- Minecraft
-  - containerise
 - Plex
   - *cough* helpers
   - DB backups
@@ -89,4 +81,4 @@ The included script will ensure all requirements are installed through `ansible-
 - localhost playbook
   - jmespath dependency
   - controller setup steps
-- vscodium and extensions
+- vscodium (or fleet?) and extensions
