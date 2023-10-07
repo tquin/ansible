@@ -19,26 +19,17 @@
 
 - name: Stow the dotfiles
   become_user: "{{ username }}"
-  shell:
+  command:
     cmd: "stow -v --target=/home/{{ username }} ."
     chdir: "{{ dotfiles_dir }}"
   register: stow_result
   changed_when: stow_result.stdout != ""
 
-- name: Check if shell sourcing is already done
-  become_user: "{{ username }}"
-  shell: cat ~/.bashrc | grep 'bashrc.till'
-  register: shell_sourcing_exists
-  ignore_errors: yes
-  changed_when: no
-
 - name: Add shell sourcing
-  become_user: "{{ username }}"
-  when: shell_sourcing_exists is failed
-  shell:
-    cmd: "echo 'source {{ dotfiles_dir }}/bashrc.till' >> {{ item }}"
-    executable: /bin/bash
+  lineinfile:
+    name: "{{ item }}"
+    line: "source {{ dotfiles_dir }}/bashrc.till"
+    state: present
   loop:
-    - ~/.bashrc
-    - ~/.zshrc
-  changed_when: yes
+    - "/home/{{ username }}/.bashrc"
+    - "/home/{{ username }}/.zshrc"

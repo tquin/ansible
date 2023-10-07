@@ -17,3 +17,4 @@
   shell: |
     eval "$(ssh-agent -s)"
     ssh-add "/home/{{ username }}/.ssh/id_ed25519"
+  changed_when: yes
