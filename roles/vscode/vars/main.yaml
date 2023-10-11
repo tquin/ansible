@@ -1,0 +1,17 @@
+# For dependency base role
+vscode_extension:
+  - ms-python.python
+  - esbenp.prettier-vscode
+  - vscode-icons-team.vscode-icons
+  - oderwat.indent-rainbow
+  - ms-toolsai.jupyter
+  - redhat.vscode-yaml
+  - redhat.vscode-xml
+  - akamud.vscode-theme-onedark
+
+vscode_settings_path: "/home/{{ username }}/.config/Code/User/settings.json"
+
+vscode_colour_theme: "Atom One Dark"
+
+# One of: all, error, crash, off
+vscode_telemetry_level: "off"

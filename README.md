@@ -12,7 +12,7 @@ ansible-vault edit group_vars/all/secret_vars.yaml
 
 ---
 
-### Client Setup
+## Client Setup
 
 The only steps needed to do manually on a new machine is to install from a fresh ISO, configure a user account with sudo, and add the SSH key to the Ansible controller. Everything after that, including SSH hardening, can be done via the playbook.
 
@@ -41,7 +41,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 
 ---
 
-### Usage
+## Usage
 
 The included script will ensure all requirements are installed through `ansible-galaxy`, the controller is configured correctly, and then run the main playbook.
 ```
@@ -49,7 +49,7 @@ The included script will ensure all requirements are installed through `ansible-
 ```
 ---
 
-### Role-Specific Usage
+## Role-Specific Usage
 
 **Workstation**
 
@@ -66,10 +66,9 @@ The included script will ensure all requirements are installed through `ansible-
 
 ---
 
-### Todo
+## Todo
 
 - Plex
-  - *cough* helpers
   - DB backups
 - ZFS
   - Sanoid
@@ -79,6 +78,5 @@ The included script will ensure all requirements are installed through `ansible-
 - file share / samba
 - borg backups
 - localhost playbook
-  - jmespath dependency
   - controller setup steps
 - vscodium (or fleet?) and extensions

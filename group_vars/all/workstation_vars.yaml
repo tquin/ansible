@@ -13,6 +13,7 @@ flatpak_packages:
   - com.valvesoftware.Steam
   - org.gnome.Extensions
   - com.github.tchx84.Flatseal # Flatpak permission manager
+  - im.riot.Riot # Element Matrix client
 
 # ----- ----- ----- ----- -----
 # GNOME

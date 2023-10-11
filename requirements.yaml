@@ -7,6 +7,7 @@ roles:
     - name: exploide.dnf-automatic
     - name: robertdebock.fail2ban
     - name: tquin.minecraft_fabric_server
+    - name: ngetchell.vscode
 
 collections:
     - name: community.general

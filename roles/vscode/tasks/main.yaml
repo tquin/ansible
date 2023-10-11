@@ -1,0 +1,30 @@
+- name: Check that settings.json exists
+  stat:
+    path: "{{ vscode_settings_path }}"
+  register: check_settings
+
+- name: Create a blank settings.json if it does not yet exist
+  when: not check_settings.stat.exists
+  copy:
+    dest: "{{ vscode_settings_path }}"
+    content: "{\n}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+
+# ----- ----- ----- ----- -----
+
+- name: Customise settings.json
+  lineinfile:
+    path: "{{ vscode_settings_path }}"
+    regexp: "{{ item.rex }}"
+    line: "{{ item.content }}"
+    insertbefore: '}$'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+  loop:
+    - rex: 'telemetry\.telemetryLevel'
+      content: '"telemetry.telemetryLevel": "{{ vscode_telemetry_level }}",'
+    - rex: 'workbench\.colorTheme'
+      content: '"workbench.colorTheme": "{{ vscode_colour_theme }}",'

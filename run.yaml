@@ -66,6 +66,11 @@
         gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
         gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
 
+    - name: Workstation role - VSCode
+      include_role:
+        name: vscode
+      when: inventory_hostname in groups.workstation
+
     # ----- ----- ----- ----- -----
     # SERVER
     # ----- ----- ----- ----- -----
