@@ -1,12 +1,21 @@
 # For dependency base role
 vscode_extension:
   - ms-python.python
+  - ms-toolsai.jupyter
+  - amazonwebservices.aws-toolkit-vscode
+  - github.vscode-pull-request-github
+  - hashicorp.terraform
   - esbenp.prettier-vscode
   - vscode-icons-team.vscode-icons
   - oderwat.indent-rainbow
-  - ms-toolsai.jupyter
   - redhat.vscode-yaml
   - redhat.vscode-xml
+  - ibm.output-colorizer
+  - mohsen1.prettify-json
+  - arcsector.vscode-splunk-search-syntax
+  - hilleer.yaml-plus-json
+  - 2gua.rainbow-brackets
+  # Themes
   - akamud.vscode-theme-onedark
 
 vscode_settings_path: "/home/{{ username }}/.config/Code/User/settings.json"
