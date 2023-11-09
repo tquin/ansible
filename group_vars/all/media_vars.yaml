@@ -3,8 +3,8 @@ media_data_dir: "/data"
 podqueue_opml_file_name: "podqueue.opml"
 
 # Control which containers route through Wireguard or not
-# Plex is a special case where `host` is reccomended over `default` or `bridge`
 media_network_modes:
+  # Plex is a special case where `host` is reccomended over `default` or `bridge`
   plex: "host"
   podqueue: "bridge"
   sonarr: "{{ wireguard_network_name }}"
@@ -13,3 +13,11 @@ media_network_modes:
   prowlarr: "{{ wireguard_network_name }}"
   tdarr: "bridge"
   transmission: "{{ wireguard_network_name }}"
+  youtubedl: "bridge"
+
+youtubedl_interval: "3h"
+youtubedl_quality: "1080"
+
+# Channel or Playlist URLs
+youtubedl_content:
+  - https://www.youtube.com/@programmersarealsohuman5909

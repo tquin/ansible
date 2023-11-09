@@ -1,0 +1,48 @@
+- name: Create youtubedl directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/youtubedl/config"
+    - "{{ media_data_dir }}/youtubedl"
+
+- name: Create channels.txt file
+  file:
+    path: "{{ docker_container_dir }}/youtubedl/config/channels.txt"
+    state: touch
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+
+- name: Add channels and playlists to youtubedl
+  lineinfile:
+    path: "{{ docker_container_dir }}/youtubedl/config/channels.txt"
+    line: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0644'
+  loop: "{{ youtubedl_content }}"
+
+- name: Install and start youtubedl through Docker
+  community.docker.docker_container:
+    name: youtubedl
+    image: jeeaaasustest/youtube-dl
+    state: started
+    #user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ media_network_modes['youtubedl'] }}"
+    env:
+      TZ: "{{ time_zone }}"
+      #PUID: "{{ username_uid }}"
+      #PGID: "{{ username_guid }}"
+      youtubedl_interval: "{{ youtubedl_interval }}"
+      youtubedl_quality: "{{ youtubedl_quality }}"
+    volumes:
+      - "{{ media_data_dir }}/youtubedl:/downloads"
+      - "{{ docker_container_dir }}/youtubedl/config:/config"
