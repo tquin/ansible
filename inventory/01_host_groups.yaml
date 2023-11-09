@@ -20,5 +20,7 @@ test:
       ansible_host: 192.168.122.194
     ansiblevm-debian12:
       ansible_host: 192.168.122.7
-    ansiblevm-fedora38:
-      ansible_host: 192.168.122.167
+    #ansiblevm-fedora38:
+    #  ansible_host: 192.168.122.167
+    ansiblevm-fedora39:
+      ansible_host: 192.168.122.21

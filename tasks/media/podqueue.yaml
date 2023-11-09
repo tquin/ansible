@@ -22,7 +22,7 @@
 - name: Install and start podqueue through Docker
   community.docker.docker_container:
     name: podqueue
-    image: tquin/podqueue:main
+    image: tquin/podqueue
     state: started
     user: "{{ username_uid }}:{{ username_guid }}"
     pull: true

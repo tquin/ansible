@@ -20,9 +20,10 @@ The only steps needed to do manually on a new machine is to install from a fresh
   * ✔ Ubuntu Jammy 22.04
   * ✔ Debian Bookworm 12
   * ✔ Fedora 38
+  * 🛠 Fedora 39
 * Minimum specs for test VMs
   * 4GB RAM (mostly for Rust compiles)
-  * 40GB disk space
+  * 50GB disk space
 * Ensure your user has sudo privileges
   * `su -` to root
   * `usermod -aG sudo <username>`
@@ -74,9 +75,6 @@ The included script will ensure all requirements are installed through `ansible-
   - Sanoid
 - rclone azure backups
 - mail forwarding for servers
-- youtube-dlp under [media]
 - file share / samba
 - borg backups
-- localhost playbook
-  - controller setup steps
-- vscodium (or fleet?) and extensions
+- btrfsassistant
