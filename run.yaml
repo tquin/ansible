@@ -6,17 +6,6 @@
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
   # ----- ----- ----- ----- -----
-  # Handlers
-  # ----- ----- ----- ----- -----
-
-  handlers:
-    - name: Handlers
-      include_tasks: "{{ item }}"
-      with_fileglob:
-        - "handlers/**.yaml"
-        - "handlers/**.yml"
-
-  # ----- ----- ----- ----- -----
   # Bootstrap tasks
   # ----- ----- ----- ----- -----
 

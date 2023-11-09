@@ -1,5 +1,0 @@
-- name: Restart ssh daemon if required
-  listen: "sshd_restart_required"
-  service:
-    name: sshd
-    state: restarted

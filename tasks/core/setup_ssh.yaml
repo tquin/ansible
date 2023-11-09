@@ -3,7 +3,13 @@
     dest: /etc/ssh/sshd_config
     regexp: "^#PasswordAuthentication yes"
     line: "PasswordAuthentication no"
-  notify: "sshd_restart_required"
+  register: sshd_restart_required
+
+- name: Restart ssh daemon if required
+  when: sshd_restart_required
+  service:
+    name: sshd
+    state: restarted
 
 - name: Copy ssh private key for git
   become_user: "{{ username }}"
