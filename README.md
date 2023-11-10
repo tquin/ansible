@@ -19,8 +19,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Install OS from ISO
   * ✔ Ubuntu Jammy 22.04
   * ✔ Debian Bookworm 12
-  * ✔ Fedora 38
-  * 🛠 Fedora 39
+  * ✔ Fedora 39
 * Minimum specs for test VMs
   * 4GB RAM (mostly for Rust compiles)
   * 50GB disk space
@@ -78,3 +77,4 @@ The included script will ensure all requirements are installed through `ansible-
 - file share / samba
 - borg backups
 - btrfsassistant
+- sublime extensions independent of dotfiles

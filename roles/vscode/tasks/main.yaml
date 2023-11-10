@@ -3,7 +3,7 @@
     path: "{{ vscode_settings_path }}"
   register: check_settings
 
-- name: Create a blank settings.json if it does not yet exist
+- name: Create a blank settings.json if it does not exist yet
   when: not check_settings.stat.exists
   copy:
     dest: "{{ vscode_settings_path }}"

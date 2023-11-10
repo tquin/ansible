@@ -31,7 +31,7 @@
     name: youtubedl
     image: jeeaaasustest/youtube-dl
     state: started
-    #user: "{{ username_uid }}:{{ username_guid }}"
+    # user: "{{ username_uid }}:{{ username_guid }}"
     pull: true
     cleanup: false
     detach: true
@@ -39,8 +39,8 @@
     network_mode: "{{ media_network_modes['youtubedl'] }}"
     env:
       TZ: "{{ time_zone }}"
-      #PUID: "{{ username_uid }}"
-      #PGID: "{{ username_guid }}"
+      # PUID: "{{ username_uid }}"
+      # PGID: "{{ username_guid }}"
       youtubedl_interval: "{{ youtubedl_interval }}"
       youtubedl_quality: "{{ youtubedl_quality }}"
     volumes:

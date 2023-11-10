@@ -10,7 +10,7 @@
 
 workstation:
   children:
-    test:
+    #test:
 
 # ----- ----- ----- ----- -----
 
@@ -22,13 +22,13 @@ server:
 
     media:
       children:
-        test:
+        # test:
 
     # ----- ----- ----- ----- -----
 
     minecraft:
       children:
-        test:
+        # test:
 
     # ----- ----- ----- ----- -----
 
