@@ -1,0 +1,35 @@
+- name: Create rclone directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/rclone/config"
+    - "{{ rclone_data_dir }}"
+
+- name: Install and start rclone rc server through Docker
+  community.docker.docker_container:
+    name: rclone
+    image: rclone/rclone
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    command: "rcd"
+    network_mode: bridge
+    ports:
+      - "5572:5572"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      RCLONE_RC_ADDR: "0.0.0.0:5572"
+      RCLONE_RC_USER: "{{ rclone_rc_user }}"
+      RCLONE_RC_PASS: "{{ rclone_rc_pass }}"
+    volumes:
+      - "{{ docker_container_dir }}/rclone/config:/config/rclone"
+      - "{{ rclone_data_dir }}:/data"

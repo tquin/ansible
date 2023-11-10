@@ -1,0 +1,10 @@
+  # Note: this doesn't use meta/ deps because 
+  # the install needs to happen first.
+  - name: Configure rclone remotes
+    include_role:
+      name: tigattack.rclone_rc_remotes
+    vars:
+      rclone_host: "127.0.0.1"
+      rclone_port: "5572"
+      rclone_username: "{{ rclone_rc_user }}"
+      rclone_password: "{{ rclone_rc_pass }}"

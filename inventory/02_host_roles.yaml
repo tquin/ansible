@@ -9,31 +9,29 @@
 # such as [media] being dependent on the [server] role
 
 workstation:
-  hosts:
-
   children:
     test:
 
 # ----- ----- ----- ----- -----
 
 server:
-  hosts:
-
   children:
     test:
 
     # ----- ----- ----- ----- -----
 
     media:
-      hosts:
-
       children:
         test:
 
     # ----- ----- ----- ----- -----
 
     minecraft:
-      hosts:
+      children:
+        test:
 
+    # ----- ----- ----- ----- -----
+
+    backup:
       children:
         test:

@@ -8,6 +8,7 @@ roles:
     - name: robertdebock.fail2ban
     - name: tquin.minecraft_fabric_server
     - name: ngetchell.vscode
+    - name: tigattack.rclone_rc_remotes
 
 collections:
     - name: community.general

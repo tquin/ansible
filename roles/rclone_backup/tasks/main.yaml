@@ -1,0 +1,2 @@
+- include_tasks: install_rc_server.yaml
+- include_tasks: configure_remotes.yaml

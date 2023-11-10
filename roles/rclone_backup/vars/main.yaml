@@ -1,0 +1,33 @@
+rclone_data_dir: "/data"
+
+rclone_rc_user: "{{ username }}"
+# These should be passed in the play from a vault
+rclone_rc_pass: ""
+
+rclone_remotes:
+
+  - name: azure
+    type: azureblob
+    parameters:
+      account: "{{ rclone_azure_account }}"
+      key: "{{ rclone_azure_key }}"
+      access_tier: Archive
+
+  - name: azure-crypt
+    type: crypt
+    parameters:
+      remote: "azure:"
+      password: "{{ rclone_azure_crypt_pass }}"
+      shop_mapping: "true"
+
+  - name: gphotos
+    type: google photos
+    parameters:
+      read_only: "true"
+      token: "{{ rclone_gphotos_token }}"
+
+# These should be passed in the play from a vault
+rclone_azure_account: ""
+rclone_azure_key: ""
+rclone_azure_crypt_pass: ""
+rclone_gphotos_token: ""
