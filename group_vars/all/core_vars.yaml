@@ -23,11 +23,11 @@ common_packages:
   - htop
   - btop # fancy htop
   - bat # fancy cat
-  - exa # fancy ls
   - speedtest-cli
   - stow
   - neofetch
   - tlp # CPU / power profiles
+
   # Requirements for rust_cargo.yaml
   - cmake
   - make
@@ -36,6 +36,7 @@ common_packages:
 
 ubuntu_packages:
   - 7zip
+  - exa # fancy ls (old)
 
 debian_packages:
   # Requirements for setup_docker.yaml
@@ -44,8 +45,10 @@ debian_packages:
   - wget
   - software-properties-common
   - gnupg2
+  - exa # fancy ls (old)
 
 fedora_packages:
+  - eza # fancy ls (new)
   # Requirements for setup_docker.yaml
   - dnf-plugins-core
 
