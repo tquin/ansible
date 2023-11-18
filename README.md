@@ -78,3 +78,4 @@ The included script will ensure all requirements are installed through `ansible-
 - borg backups
 - btrfsassistant
 - sublime extensions independent of dotfiles
+- dynamic dns

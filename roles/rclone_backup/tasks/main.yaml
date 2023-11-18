@@ -1,2 +1,4 @@
+- include_tasks: parse_file_paths.yaml
 - include_tasks: install_rc_server.yaml
 - include_tasks: configure_remotes.yaml
+- include_tasks: systemd_services.yaml

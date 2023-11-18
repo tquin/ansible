@@ -1,13 +1,38 @@
+- name: Parse local (non-rclone) paths from input pairs
+  set_fact:
+    local_data_paths_init: >-
+      {{ local_data_paths_init
+        | default([])
+        + [ item.src | regex_search('^[^:]*/.*$') ]
+        + [ item.dest | regex_search('^[^:]*/.*$') ]
+      }}
+  loop: "{{ rclone_data_pairs_in_host_env }}"
+
+- name: Filter nulls from path list
+  set_fact:
+    local_data_paths: >-
+      {{
+        local_data_paths
+        | default([])
+        + [ item ]
+      }}
+  loop: "{{ local_data_paths_init }}"
+  when: item is not none
+
+- name: Add container config path to list
+  set_fact:
+    local_data_paths: "{{ local_data_paths + [rclone_container_config_path] }}"
+
+# ########## ########## ##########
+
 - name: Create rclone directories
   file:
     path: "{{ item }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '755'
-  loop:
-    - "{{ docker_container_dir }}/rclone/config"
-    - "{{ rclone_data_dir }}"
+    mode: '775'
+  loop: "{{ local_data_paths }}"
 
 - name: Install and start rclone rc server through Docker
   community.docker.docker_container:
@@ -31,5 +56,5 @@
       RCLONE_RC_USER: "{{ rclone_rc_user }}"
       RCLONE_RC_PASS: "{{ rclone_rc_pass }}"
     volumes:
-      - "{{ docker_container_dir }}/rclone/config:/config/rclone"
-      - "{{ rclone_data_dir }}:/data"
+      - "{{ rclone_container_config_path }}:/config/rclone"
+      - "{{ rclone_data_path }}:/data"

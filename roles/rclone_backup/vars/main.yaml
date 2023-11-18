@@ -1,9 +1,28 @@
-rclone_data_dir: "/data"
-
 rclone_rc_user: "{{ username }}"
-# These should be passed in the play from a vault
-rclone_rc_pass: ""
 
+rclone_sync_interval: 3600 # seconds == 1 hour
+rclone_container_config_path: "{{ docker_container_dir }}/rclone/config"
+
+# All local disk paths in must be relative to this file path
+# Within the docker container, it will be called "/data"
+rclone_data_path: "/tank"
+
+# This can be local -> cloud or vice versa
+# "sync" will also delete
+# "copy" will write new files but never delete
+#   - good for avoiding archive-tier cloud api costs
+rclone_data_pairs:
+  - service_name: "google-photos-dl"
+    src: "gphotos:album/Honey"
+    dest: "photos/"
+    operation: sync
+
+  - service_name: "photos-archive"
+    src: "photos/"
+    dest: "azure-crypt:photos/"
+    operation: copy
+
+# The secrets should be passed in the play from a vault
 rclone_remotes:
 
   - name: azure
@@ -18,16 +37,10 @@ rclone_remotes:
     parameters:
       remote: "azure:"
       password: "{{ rclone_azure_crypt_pass }}"
-      shop_mapping: "true"
+      show_mapping: "true"
 
   - name: gphotos
     type: google photos
     parameters:
       read_only: "true"
       token: "{{ rclone_gphotos_token }}"
-
-# These should be passed in the play from a vault
-rclone_azure_account: ""
-rclone_azure_key: ""
-rclone_azure_crypt_pass: ""
-rclone_gphotos_token: ""

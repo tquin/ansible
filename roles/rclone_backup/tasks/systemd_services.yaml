@@ -1,0 +1,14 @@
+- name: Write systemd rclone template files
+  template:
+    src: rlone-backup.service.j2
+    dest: "/etc/systemd/system/rclone-backup-{{ item.service_name }}.service"
+    mode: '660'
+  loop: "{{ rclone_data_pairs_in_container_env }}"
+
+- name: Enable and start rclone services
+  systemd:
+    daemon_reload: true
+    enabled: true
+    state: started
+    name: "rclone-backup-{{ item.service_name }}.service"
+  loop: "{{ rclone_data_pairs_in_container_env }}"

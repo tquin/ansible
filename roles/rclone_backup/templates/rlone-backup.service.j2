@@ -1,0 +1,15 @@
+[Unit]
+Description=rclone cloud backups - {{ item.service_name }}
+After=networking.service
+
+[Service]
+Type=simple
+Group={{ username }}
+ExecStart=docker exec rclone rclone {{ item.operation }} \
+	{{ item.src }} \
+	{{ item.dest }}
+Restart=always
+RestartSec={{ rclone_sync_interval }}
+
+[Install]
+WantedBy=default.target

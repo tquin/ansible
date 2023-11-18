@@ -1,0 +1,33 @@
+# The file paths are relative to "{{ rclone_data_path }}"
+# when on the host system, but inside the container they are
+# mounted at "/data".
+
+# For the rclone "remote:" paths, no change is needed.
+
+- name: Set variable for container file paths
+  set_fact:
+    rclone_data_pairs_in_container_env: >-
+      {{ rclone_data_pairs_in_container_env
+        | default([]) +
+        [ {
+          "service_name": item.service_name,
+          "src": ("/data/" + item.src if (item.src | regex_search('^[^:]*/.*$')) else item.src),
+          "dest": ("/data/" + item.dest if (item.dest | regex_search('^[^:]*/.*$')) else item.dest),
+          "operation": item.operation
+        } ]
+      }}
+  loop: "{{ rclone_data_pairs }}"
+
+- name: Set variable for host file paths
+  set_fact:
+    rclone_data_pairs_in_host_env: >-
+      {{ rclone_data_pairs_in_host_env
+        | default([]) +
+        [ {
+          "service_name": item.service_name,
+          "src": ("{{ rclone_data_path }}" + "/" + item.src if (item.src | regex_search('^[^:]*/.*$')) else item.src),
+          "dest": ("{{ rclone_data_path }}" + "/" + item.dest if (item.dest | regex_search('^[^:]*/.*$')) else item.dest),
+          "operation": item.operation
+        } ]
+      }}
+  loop: "{{ rclone_data_pairs }}"

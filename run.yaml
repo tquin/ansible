@@ -108,7 +108,9 @@
       vars:
         # HTTP server
         rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
-        # Azure blob remote
+        # Google Photos
+        rclone_gphotos_token: "{{ secret_rclone_gphotos_token }}"
+        # Azure blob
         rclone_azure_account: ""
         rclone_azure_key: ""
         rclone_azure_crypt_pass: ""
