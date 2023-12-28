@@ -45,7 +45,7 @@ gnome_extensions:
   - id: 517 # https://extensions.gnome.org/extension/517/caffeine/
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
   # - id: 4174 # https://extensions.gnome.org/extension/4174/systemd-manager/
-  # - id: 6242 # https://extensions.gnome.org/extension/6242/emoji-copy/
+  - id: 6242 # https://extensions.gnome.org/extension/6242/emoji-copy/
   - id: 3733 # https://extensions.gnome.org/extension/3733/tiling-assistant/
 
 gnome_systemd_manager_value: >-

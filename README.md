@@ -72,10 +72,10 @@ The included script will ensure all requirements are installed through `ansible-
   - DB backups
 - ZFS
   - Sanoid
-- rclone azure backups
 - mail forwarding for servers
 - file share / samba
 - borg backups
 - btrfsassistant
 - sublime extensions independent of dotfiles
 - dynamic dns
+- can youtubedl container run under user perms?
