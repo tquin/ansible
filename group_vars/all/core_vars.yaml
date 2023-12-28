@@ -49,6 +49,7 @@ debian_packages:
 
 fedora_packages:
   - eza # fancy ls (new)
+  - btrfs-assistant
   # Requirements for setup_docker.yaml
   - dnf-plugins-core
 

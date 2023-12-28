@@ -72,6 +72,11 @@
       loop_control:
         loop_var: task_items
 
+    - name: Server role - fs_snapshots
+      include_role:
+        name: fs_snapshots
+      when: inventory_hostname in groups.server
+
     # ----- ----- ----- ----- -----
     # MEDIA
     # ----- ----- ----- ----- -----

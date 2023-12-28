@@ -9,6 +9,7 @@ roles:
     - name: tquin.minecraft_fabric_server
     - name: ngetchell.vscode
     - name: tigattack.rclone_rc_remotes
+    - name: aisbergg.snapper
 
 collections:
     - name: community.general

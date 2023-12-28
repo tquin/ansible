@@ -1,0 +1,24 @@
+# btrfs
+snapper_templates:
+  default:
+    TIMELINE_LIMIT_HOURLY: 24
+    TIMELINE_LIMIT_DAILY: 7
+    TIMELINE_LIMIT_WEEKLY: 0
+    TIMELINE_LIMIT_MONTHLY: 3
+    TIMELINE_LIMIT_YEARLY: 0
+
+# ZFS
+sanoid_templates:
+  - name: default
+    frequently: 0
+    hourly: 24
+    daily: 7
+    monthly: 3
+    yearly: 0
+    autosnap: "yes"
+    autoprune: "yes"
+
+sanoid_datasets:
+  - name: tank
+    use_template: default
+    recursive: "yes"

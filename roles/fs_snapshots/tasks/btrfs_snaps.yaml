@@ -1,0 +1,36 @@
+- name: Get list of btrfs filesystems
+  community.general.btrfs_info:
+  register: btrfs_info
+
+- name: Parse subvolume mountpoints
+  set_fact:
+    subvolume_list: "{{ subvolume_list | default([]) + [item] | flatten }}"
+  loop: "{{ btrfs_info | community.general.json_query(_query) }}"
+  vars:
+    _query: "filesystems[*].subvolumes[*].mountpoints"
+
+- name: Parse subvolumes into list-of-dicts
+  set_fact:
+    snapper_configs: >-
+      {{ snapper_configs | default([]) 
+        + [{
+          'path': item, 
+          'name': (item 
+            | regex_replace('/', '-') 
+            | regex_replace('^-', '')
+            | regex_replace('^$', 'root'))
+      }] }}
+  loop: "{{ subvolume_list }}"
+
+# Bug in aisbergg.snapper: dir needs to exist 
+- name: Create snapper directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '755'
+  loop:
+    - "/etc/snapper/config-templates/"
+
+- name: Run snapper role
+  include_role: 
+    name: aisbergg.snapper
