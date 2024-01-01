@@ -26,12 +26,12 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Ensure your user has sudo privileges
   * `su -` to root
   * `usermod -aG sudo <username>`
+  * Then reboot for the sudo to take effect
 * If needed, install and start the SSH server
   * Check with `systemctl status sshd.service`
   * `su -c 'apt install -y openssh-server'`
   * `su -c 'dnf install -y openssh-server'`
   * `sudo systemctl enable --now sshd.service`
-  * Then reboot for the sudo to take effect
 * Copy the controller SSH key to the ansible_client
   * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
 * Fill in the specific client hostname/IP details in the `inventory/` files on the controller
@@ -70,12 +70,17 @@ The included script will ensure all requirements are installed through `ansible-
 
 - Plex
   - DB backups
-- ZFS
-  - Sanoid
 - mail forwarding for servers
 - file share / samba
 - borg backups
-- btrfsassistant
+- btrfsassistant & sanoid
+    - scheduled scrubs
 - sublime extensions independent of dotfiles
 - dynamic dns
 - can youtubedl container run under user perms?
+- gnome fractional scaling in `workstation`
+    - `gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"`
+- gnome tweaks
+    - fonts
+    - show minimise window buttons
+- virt-manager
