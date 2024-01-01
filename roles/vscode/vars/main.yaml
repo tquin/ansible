@@ -14,7 +14,8 @@ vscode_extension:
   - mohsen1.prettify-json
   - arcsector.vscode-splunk-search-syntax
   - hilleer.yaml-plus-json
-  - 2gua.rainbow-brackets
+  - ms-azuretools.vscode-docker
+  - eamodio.gitlens
   # Themes
   - akamud.vscode-theme-onedark
 
