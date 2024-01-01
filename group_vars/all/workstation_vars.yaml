@@ -74,3 +74,9 @@ font_types:
   - Regular
   - Bold
   - Medium
+
+# ----- ----- ----- ----- -----
+# MISC
+# ----- ----- ----- ----- -----
+
+alacritty_version: "v0.13.0"

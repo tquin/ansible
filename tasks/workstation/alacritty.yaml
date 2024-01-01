@@ -4,22 +4,23 @@
   ignore_errors: yes
   changed_when: no
 
-- name: Install alacritty through Docker build environment
+- name: Install/Update alacritty through Docker build environment
   community.docker.docker_container:
     name: build-alacritty
     image: bstlang/build-alacritty
     state: started
     volumes:
       - /usr/local:/out
+    env:
+      VERSION: "{{ alacritty_version }}"
     cleanup: true
-    debug: true
 
 - name: Download alacritty extras from GitHub
-  when: cargo_exists is failed
+  when: alacritty_exists is failed
   get_url:
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
-    mode: '660'
+    mode: '664'
   loop:
     - url: https://raw.githubusercontent.com/alacritty/alacritty/master/extra/linux/Alacritty.desktop
       dest: /tmp/Alacritty.desktop
@@ -27,6 +28,6 @@
       dest: /usr/share/pixmaps/Alacritty.svg
 
 - name: Add alacritty to application list
-  when: cargo_exists is failed
+  when: alacritty_exists is failed
   command: desktop-file-install /tmp/Alacritty.desktop
   changed_when: true
