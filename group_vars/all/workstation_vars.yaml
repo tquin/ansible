@@ -15,6 +15,7 @@ flatpak_packages:
   - com.github.tchx84.Flatseal # Flatpak permission manager
   - im.riot.Riot # Element Matrix client
   - io.gitlab.adhami3310.Impression # ISO writer
+  - com.github.d4nj1.tlpui # TLP frontend for power usage
 
 # ----- ----- ----- ----- -----
 # GNOME
@@ -60,6 +61,7 @@ gnome_extension_settings:
   - {key: 'dash-to-dock/apply-custom-theme', value: "1"}
   - {key: 'dash-to-dock/multi-monitor', value: "true"}
   # - {key: 'systemd-manager/systemd', value: "{{ gnome_systemd_manager_value }}"}
+  - {key: 'tiling-assistant/window-gap', value: "4"}
 
 # ----- ----- ----- ----- -----
 # Nerd Fonts

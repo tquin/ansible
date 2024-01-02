@@ -27,6 +27,8 @@ common_packages:
   - stow
   - neofetch
   - tlp # CPU / power profiles
+  - powertop
+  - virt-manager
 
   # Requirements for rust_cargo.yaml
   - cmake
