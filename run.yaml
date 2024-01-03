@@ -72,11 +72,6 @@
       loop_control:
         loop_var: task_items
 
-    - name: Server role - fs_snapshots
-      include_role:
-        name: fs_snapshots
-      when: inventory_hostname in groups.server
-
     # ----- ----- ----- ----- -----
     # MEDIA
     # ----- ----- ----- ----- -----
@@ -109,13 +104,28 @@
     - name: Backup role
       include_role:
         name: rclone_backup
-      when: inventory_hostname in groups.backup
+      when: 
+        - inventory_hostname in groups.backup
+        ##### ##### ##### ##### #####
+        # Temporarily disabling due to:
+        # https://github.com/tigattack/ansible-rclone-rc-remotes/issues/1
+        - false 
+        ##### ##### ##### ##### #####
       vars:
         # HTTP server
         rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
         # Google Photos
         rclone_gphotos_token: "{{ secret_rclone_gphotos_token }}"
         # Azure blob
-        rclone_azure_account: ""
-        rclone_azure_key: ""
-        rclone_azure_crypt_pass: ""
+        rclone_azure_account: "{{ secret_rclone_azure_account }}"
+        rclone_azure_key: "{{ secret_rclone_azure_key }}"
+        rclone_azure_crypt_pass: "{{ secret_rclone_azure_crypt_pass }}"
+
+    # ----- ----- ----- ----- -----
+    # WIP TEST
+    # ----- ----- ----- ----- -----
+
+    - name: Test role - fs_snapshots
+      include_role:
+        name: fs_snapshots
+      when: inventory_hostname in groups.test
