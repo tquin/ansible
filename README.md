@@ -78,8 +78,3 @@ The included script will ensure all requirements are installed through `ansible-
 - sublime extensions independent of dotfiles
 - dynamic dns
 - can youtubedl container run under user perms?
-- gnome fractional scaling in `workstation`
-    - `gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"`
-- gnome tweaks
-    - fonts
-    - show minimise window buttons

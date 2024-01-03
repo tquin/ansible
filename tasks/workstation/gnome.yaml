@@ -43,3 +43,9 @@
     key: "/org/gnome/shell/extensions/{{ item.key }}"
     value: "{{ item.value | string }}"
   loop: "{{ gnome_extension_settings }}"
+
+- name: Set GNOME prefs/tweaks settings
+  community.general.dconf:
+    key: "{{item.key | string }}"
+    value: "{{ item.value | string }}"
+  loop: "{{ gnome_preferences_settings }}"

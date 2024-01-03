@@ -47,7 +47,6 @@ gnome_extensions:
   - id: 307 # https://extensions.gnome.org/extension/307/dash-to-dock/
   - id: 517 # https://extensions.gnome.org/extension/517/caffeine/
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
-  # - id: 4174 # https://extensions.gnome.org/extension/4174/systemd-manager/
   - id: 6242 # https://extensions.gnome.org/extension/6242/emoji-copy/
   - id: 3733 # https://extensions.gnome.org/extension/3733/tiling-assistant/
 
@@ -60,8 +59,16 @@ gnome_extension_settings:
   - {key: 'dash-to-dock/dock-fixed', value: "0"}
   - {key: 'dash-to-dock/apply-custom-theme', value: "1"}
   - {key: 'dash-to-dock/multi-monitor', value: "true"}
-  # - {key: 'systemd-manager/systemd', value: "{{ gnome_systemd_manager_value }}"}
   - {key: 'tiling-assistant/window-gap', value: "4"}
+
+gnome_preferences_settings:
+  # Fractional scaling
+  - key: "/org/gnome/mutter/experimental-features"
+    value: "['scale-monitor-framebuffer']"
+
+  # Window buttons (min/max/close)
+  - key: "/org/gnome/desktop/wm/preferences/button-layout"
+    value: "'appmenu:minimize,close'"
 
 # ----- ----- ----- ----- -----
 # Nerd Fonts
