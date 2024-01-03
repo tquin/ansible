@@ -5,6 +5,8 @@ prod:
     ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
 
   hosts:
+    MANCHESTER-BABY:
+      ansible_host: 100.68.26.36
 
 # ----- ----- ----- ----- -----
 
@@ -16,8 +18,8 @@ test:
 
   hosts:
     ansiblevm-ubuntu22:
-      ansible_host: 192.168.122.194
+      ansible_host: 192.168.124.232
     ansiblevm-debian12:
-      ansible_host: 192.168.122.7
+      ansible_host: 192.168.124.80
     ansiblevm-fedora39:
-      ansible_host: 192.168.122.21
+      ansible_host: 192.168.124.23

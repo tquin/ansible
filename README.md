@@ -22,7 +22,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
   * ✔ Fedora 39
 * Minimum specs for test VMs
   * 4GB RAM (mostly for Rust compiles)
-  * 50GB disk space
+  * 50+GB disk space
 * Ensure your user has sudo privileges
   * `su -` to root
   * `usermod -aG sudo <username>`
@@ -83,4 +83,3 @@ The included script will ensure all requirements are installed through `ansible-
 - gnome tweaks
     - fonts
     - show minimise window buttons
-- virt-manager

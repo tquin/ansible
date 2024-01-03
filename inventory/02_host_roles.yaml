@@ -10,7 +10,9 @@
 
 workstation:
   children:
-    #test:
+    test:
+  hosts:
+    MANCHESTER-BABY:
 
 # ----- ----- ----- ----- -----
 
@@ -22,16 +24,16 @@ server:
 
     media:
       children:
-        # test:
+        test:
 
     # ----- ----- ----- ----- -----
 
     minecraft:
       children:
-        # test:
+        test:
 
     # ----- ----- ----- ----- -----
 
     backup:
       children:
-        # test:
+        test:
