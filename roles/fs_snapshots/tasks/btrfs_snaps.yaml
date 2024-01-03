@@ -12,17 +12,17 @@
 - name: Parse subvolumes into list-of-dicts
   set_fact:
     snapper_configs: >-
-      {{ snapper_configs | default([]) 
+      {{ snapper_configs | default([])
         + [{
-          'path': item, 
-          'name': (item 
-            | regex_replace('/', '-') 
+          'path': item,
+          'name': (item
+            | regex_replace('/', '-')
             | regex_replace('^-', '')
             | regex_replace('^$', 'root'))
       }] }}
   loop: "{{ subvolume_list }}"
 
-# Bug in aisbergg.snapper: dir needs to exist 
+# Bug in aisbergg.snapper: dir needs to exist
 - name: Create snapper directories
   file:
     path: "{{ item }}"
@@ -32,5 +32,5 @@
     - "/etc/snapper/config-templates/"
 
 - name: Run snapper role
-  include_role: 
+  include_role:
     name: aisbergg.snapper
