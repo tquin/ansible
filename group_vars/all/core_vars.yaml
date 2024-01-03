@@ -5,6 +5,7 @@
 username: till
 time_zone: Australia/Victoria
 docker_container_dir: "/docker"
+editor: "micro"
 
 # ----- ----- ----- ----- -----
 

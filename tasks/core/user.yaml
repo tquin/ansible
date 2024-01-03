@@ -9,3 +9,18 @@
     username_guid: "{{ getent_passwd[item].2 }}"
   loop:
     - "{{ username }}"
+
+- name: Set global git config
+  community.general.git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  loop:
+    - name: "user.email"
+      value: "{{ secret_git_user_email }}"
+    - name: "user.name"
+      value: "{{ secret_git_user_name }}"
+    - name: "core.editor"
+      value: "{{ editor }}"
+    - name: "init.defaultbranch"
+      value: "main"
