@@ -26,13 +26,12 @@
   tasks:
 
     # ----- ----- ----- ----- -----
-
-    - name: Core tasks
-      include_tasks: "{{ task_items }}"
-      with_fileglob:
-        - "tasks/core/**.yaml"
-      loop_control:
-        loop_var: task_items
+    # CORE
+    # ----- ----- ----- ----- -----
+    
+    - name: Core role
+      include_role:
+        name: core
 
     # ----- ----- ----- ----- -----
     # WORKSTATION

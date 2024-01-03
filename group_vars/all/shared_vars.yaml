@@ -1,0 +1,7 @@
+# ----- ----- ----- ----- -----
+# Shared variables across all hosts and roles
+# ----- ----- ----- ----- -----
+
+username: till
+time_zone: Australia/Victoria
+docker_container_dir: "/docker"

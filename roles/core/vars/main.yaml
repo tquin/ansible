@@ -1,16 +1,9 @@
-# ----- ----- ----- ----- -----
-# Shared variables across all hosts
-# ----- ----- ----- ----- -----
-
-username: till
-time_zone: Australia/Victoria
-docker_container_dir: "/docker"
-editor: "micro"
-
-# ----- ----- ----- ----- -----
-
 dotfiles_repo: https://github.com/tquin/dotfiles
 dotfiles_dir: "/home/{{ username }}/code/dotfiles"
+
+# ----- ----- ----- ----- -----
+
+editor: "micro"
 
 # ----- ----- ----- ----- -----
 
