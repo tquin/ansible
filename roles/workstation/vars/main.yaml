@@ -21,7 +21,7 @@ flatpak_packages:
 # GNOME
 # ----- ----- ----- ----- -----
 
-# Expected to be in resources/gnome/
+# Expected to be in roles/workstation/files/
 gnome_wallpaper: "slow_rush_wallpaper.jpg"
 
 firefox_pinned_app: >-

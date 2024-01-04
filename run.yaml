@@ -37,13 +37,10 @@
     # WORKSTATION
     # ----- ----- ----- ----- -----
 
-    - name: Workstation tasks
-      include_tasks: "{{ task_items }}"
+    - name: Workstation role
+      include_role:
+        name: workstation
       when: inventory_hostname in groups.workstation
-      with_fileglob:
-        - "tasks/workstation/**.yaml"
-      loop_control:
-        loop_var: task_items
 
     - name: Workstation role - Obsidian sync
       include_role:

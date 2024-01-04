@@ -1,0 +1,5 @@
+- include_tasks: nerdfonts.yaml
+- include_tasks: flatpak.yaml
+- include_tasks: alacritty.yaml
+- include_tasks: sublime_text.yaml
+- include_tasks: gnome.yaml
