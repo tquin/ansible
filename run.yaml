@@ -6,20 +6,6 @@
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
   # ----- ----- ----- ----- -----
-  # Bootstrap tasks
-  # ----- ----- ----- ----- -----
-
-  # Anything with an earlier dependency should go here
-  pre_tasks:
-    - name: Pre tasks
-      include_tasks: "{{ task_items }}"
-      with_fileglob:
-        # Required before we can do git actions in dotfiles
-        - "tasks/core/setup_ssh.yaml"
-      loop_control:
-        loop_var: task_items
-
-  # ----- ----- ----- ----- -----
   # Task imports
   # ----- ----- ----- ----- -----
 
@@ -29,16 +15,14 @@
     # CORE
     # ----- ----- ----- ----- -----
 
-    - name: Core role
-      include_role:
+    - include_role:
         name: core
 
     # ----- ----- ----- ----- -----
     # WORKSTATION
     # ----- ----- ----- ----- -----
 
-    - name: Workstation roles
-      when: inventory_hostname in groups.workstation
+    - when: inventory_hostname in groups.workstation
       block:
         - include_role:
             name: workstation
@@ -69,13 +53,9 @@
     # MEDIA
     # ----- ----- ----- ----- -----
 
-    - name: Media tasks
-      include_tasks: "{{ task_items }}"
+    - include_role:
+        name: media
       when: inventory_hostname in groups.media
-      with_fileglob:
-        - "tasks/media/**.yaml"
-      loop_control:
-        loop_var: task_items
 
     # ----- ----- ----- ----- -----
     # MINECRAFT

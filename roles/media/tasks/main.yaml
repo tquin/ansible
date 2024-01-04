@@ -1,0 +1,9 @@
+- import_tasks: plex.yaml
+- import_tasks: transmission.yaml
+- import_tasks: prowlarr.yaml
+- import_tasks: radarr.yaml
+- import_tasks: sonarr.yaml
+- import_tasks: tdarr.yaml
+- import_tasks: bazarr.yaml
+- import_tasks: youtubedl.yaml
+- import_tasks: podqueue.yaml
