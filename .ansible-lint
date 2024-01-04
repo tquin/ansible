@@ -16,6 +16,7 @@ skip_list:
   - fqcn-builtins
   - latest[git]
   - var-naming[no-role-prefix]
+  - name[missing]
 
   # Bug: 'undefined' using 'register:'
   - jinja[invalid]

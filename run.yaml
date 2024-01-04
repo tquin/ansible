@@ -28,7 +28,7 @@
     # ----- ----- ----- ----- -----
     # CORE
     # ----- ----- ----- ----- -----
-    
+
     - name: Core role
       include_role:
         name: core
@@ -37,24 +37,21 @@
     # WORKSTATION
     # ----- ----- ----- ----- -----
 
-    - name: Workstation role
-      include_role:
-        name: workstation
+    - name: Workstation roles
       when: inventory_hostname in groups.workstation
+      block:
+        - include_role:
+            name: workstation
 
-    - name: Workstation role - Obsidian sync
-      include_role:
-        name: gdrive_obsidian
-      when: inventory_hostname in groups.workstation
-      vars:
-        gdrive_client_id: "{{ secret_gdrive_client_id }}"
-        gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
-        gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
+        - include_role:
+            name: vscode
 
-    - name: Workstation role - VSCode
-      include_role:
-        name: vscode
-      when: inventory_hostname in groups.workstation
+        - include_role:
+            name: gdrive_obsidian
+          vars:
+            gdrive_client_id: "{{ secret_gdrive_client_id }}"
+            gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
+            gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
 
     # ----- ----- ----- ----- -----
     # SERVER
@@ -100,12 +97,12 @@
     - name: Backup role
       include_role:
         name: rclone_backup
-      when: 
+      when:
         - inventory_hostname in groups.backup
         ##### ##### ##### ##### #####
         # Temporarily disabling due to:
         # https://github.com/tigattack/ansible-rclone-rc-remotes/issues/1
-        - false 
+        - false
         ##### ##### ##### ##### #####
       vars:
         # HTTP server

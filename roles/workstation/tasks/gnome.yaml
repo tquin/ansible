@@ -49,6 +49,6 @@
 
 - name: Set GNOME prefs/tweaks settings
   community.general.dconf:
-    key: "{{item.key | string }}"
+    key: "{{ item.key | string }}"
     value: "{{ item.value | string }}"
   loop: "{{ gnome_preferences_settings }}"
