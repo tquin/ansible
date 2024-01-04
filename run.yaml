@@ -18,6 +18,9 @@
     - include_role:
         name: core
 
+    - include_role:
+        name: fs_snapshots
+
     # ----- ----- ----- ----- -----
     # WORKSTATION
     # ----- ----- ----- ----- -----
@@ -98,7 +101,4 @@
     # WIP TEST
     # ----- ----- ----- ----- -----
 
-    - name: Test role - fs_snapshots
-      include_role:
-        name: fs_snapshots
-      when: inventory_hostname in groups.test
+      # when: inventory_hostname in groups.test

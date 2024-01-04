@@ -18,7 +18,10 @@ sanoid_templates:
     autosnap: "yes"
     autoprune: "yes"
 
-sanoid_datasets:
-  - name: tank
-    use_template: default
-    recursive: "yes"
+# Ignore the Ubuntu Root-on-ZFS datasets, eg. /var and /usr
+# This will still include 'rpool/USERDATA for /home'
+# See: https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html#step-3-system-installation
+zpool_denylist_patterns:
+  - '^bpool'
+  - '^rpool/ROOT'
+  - '^rpool$'

@@ -1,8 +1,25 @@
+# btrfs
 - name: Check if btrfs is installed
-  command: which btrfs
-  register: btrfs_exists
-  ignore_errors: yes
-  changed_when: no
+  lineinfile:
+    path: /proc/filesystems
+    regexp: '\sbtrfs$'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: btrfs_check
 
 - include_tasks: btrfs_snaps.yaml
-  when: btrfs_exists is succeeded
+  when: btrfs_check.found
+
+# ZFS
+- name: Check if zfs is installed
+  lineinfile:
+    path: /proc/filesystems
+    regexp: '\szfs$'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: zfs_check
+
+- include_tasks: zfs_snaps.yaml
+  when: zfs_check.found

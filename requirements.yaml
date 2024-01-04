@@ -10,6 +10,7 @@ roles:
     - name: ngetchell.vscode
     - name: tigattack.rclone_rc_remotes
     - name: aisbergg.snapper
+    - name: radek_sprta.sanoid
 
 collections:
     - name: community.general

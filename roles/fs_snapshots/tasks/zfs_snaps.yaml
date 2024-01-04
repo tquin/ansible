@@ -1,0 +1,57 @@
+- name: Get list of ZFS datasets
+  shell: |
+    set -o pipefail
+    zfs list | tail --lines=+2 | awk '{print $1}'
+  args:
+    executable: /bin/bash
+  changed_when: no
+  register: zfs_info
+
+# This uses a 2D array to loop over to match
+# every dataset with every regex pattern.
+- name: Filter denylist matches from ZFS datasets
+  set_fact:
+    zfs_datasets_denylist: >-
+      {{
+        zfs_datasets_denylist
+        | default([])
+        + (
+            [item[0]]
+            if (item[0] | regex_search( item[1] ))
+            else
+            []
+          )
+      }}
+  loop: >-
+    {{ zfs_info['stdout_lines']
+    | product(zpool_denylist_patterns)
+    | list }}
+
+- name: Filter allowlist matches from ZFS datasets
+  set_fact:
+    zfs_datasets_allowlist: >-
+      {{
+        zfs_datasets_allowlist
+        | default([])
+        + [item]
+      }}
+  loop: "{{ zfs_info['stdout_lines'] }}"
+  when: not item in zfs_datasets_denylist
+
+- name: Construct sanoid_datasets dicts
+  set_fact:
+    sanoid_datasets: >-
+      {{
+        sanoid_datasets
+        | default([])
+        + [{
+          "name": item,
+          "use_template": "default",
+          "recursive": "yes",
+        }]
+      }}
+  loop: "{{ zfs_datasets_allowlist }}"
+
+- name: Run sanoid role
+  include_role:
+    name: radek_sprta.sanoid
