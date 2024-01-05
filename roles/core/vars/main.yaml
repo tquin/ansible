@@ -3,6 +3,7 @@ dotfiles_dir: "/home/{{ username }}/code/dotfiles"
 
 # ----- ----- ----- ----- -----
 
+shell_path: "/bin/zsh"
 editor: "micro"
 
 # ----- ----- ----- ----- -----

@@ -24,3 +24,8 @@
       value: "{{ editor }}"
     - name: "init.defaultbranch"
       value: "main"
+
+- name: Set user's default shell
+  user:
+    name: "{{ username }}"
+    shell: "{{ shell_path }}"
