@@ -101,4 +101,4 @@
     # WIP TEST
     # ----- ----- ----- ----- -----
 
-      # when: inventory_hostname in groups.test
+    # - when: inventory_hostname in groups.test

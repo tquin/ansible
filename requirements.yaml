@@ -11,6 +11,7 @@ roles:
     - name: tigattack.rclone_rc_remotes
     - name: aisbergg.snapper
     - name: radek_sprta.sanoid
+    - name: aisbergg.btrfsmaintenance
 
 collections:
     - name: community.general

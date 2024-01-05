@@ -51,7 +51,3 @@
         }]
       }}
   loop: "{{ zfs_datasets_allowlist }}"
-
-- name: Run sanoid role
-  include_role:
-    name: radek_sprta.sanoid

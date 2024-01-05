@@ -8,8 +8,16 @@
   changed_when: false
   register: btrfs_check
 
-- include_tasks: btrfs_snaps.yaml
-  when: btrfs_check.found
+- when: btrfs_check.found
+  block:
+    - include_tasks: btrfs_config.yaml
+
+    - include_role:
+        name: aisbergg.btrfsmaintenance
+
+    - include_role:
+        name: aisbergg.snapper
+
 
 # ZFS
 - name: Check if zfs is installed
@@ -21,5 +29,9 @@
   changed_when: false
   register: zfs_check
 
-- include_tasks: zfs_snaps.yaml
-  when: zfs_check.found
+- when: zfs_check.found
+  block:
+    - include_tasks: zfs_config.yaml
+
+    - include_role:
+        name: radek_sprta.sanoid

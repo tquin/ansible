@@ -9,7 +9,7 @@
   vars:
     _query: "filesystems[*].subvolumes[*].mountpoints"
 
-- name: Parse subvolumes into list-of-dicts
+- name: Parse subvolumes for snapper
   set_fact:
     snapper_configs: >-
       {{ snapper_configs | default([])
@@ -31,6 +31,14 @@
   loop:
     - "/etc/snapper/config-templates/"
 
-- name: Run snapper role
-  include_role:
-    name: aisbergg.snapper
+- name: Parse subvolumes for maintenance config
+  set_fact:
+    btrfsmaintenance_config:
+      scrub_period: "monthly"
+      scrub_mountpoints: >-
+        {{
+          btrfsmaintenance_config['scrub_mountpoints']
+          | default([])
+          + [item]
+        }}
+  loop: "{{ subvolume_list }}"
