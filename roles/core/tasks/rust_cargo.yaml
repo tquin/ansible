@@ -42,6 +42,7 @@
   become_user: "{{ username }}"
   community.general.cargo:
     name: "{{ item }}"
+    locked: yes
   loop: "{{ cargo_packages }}"
 
 # User's cargo path will be added by dotfiles.yaml

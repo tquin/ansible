@@ -5,7 +5,7 @@ rclone_container_config_path: "{{ docker_container_dir }}/rclone/config"
 
 # All local disk paths in must be relative to this file path
 # Within the docker container, it will be called "/data"
-rclone_data_path: "/tank"
+rclone_data_path: "/data"
 
 # This can be local -> cloud or vice versa
 # "sync" will also delete
