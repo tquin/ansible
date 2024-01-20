@@ -1,0 +1,2 @@
+- include_tasks: wireguard.yaml
+- include_tasks: unattended_upgrades.yaml

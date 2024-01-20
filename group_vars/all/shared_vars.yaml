@@ -1,7 +1,8 @@
 # ----- ----- ----- ----- -----
-# Shared variables across all hosts and roles
+# Variables reused across multiple roles
 # ----- ----- ----- ----- -----
 
 username: till
 time_zone: Australia/Victoria
 docker_container_dir: "/docker"
+wireguard_network_name: wgnet

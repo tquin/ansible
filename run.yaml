@@ -44,13 +44,14 @@
     # SERVER
     # ----- ----- ----- ----- -----
 
-    - name: Server tasks
-      include_tasks: "{{ task_items }}"
-      when: inventory_hostname in groups.server
-      with_fileglob:
-        - "tasks/server/**.yaml"
-      loop_control:
-        loop_var: task_items
+    - when: inventory_hostname in groups.server
+      block:
+        - include_role:
+            name: server
+
+        # https://github.com/robertdebock/ansible-role-fail2ban
+        - include_role:
+            name: robertdebock.fail2ban
 
     # ----- ----- ----- ----- -----
     # MEDIA

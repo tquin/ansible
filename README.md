@@ -73,8 +73,8 @@ The included script will ensure all requirements are installed through `ansible-
 - mail forwarding for servers
 - file share / samba
 - borg backups
-- btrfsassistant & sanoid
-    - scheduled scrubs
+- zfs scheduled scrubs
 - sublime extensions independent of dotfiles
 - dynamic dns
 - can youtubedl container run under user perms?
+- tailscale --advertise-routes and --accept-routes

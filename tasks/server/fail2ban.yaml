@@ -1,4 +1,0 @@
-# https://github.com/robertdebock/ansible-role-fail2ban
-- name: Install fail2ban
-  include_role:
-    name: robertdebock.fail2ban

@@ -12,7 +12,6 @@ dnf_automatic_reboot_time: "03:00" # 3AM
 # Wireguard Docker
 # ----- ----- ----- ----- -----
 
-wireguard_network_name: wgnet
 wireguard_conf_file: wireguard.conf
 wireguard_subnet: 172.20.0.0/24
 wireguard_static_ip: 172.20.0.50

@@ -12,7 +12,7 @@ workstation:
   children:
     test:
   hosts:
-    MANCHESTER-BABY:
+    # MANCHESTER-BABY:
 
 # ----- ----- ----- ----- -----
 
