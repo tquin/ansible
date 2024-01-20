@@ -4,7 +4,6 @@ vscode_extension:
   - ms-toolsai.jupyter
   - amazonwebservices.aws-toolkit-vscode
   - github.vscode-pull-request-github
-  - hashicorp.terraform
   - esbenp.prettier-vscode
   - vscode-icons-team.vscode-icons
   - oderwat.indent-rainbow
