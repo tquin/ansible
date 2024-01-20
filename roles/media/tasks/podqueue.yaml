@@ -12,7 +12,7 @@
 - name: Copy podqueue.opml file
   become_user: "{{ username }}"
   copy:
-    src: "resources/media/{{ podqueue_opml_file_name }}"
+    src: "{{ podqueue_opml_file_name }}"
     dest: "{{ media_data_dir }}/podcasts/podqueue.opml"
     owner: "{{ username }}"
     group: "{{ username }}"
