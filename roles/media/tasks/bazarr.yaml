@@ -19,6 +19,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['bazarr'] }}"
+    capabilities:
+      - NET_ADMIN
     ports:
       - "6767:6767"
     env:
@@ -28,3 +30,10 @@
     volumes:
       - "{{ docker_container_dir }}/bazarr/config:/config"
       - "{{ media_data_dir }}/media:/data/media"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['bazarr'] == wireguard_network_name ) 
+        else ""
+      }}

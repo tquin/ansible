@@ -20,6 +20,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['plex'] }}"
+    capabilities:
+      - NET_ADMIN
     # Ports not needed in Host network mode
     # ports:
     #  - "32400:32400/tcp"
@@ -31,3 +33,10 @@
       - "{{ docker_container_dir }}/plex/config:/config"
       - "{{ docker_container_dir }}/plex/transcode:/transcode"
       - "{{ media_data_dir }}/media:/data"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['plex'] == wireguard_network_name ) 
+        else ""
+      }}

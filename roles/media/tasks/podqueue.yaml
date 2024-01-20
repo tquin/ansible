@@ -13,7 +13,7 @@
   become_user: "{{ username }}"
   copy:
     src: "{{ podqueue_opml_file_name }}"
-    dest: "{{ media_data_dir }}/podcasts/podqueue.opml"
+    dest: "{{ docker_container_dir }}/podqueue/config/podqueue.opml"
     owner: "{{ username }}"
     group: "{{ username }}"
     # Note: this has to be a string, not an int!!
@@ -30,6 +30,15 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['podqueue'] }}"
+    capabilities:
+      - NET_ADMIN
     volumes:
       - "{{ media_data_dir }}/podcasts:/data"
       - "{{ docker_container_dir }}/podqueue/config:/config"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['podqueue'] == wireguard_network_name ) 
+        else ""
+      }}

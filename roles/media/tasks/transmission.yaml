@@ -19,6 +19,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['transmission'] }}"
+    capabilities:
+      - NET_ADMIN
     ports:
       - 9091:9091
       - 51413:51413
@@ -30,3 +32,10 @@
     volumes:
       - "{{ docker_container_dir }}/transmission/config:/config"
       - "{{ media_data_dir }}/torrents:/downloads"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['transmission'] == wireguard_network_name ) 
+        else ""
+      }}

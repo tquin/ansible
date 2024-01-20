@@ -1,0 +1,7 @@
+ip route del default
+ip route add default via {{ wireguard_static_ip }}
+ip route add 192.168.0.0/16 via {{ wireguard_default_gateway }}
+# ip route add 10.0.0.0/8 via {{ wireguard_default_gateway }}
+# ip route add 172.16.0.0/12 via {{ wireguard_default_gateway }}
+echo "IP routes configured. Sleeping to run container in background."
+sleep infinity

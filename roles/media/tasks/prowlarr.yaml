@@ -18,6 +18,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['prowlarr'] }}"
+    capabilities:
+      - NET_ADMIN
     ports:
       - "9696:9696"
     env:
@@ -26,3 +28,10 @@
       PGID: "{{ username_guid }}"
     volumes:
       - "{{ docker_container_dir }}/prowlarr/config:/config"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['prowlarr'] == wireguard_network_name ) 
+        else ""
+      }}

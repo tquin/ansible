@@ -37,6 +37,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['youtubedl'] }}"
+    capabilities:
+      - NET_ADMIN
     env:
       TZ: "{{ time_zone }}"
       # PUID: "{{ username_uid }}"
@@ -46,3 +48,10 @@
     volumes:
       - "{{ media_data_dir }}/youtubedl:/downloads"
       - "{{ docker_container_dir }}/youtubedl/config:/config"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['youtubedl'] == wireguard_network_name ) 
+        else ""
+      }}

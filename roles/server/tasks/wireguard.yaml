@@ -11,26 +11,19 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/wireguard/config"
+    - "{{ docker_container_dir }}/common/"
 
 - name: Copy wireguard .conf file
-  become_user: "{{ username }}"
-  copy:
-    src: "resources/server/{{ wireguard_conf_file }}"
+  template:
+    src: "{{ wireguard_conf_file }}"
     dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    # Note: this has to be a string, not an int!!
     mode: '660'
 
-- name: Write dynamic variables to wg0.conf file
-  no_log: true
-  lineinfile:
-    path: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
-    regexp: "^{{ item.key }} ="
-    line: "{{ item.key }} = {{ item.value }}"
-  loop:
-    - {key: "PrivateKey", value: "{{ secret_wireguard_private_key }}"}
-    - {key: "DNS", value: "{{ wireguard_dns_ip }}"}
+- name: Copy startup script for other containers
+  template:
+    src: "vpn_routes_startup.sh.j2"
+    dest: "{{ docker_container_dir }}/common/vpn_routes_startup.sh"
+    mode: '660'
 
 # ----- ----- ----- ----- -----
 # Host kernel modules
@@ -65,6 +58,7 @@
     name: "{{ wireguard_network_name }}"
     ipam_config:
       - subnet: "{{ wireguard_subnet }}"
+        gateway: "{{ wireguard_default_gateway }}"
 
 - name: Install and start wireguard through Docker
   community.docker.docker_container:
