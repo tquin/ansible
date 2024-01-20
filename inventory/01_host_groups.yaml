@@ -5,8 +5,13 @@ prod:
     ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
 
   hosts:
-    MANCHESTER-BABY:
-      ansible_host: 100.68.26.36
+    #MANCHESTER-BABY:
+    #  ansible_host: 100.68.26.36
+    DEBOMBE:
+      ansible_host: 192.168.1.101
+      # ZFS zpool mount location
+      media_data_dir: "/mnt/tank"
+      rclone_data_path: "/mnt/tank"
 
 # ----- ----- ----- ----- -----
 

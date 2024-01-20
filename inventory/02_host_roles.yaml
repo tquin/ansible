@@ -9,31 +9,39 @@
 # such as [media] being dependent on the [server] role
 
 workstation:
-  children:
-    test:
   hosts:
     # MANCHESTER-BABY:
+  children:
+    test:
 
 # ----- ----- ----- ----- -----
 
 server:
+  hosts:
+    DEBOMBE:
   children:
     test:
 
     # ----- ----- ----- ----- -----
 
     media:
+      hosts:
+        DEBOMBE:
       children:
         test:
 
     # ----- ----- ----- ----- -----
 
     minecraft:
+      hosts:
+        DEBOMBE:
       children:
         test:
 
     # ----- ----- ----- ----- -----
 
     backup:
+      hosts:
+        DEBOMBE:
       children:
         test:
