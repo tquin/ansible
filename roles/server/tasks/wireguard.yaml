@@ -23,6 +23,8 @@
   template:
     src: "vpn_routes_startup.sh.j2"
     dest: "{{ docker_container_dir }}/common/vpn_routes_startup.sh"
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: '660'
 
 # ----- ----- ----- ----- -----
