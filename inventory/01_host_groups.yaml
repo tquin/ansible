@@ -9,9 +9,6 @@ prod:
     #  ansible_host: 100.68.26.36
     DEBOMBE:
       ansible_host: 192.168.1.101
-      # ZFS zpool mount location
-      media_data_dir: "/mnt/tank"
-      rclone_data_path: "/mnt/tank"
 
 # ----- ----- ----- ----- -----
 
