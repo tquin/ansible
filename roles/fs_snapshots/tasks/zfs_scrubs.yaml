@@ -1,0 +1,41 @@
+- name: Gather facts about ZFS pools
+  community.general.zpool_facts:
+  register: zpool_info
+
+- name: Parse zpool names
+  set_fact:
+    zpool_names: "{{ zpool_names | default([]) + [item] | flatten }}"
+  loop: "{{ zpool_info | community.general.json_query(_query) }}"
+  vars:
+    _query: "*.ansible_zfs_pools[*].name"
+
+##### ##### ##### ##### ##### 
+
+- name: Get zpool binary absolute path
+  command: which zpool
+  register: zpool_path_info
+  ignore_errors: yes
+  changed_when: no
+
+- set_fact:
+    zpool_binary_path: "{{ zpool_path_info.stdout }}"
+
+##### ##### ##### ##### ##### 
+
+- name: Write systemd services & timer files
+  template:
+    src: zpool-scrub@.timer.j2
+    dest: "/etc/systemd/system/zpool-scrub@.timer"
+    mode: '660'
+  loop:
+    - src: "zpool-scrub@.service.j2"
+      dest: "/etc/systemd/system/zpool-scrub@.service"
+    - src: "zpool-scrub@.timer.j2"
+      dest: "/etc/systemd/system/zpool-scrub@.timer"
+
+- name: Enable and start scrub services
+  systemd:
+    daemon_reload: true
+    enabled: true
+    name: "zpool-scrub@{{ item }}.timer"
+  loop: "{{ zpool_names }}"

@@ -1,4 +1,7 @@
+##### ##### ##### ##### #####
 # btrfs
+##### ##### ##### ##### #####
+
 snapper_templates:
   default:
     TIMELINE_LIMIT_HOURLY: 24
@@ -7,7 +10,13 @@ snapper_templates:
     TIMELINE_LIMIT_MONTHLY: 3
     TIMELINE_LIMIT_YEARLY: 0
 
+##### ##### ##### ##### ##### 
 # ZFS
+##### ##### ##### ##### #####
+
+# Default is 2AM on first Sunday of every month
+zpool_scrub_schedule: "Sun *-*-1..7 02:00:00"
+
 sanoid_templates:
   - name: default
     frequently: 0
@@ -21,7 +30,7 @@ sanoid_templates:
 # Ignore the Ubuntu Root-on-ZFS datasets, eg. /var and /usr
 # This will still include 'rpool/USERDATA for /home'
 # See: https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html#step-3-system-installation
-zpool_denylist_patterns:
+zfs_snap_denylist_patterns:
   - '^bpool'
   - '^rpool/ROOT'
   - '^rpool$'

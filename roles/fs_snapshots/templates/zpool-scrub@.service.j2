@@ -1,0 +1,9 @@
+[Unit]
+Description=Scrub ZFS pool %i
+Requires=zfs.target
+After=zfs.target
+
+[Service]
+Type=oneshot
+ExecStartPre={{ zpool_binary_path }} scrub -s %i
+ExecStart={{ zpool_binary_path }} scrub %i

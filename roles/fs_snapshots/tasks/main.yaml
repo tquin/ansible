@@ -33,5 +33,7 @@
   block:
     - include_tasks: zfs_config.yaml
 
+    - include_tasks: zfs_scrubs.yaml
+
     - include_role:
         name: radek_sprta.sanoid

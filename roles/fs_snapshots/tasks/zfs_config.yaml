@@ -24,7 +24,7 @@
       }}
   loop: >-
     {{ zfs_info['stdout_lines']
-    | product(zpool_denylist_patterns)
+    | product(zfs_snap_denylist_patterns)
     | list }}
 
 - name: Filter allowlist matches from ZFS datasets
