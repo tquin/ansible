@@ -7,7 +7,7 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/transmission/config"
-    - "{{ media_data_dir }}"
+    - "{{ media_container_root_dir }}"
 
 - name: Install and start Transmission through Docker
   community.docker.docker_container:
@@ -31,7 +31,7 @@
       PGID: "{{ username_guid }}"
     volumes:
       - "{{ docker_container_dir }}/transmission/config:/config"
-      - "{{ media_data_dir }}/torrents:/downloads"
+      - "{{ media_container_root_dir }}/torrents:/downloads"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{

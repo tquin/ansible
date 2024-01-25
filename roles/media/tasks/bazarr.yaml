@@ -7,7 +7,7 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/bazarr/config"
-    - "{{ media_data_dir }}/media"
+    - "{{ media_container_root_dir }}"
 
 - name: Install and start Bazarr through Docker
   community.docker.docker_container:
@@ -29,7 +29,7 @@
       PGID: "{{ username_guid }}"
     volumes:
       - "{{ docker_container_dir }}/bazarr/config:/config"
-      - "{{ media_data_dir }}/media:/data/media"
+      - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{

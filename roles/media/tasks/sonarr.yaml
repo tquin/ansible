@@ -7,7 +7,7 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/sonarr/config"
-    - "{{ media_data_dir }}"
+    - "{{ media_container_root_dir }}"
 
 - name: Install and start Sonarr through Docker
   community.docker.docker_container:
@@ -29,7 +29,7 @@
       PGID: "{{ username_guid }}"
     volumes:
       - "{{ docker_container_dir }}/sonarr/config:/config"
-      - "{{ media_data_dir }}:/data"
+      - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{

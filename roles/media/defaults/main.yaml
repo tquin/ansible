@@ -1,4 +1,4 @@
-media_data_dir: "/data"
+media_container_root_dir: "/media"
 
 podqueue_opml_file_name: "podqueue.opml"
 

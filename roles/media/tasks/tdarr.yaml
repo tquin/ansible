@@ -10,7 +10,7 @@
     - "{{ docker_container_dir }}/tdarr/server"
     - "{{ docker_container_dir }}/tdarr/logs"
     - "{{ docker_container_dir }}/tdarr/transcode_cache"
-    - "{{ media_data_dir }}"
+    - "{{ media_container_root_dir }}"
 
 - name: Install and start Tdarr through Docker
   community.docker.docker_container:
@@ -42,7 +42,7 @@
       - "{{ docker_container_dir }}/tdarr/server:/app/server"
       - "{{ docker_container_dir }}/tdarr/logs:/app/logs"
       - "{{ docker_container_dir }}/tdarr/transcode_cache:/temp"
-      - "{{ media_data_dir }}:/media"
+      - "{{ media_container_root_dir }}:/media"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{

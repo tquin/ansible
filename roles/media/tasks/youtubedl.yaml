@@ -7,7 +7,7 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/youtubedl/config"
-    - "{{ media_data_dir }}/youtubedl"
+    - "{{ media_container_root_dir }}/youtubedl"
 
 - name: Create channels.txt file
   file:
@@ -41,12 +41,12 @@
       - NET_ADMIN
     env:
       TZ: "{{ time_zone }}"
-      # PUID: "{{ username_uid }}"
-      # PGID: "{{ username_guid }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
       youtubedl_interval: "{{ youtubedl_interval }}"
       youtubedl_quality: "{{ youtubedl_quality }}"
     volumes:
-      - "{{ media_data_dir }}/youtubedl:/downloads"
+      - "{{ media_container_root_dir }}/youtubedl:/downloads"
       - "{{ docker_container_dir }}/youtubedl/config:/config"
       - "{{ docker_container_dir }}/common:/common"
     command: >-

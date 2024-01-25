@@ -8,7 +8,7 @@
   loop:
     - "{{ docker_container_dir }}/plex/config"
     - "{{ docker_container_dir }}/plex/transcode"
-    - "{{ media_data_dir }}/media"
+    - "{{ media_container_root_dir }}"
 
 - name: Install and start Plex through Docker
   community.docker.docker_container:
@@ -32,7 +32,7 @@
     volumes:
       - "{{ docker_container_dir }}/plex/config:/config"
       - "{{ docker_container_dir }}/plex/transcode:/transcode"
-      - "{{ media_data_dir }}/media:/data"
+      - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{

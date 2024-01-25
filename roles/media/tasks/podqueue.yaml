@@ -7,7 +7,7 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/podqueue/config"
-    - "{{ media_data_dir }}/podcasts"
+    - "{{ media_container_root_dir }}/podcasts"
 
 - name: Copy podqueue.opml file
   become_user: "{{ username }}"
@@ -33,7 +33,7 @@
     capabilities:
       - NET_ADMIN
     volumes:
-      - "{{ media_data_dir }}/podcasts:/data"
+      - "{{ media_container_root_dir }}/podcasts:/data"
       - "{{ docker_container_dir }}/podqueue/config:/config"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
