@@ -8,7 +8,7 @@
 - name: Add scheduled reboot entry to cron
   cron:
     name: "Scheduled automatic reboots"
-    job:  "{{ reboot_info.stdout }}"
-    minute:  "{{ reboot_cron_min }}"
-    hour:    "{{ reboot_cron_hour }}"
+    job: "{{ reboot_info.stdout }}"
+    minute: "{{ reboot_cron_min }}"
+    hour: "{{ reboot_cron_hour }}"
     weekday: "{{ reboot_cron_weekday }}"

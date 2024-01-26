@@ -9,7 +9,7 @@
   vars:
     _query: "*.ansible_zfs_pools[*].name"
 
-##### ##### ##### ##### ##### 
+##### ##### ##### ##### #####
 
 - name: Get zpool binary absolute path
   command: which zpool
@@ -20,7 +20,7 @@
 - set_fact:
     zpool_binary_path: "{{ zpool_path_info.stdout }}"
 
-##### ##### ##### ##### ##### 
+##### ##### ##### ##### #####
 
 - name: Write systemd services & timer files
   template:

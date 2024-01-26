@@ -52,6 +52,6 @@
     command: >-
       {{
         "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['youtubedl'] == wireguard_network_name ) 
+        if ( media_network_modes['youtubedl'] == wireguard_network_name )
         else ""
       }}

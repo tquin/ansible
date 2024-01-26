@@ -10,7 +10,7 @@ snapper_templates:
     TIMELINE_LIMIT_MONTHLY: 3
     TIMELINE_LIMIT_YEARLY: 0
 
-##### ##### ##### ##### ##### 
+##### ##### ##### ##### #####
 # ZFS
 ##### ##### ##### ##### #####
 
