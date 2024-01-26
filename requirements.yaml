@@ -12,6 +12,7 @@ roles:
     - name: aisbergg.snapper
     - name: radek_sprta.sanoid
     - name: aisbergg.btrfsmaintenance
+    - name: robertdebock.cron
 
 collections:
     - name: community.general
