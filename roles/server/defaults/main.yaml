@@ -5,9 +5,6 @@
 # Either 'default' for all or 'security'
 dnf_automatic_upgrade_type: default
 
-dnf_automatic_reboot: true
-dnf_automatic_reboot_time: "03:00" # 3AM
-
 # ----- ----- ----- ----- -----
 # Wireguard Docker
 # ----- ----- ----- ----- -----
@@ -17,3 +14,12 @@ wireguard_subnet: 172.20.0.0/24
 wireguard_dns_ip: 10.2.0.1
 wireguard_default_gateway: 172.20.0.1
 wireguard_static_ip: 172.20.0.50
+
+# ----- ----- ----- ----- -----
+# Scheduled reboots
+# ----- ----- ----- ----- -----
+
+# 6:01AM every day
+reboot_cron_min: "1"
+reboot_cron_hour: "6"
+reboot_cron_weekday: "*"
