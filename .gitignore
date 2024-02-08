@@ -3,3 +3,4 @@
 /.fact_cache
 /group_vars/all/secret_vars.yaml
 /host_vars/
+**/*pocketcasts.xml

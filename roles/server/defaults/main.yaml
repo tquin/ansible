@@ -19,7 +19,7 @@ wireguard_static_ip: 172.20.0.50
 # Scheduled reboots
 # ----- ----- ----- ----- -----
 
-# 6:01AM every day
+# 6:01AM Sundays
 reboot_cron_min: "1"
 reboot_cron_hour: "6"
-reboot_cron_weekday: "*"
+reboot_cron_weekday: "0"
