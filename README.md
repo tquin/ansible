@@ -47,6 +47,11 @@ The included script will ensure all requirements are installed through `ansible-
 ```
 ./run.sh
 ```
+
+Optionally, you can choose to re-download the latest version of each dependency with `-f` or `--upgrade`:
+```
+./run.sh --upgrade
+```
 ---
 
 ## Role-Specific Usage
