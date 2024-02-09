@@ -1,0 +1,43 @@
+- name: Create Jellyfin directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/jellyfin/config"
+    - "{{ docker_container_dir }}/jellyfin/cache"
+    - "{{ media_container_root_dir }}"
+
+- name: Install and start Jellyfin through Docker
+  community.docker.docker_container:
+    name: jellyfin
+    image: jellyfin/jellyfin
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ media_network_modes['jellyfin'] }}"
+    dns_servers: 
+      - "{{ docker_dns_server }}"
+    ports:
+      - "8096:8096/tcp"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+    devices:
+      - "/dev/dri/:/dev/dri/"
+    volumes:
+      - "{{ docker_container_dir }}/jellyfin/config:/config"
+      - "{{ docker_container_dir }}/jellyfin/cache:/cache"
+      - "{{ media_container_root_dir }}:/media"
+      - "{{ docker_container_dir }}/common:/common"
+    command: >-
+      {{
+        "bash /common/vpn_routes_startup.sh"
+        if ( media_network_modes['jellyfin'] == wireguard_network_name )
+        else ""
+      }}

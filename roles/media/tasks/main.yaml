@@ -7,3 +7,4 @@
 - import_tasks: bazarr.yaml
 - import_tasks: youtubedl.yaml
 - import_tasks: podqueue.yaml
+- import_tasks: jellyfin.yaml
