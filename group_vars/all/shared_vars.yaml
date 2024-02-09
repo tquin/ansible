@@ -4,7 +4,8 @@
 
 username: till
 time_zone: Australia/Victoria
-docker_container_dir: "/docker"
 
 # Needed by both server and media roles
 wireguard_network_name: wgnet
+docker_container_dir: "/docker"
+docker_dns_server: "1.1.1.2"

@@ -84,6 +84,8 @@
       net.ipv4.conf.all.src_valid_mark: 1
     env:
       TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
     networks:
       - name: "{{ wireguard_network_name }}"
         ipv4_address: "{{ wireguard_static_ip }}"

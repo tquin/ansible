@@ -20,6 +20,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['plex'] }}"
+    dns_servers: 
+      - "{{ docker_dns_server }}"
     capabilities:
       - NET_ADMIN
     # Ports not needed in Host network mode

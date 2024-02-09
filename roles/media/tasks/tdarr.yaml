@@ -22,6 +22,8 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "{{ media_network_modes['tdarr'] }}"
+    dns_servers: 
+      - "{{ docker_dns_server }}"
     ports:
       - "8266:8266"
       - "8265:8265"
