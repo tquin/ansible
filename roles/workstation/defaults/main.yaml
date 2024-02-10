@@ -36,7 +36,6 @@ gnome_pinned_apps:
   - "{{ firefox_pinned_app | regex_replace('\\s', '') }}"
   - org.gnome.Nautilus.desktop
   - Alacritty.desktop
-  - sublime_text.desktop
   - code.desktop # VS Code
   - md.obsidian.Obsidian.desktop
 
@@ -85,7 +84,7 @@ font_types:
   - Medium
 
 # ----- ----- ----- ----- -----
-# MISC
+# Alacritty
 # ----- ----- ----- ----- -----
 
 alacritty_version: "v0.13.0"

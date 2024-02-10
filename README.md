@@ -78,5 +78,4 @@ Optionally, you can choose to re-download the latest version of each dependency 
 - mail forwarding for servers
 - file share / samba
 - borg backups
-- sublime extensions independent of dotfiles
 - dynamic dns
