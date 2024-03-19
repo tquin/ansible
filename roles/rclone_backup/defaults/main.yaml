@@ -1,4 +1,7 @@
+rclone_rc_host: "127.0.0.1"
+rclone_rc_port: "5572"
 rclone_rc_user: "{{ username }}"
+rclone_rc_pass: "" # Should be passed from a vault
 
 rclone_sync_interval: 3600 # seconds == 1 hour
 rclone_container_config_path: "{{ docker_container_dir }}/rclone/config"
@@ -14,17 +17,16 @@ rclone_data_path: "/data"
 rclone_data_pairs:
   - service_name: "google-photos-dl"
     src: "gphotos:album/Honey"
-    dest: "photos/"
+    dest: "photos/honey"
     operation: sync
 
   - service_name: "photos-archive"
-    src: "photos/"
-    dest: "azure-crypt:photos/"
+    src: "photos/honey"
+    dest: "azure-crypt:photos/honey"
     operation: copy
 
 # The secrets should be passed in the play from a vault
-rclone_remotes:
-
+rclone_rc_remotes:
   - name: azure
     type: azureblob
     parameters:

@@ -86,13 +86,14 @@
         ##### ##### ##### ##### #####
         # Temporarily disabling due to:
         # https://github.com/tigattack/ansible-rclone-rc-remotes/issues/1
-        - false
+        # Will be fixed when this is merged: https://github.com/tigattack/ansible-rclone-rc-remotes/pull/2
+        - inventory_hostname in groups.test
         ##### ##### ##### ##### #####
       vars:
         # HTTP server
         rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
         # Google Photos
-        rclone_gphotos_token: "{{ secret_rclone_gphotos_token }}"
+        rclone_gphotos_token: "{{ secret_rclone_gphotos_token | string }}"
         # Azure blob
         rclone_azure_account: "{{ secret_rclone_azure_account }}"
         rclone_azure_key: "{{ secret_rclone_azure_key }}"
