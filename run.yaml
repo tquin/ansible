@@ -81,14 +81,7 @@
     - name: Backup role
       include_role:
         name: rclone_backup
-      when:
-        - inventory_hostname in groups.backup
-        ##### ##### ##### ##### #####
-        # Temporarily disabling due to:
-        # https://github.com/tigattack/ansible-rclone-rc-remotes/issues/1
-        # Will be fixed when this is merged: https://github.com/tigattack/ansible-rclone-rc-remotes/pull/2
-        - inventory_hostname in groups.test
-        ##### ##### ##### ##### #####
+      when: inventory_hostname in groups.backup
       vars:
         # HTTP server
         rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
