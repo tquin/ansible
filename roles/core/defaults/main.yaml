@@ -24,6 +24,7 @@ common_packages:
   - tlp # CPU / power profiles
   - powertop
   - virt-manager
+  - unzip
 
   # Requirements for rust_cargo.yaml
   - cmake

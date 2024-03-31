@@ -1,4 +1,8 @@
 - include_tasks: nerdfonts.yaml
 - include_tasks: flatpak.yaml
+
+- include_tasks: appimage.yaml
+  loop: "{{ appimage_applications }}"
+
 - include_tasks: alacritty.yaml
 - include_tasks: gnome.yaml

@@ -1,0 +1,97 @@
+- name: Create AppImage directories
+  file:
+    path: "{{ dir_item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ appimage_install_dir }}"
+    - "{{ appimage_icon_dir }}"
+    - "/tmp/appimage_unzip"
+  loop_control: 
+    loop_var: dir_item
+
+# Direct executable download
+- when: not item.requires_decompressing
+  name: Download latest AppImage executable, direct
+  get_url:
+    url: "{{ item.app_url }}"
+    dest: "{{ appimage_install_dir }}/{{ item.name }}.AppImage"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '774'
+
+# Zipped file download
+- when: item.requires_decompressing
+  block:
+
+    # ----- ----- ----- ----- -----
+    # Zipped file handling loop
+    # ----- ----- ----- ----- -----
+
+    - name: Download latest AppImage executable, zipped
+      ansible.builtin.unarchive:
+        src: "{{ item.app_url }}"
+        dest: "/tmp/appimage_unzip"
+        remote_src: yes
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '774'
+
+    - name: List the unzipped files
+      find:
+        paths: "/tmp/appimage_unzip"
+        file_type: file
+        patterns: '*.AppImage,*.appimage'
+        age_stamp: mtime
+      register: unzipped_files
+
+    - set_fact:
+        unzipped_file_name: >-
+          {{
+            (unzipped_files.files 
+              | sort(attribute='mtime', reverse=true) 
+            | first).path 
+          }}
+
+    - debug:
+        msg: "{{ unzipped_file_name }}"
+
+    - name: Move unipped file to install directory
+      copy:
+        src: "{{ unzipped_file_name }}"
+        dest: "{{ appimage_install_dir }}/{{ item.name }}.AppImage"
+        remote_src: yes
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '774'
+
+    - name: Clean up unzipped file
+      file:
+        path: "{{ unzipped_file_name }}"
+        state: absent
+
+    # ----- ----- ----- ----- -----
+    # End zipped file handling loop
+    # ----- ----- ----- ----- -----
+
+- name: Download latest AppImage icon
+  get_url:
+    url: "{{ item.icon_url }}"
+    dest: "{{ appimage_icon_dir }}/{{ item.name }}.{{ item.icon_url | regex_search('[^\\.]+$') }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '664'
+
+- name: Copy Desktop file template to remote
+  template:
+    src: "appimage.desktop.j2"
+    dest: "/tmp/{{ item.name }}.desktop"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '664'
+
+- name: Add AppImage XDG desktop entry
+  command: "desktop-file-install /tmp/{{ item.name }}.desktop"
+  changed_when: true
