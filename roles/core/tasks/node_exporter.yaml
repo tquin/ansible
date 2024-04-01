@@ -1,0 +1,57 @@
+- name: Create Prometheus Node Exporter directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/node_exporter/config"
+
+- name: Copy config file to remote
+  template:
+    src: "web-config.yml.j2"
+    dest: "{{ docker_container_dir }}/node_exporter/config/web-config.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
+
+# ----- ----- ----- ----- -----
+
+- set_fact:
+    node_exporter_collector_flags: >-
+      {{ 
+        (node_exporter_collector_flags | default([]) ) 
+        + ['--collector.'  + item]
+      }}
+  loop: "{{ node_exporter_extra_collectors }}"
+
+- set_fact:
+    node_exporter_collector_flags: "{{ node_exporter_collector_flags | join(' ') }}"
+
+# ----- ----- ----- ----- -----
+
+- name: Install and start Prometheus Node Exporter through Docker
+  community.docker.docker_container:
+    name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
+    user: "0"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    dns_servers: 
+      - "{{ docker_dns_server }}"
+    ports:
+      - "9100:9100"
+    env:
+      TZ: "{{ time_zone }}"
+    # Required to view host OS' processes
+    pid_mode: host
+    volumes:
+      - '/:/host:ro,rslave'
+    command: >-
+      --path.rootfs=/host
+      {{ node_exporter_collector_flags }}
