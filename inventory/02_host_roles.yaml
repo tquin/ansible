@@ -10,7 +10,7 @@
 
 workstation:
   hosts:
-    # MANCHESTER-BABY:
+    MANCHESTER-BABY:
   children:
     test:
 
@@ -45,3 +45,11 @@ server:
         DEBOMBE:
       children:
         test:
+
+    # ----- ----- ----- ----- -----
+
+    monitoring:
+      hosts:
+        DEBOMBE:
+        ansiblevm-debian12:
+      children:

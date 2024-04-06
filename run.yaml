@@ -101,10 +101,7 @@
 
         - include_role:
             name: monitoring
-          when: 
-            - inventory_hostname in groups.monitoring
-            - inventory_hostname in groups.test
-            - inventory_hostname == 'ansiblevm-debian12'
+          when: inventory_hostname in groups.monitoring
           vars:
             node_exporter_pass: "{{ secret_node_exporter_pass }}"
 
