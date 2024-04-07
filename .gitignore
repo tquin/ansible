@@ -4,3 +4,5 @@
 /group_vars/all/secret_vars.yaml
 /host_vars/
 **/*pocketcasts.xml
+.vscode/settings.json
+roles/monitoring/files/prod_*_rules.yml

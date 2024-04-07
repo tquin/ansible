@@ -18,7 +18,7 @@
     - include_role:
         name: core
       vars:
-        node_exporter_pass: "{{ secret_node_exporter_pass }}"
+        node_exporter_hash: "{{ secret_node_exporter_hash }}"
 
 
     - include_role:

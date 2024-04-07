@@ -3,15 +3,21 @@
 # ----- ----- ----- ----- -----
 
 - set_fact:
-    prometheus_targets: >-
+    prometheus_node_exporter_targets: >-
       {{ 
-        (prometheus_targets | default([]) ) 
+        (prometheus_node_exporter_targets | default([]) ) 
         + ['"'  + item + ':9100"']
+      }}
+    prometheus_smartctl_exporter_targets: >-
+      {{ 
+        (prometheus_smartctl_exporter_targets | default([]) ) 
+        + ['"'  + item + ':9633"']
       }}
   loop: "{{ ansible_play_hosts_all }}"
 
 - set_fact:
-    prometheus_targets: "[ {{ prometheus_targets | join(', ') }} ]"
+    prometheus_node_exporter_targets: "[ {{ prometheus_node_exporter_targets | join(', ') }} ]"
+    prometheus_smartctl_exporter_targets: "[ {{ prometheus_smartctl_exporter_targets | join(', ') }} ]"
 
 # ----- ----- ----- ----- -----
 # Create service
@@ -28,13 +34,24 @@
     - "{{ docker_container_dir }}/prometheus/config"
     - "{{ docker_container_dir }}/prometheus/data"
 
-- name: Copy prometheus.yml config file to remote
+- name: Copy config files to remote
   template:
     src: "prometheus.yml.j2"
     dest: "{{ docker_container_dir }}/prometheus/config/prometheus.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: '660'
+
+- name: Copy rules files to remote
+  copy:
+    src: "{{ item }}"
+    dest: "{{ docker_container_dir }}/prometheus/config/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
+  with_fileglob:
+  - "rules**.yml"
+  - "**rules.yml"
 
 - name: Install and start Prometheus through Docker
   community.docker.docker_container:

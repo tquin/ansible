@@ -12,4 +12,4 @@
 - include_tasks: user.yaml
 
 # Has to happen after setup_docker
-- include_tasks: node_exporter.yaml
+- include_tasks: monitoring.yaml

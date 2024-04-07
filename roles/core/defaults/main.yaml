@@ -67,3 +67,4 @@ cargo_dir: "/home/{{ username }}/.cargo/bin"
 node_exporter_extra_collectors:
   - systemd
   - cgroups
+  - zfs

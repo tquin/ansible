@@ -7,14 +7,18 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/node_exporter/config"
+    - "{{ docker_container_dir }}/smartctl_exporter/config"
 
 - name: Copy config file to remote
   template:
     src: "web-config.yml.j2"
-    dest: "{{ docker_container_dir }}/node_exporter/config/web-config.yml"
+    dest: "{{ docker_container_dir }}/{{ item }}/config/web-config.yml"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: '660'
+  loop:
+    - node_exporter
+    - smartctl_exporter
 
 # ----- ----- ----- ----- -----
 
@@ -42,8 +46,6 @@
     detach: true
     restart_policy: unless-stopped
     network_mode: "bridge"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
     ports:
       - "9100:9100"
     env:
@@ -51,7 +53,30 @@
     # Required to view host OS' processes
     pid_mode: host
     volumes:
+      - "{{ docker_container_dir }}/node_exporter/config:/config"
       - '/:/host:ro,rslave'
     command: >-
+      --web.config.file=/config/web-config.yml
       --path.rootfs=/host
       {{ node_exporter_collector_flags }}
+
+- name: Install and start SMARTctl Exporter through Docker
+  community.docker.docker_container:
+    name: smartctl_exporter
+    image: prometheuscommunity/smartctl-exporter
+    user: "0"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    ports:
+      - "9633:9633"
+    env:
+      TZ: "{{ time_zone }}"
+    volumes:
+      - "{{ docker_container_dir }}/smartctl_exporter/config:/config"
+    command: >-
+      --web.config.file=/config/web-config.yml
+    privileged: true

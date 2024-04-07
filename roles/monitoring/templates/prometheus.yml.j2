@@ -12,4 +12,15 @@ scrape_configs:
       username: prometheus
       password: {{ node_exporter_pass }}
     static_configs:
-      - targets: {{ prometheus_targets }}
+      - targets: {{ prometheus_node_exporter_targets }}
+
+  - job_name: 'smartctl-exporter'
+    basic_auth:
+      username: prometheus
+      password: {{ node_exporter_pass }}
+    static_configs:
+      - targets: {{ prometheus_smartctl_exporter_targets }}
+
+rule_files:
+  - 'rules**.yml'
+  - '**rules.yml'
