@@ -13,11 +13,17 @@
         (prometheus_smartctl_exporter_targets | default([]) ) 
         + ['"'  + item + ':9633"']
       }}
+    prometheus_zfs_exporter_targets: >-
+      {{ 
+        (prometheus_zfs_exporter_targets | default([]) ) 
+        + ['"'  + item + ':9134"']
+      }}
   loop: "{{ ansible_play_hosts_all }}"
 
 - set_fact:
     prometheus_node_exporter_targets: "[ {{ prometheus_node_exporter_targets | join(', ') }} ]"
     prometheus_smartctl_exporter_targets: "[ {{ prometheus_smartctl_exporter_targets | join(', ') }} ]"
+    prometheus_zfs_exporter_targets: "[ {{ prometheus_zfs_exporter_targets | join(', ') }} ]"
 
 # ----- ----- ----- ----- -----
 # Create service

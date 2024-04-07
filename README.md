@@ -75,7 +75,6 @@ Optionally, you can choose to re-download the latest version of each dependency 
 
 - Plex
   - DB backups
-- mail forwarding for servers
 - file share / samba
 - borg backups
 - dynamic dns
