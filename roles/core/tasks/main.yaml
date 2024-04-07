@@ -10,3 +10,6 @@
 
 # User has to happen after ssh to fix git config
 - include_tasks: user.yaml
+
+# Has to happen after setup_docker
+- include_tasks: monitoring.yaml

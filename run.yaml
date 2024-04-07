@@ -17,6 +17,9 @@
 
     - include_role:
         name: core
+      vars:
+        node_exporter_hash: "{{ secret_node_exporter_hash }}"
+
 
     - include_role:
         name: fs_snapshots
@@ -53,44 +56,54 @@
         - include_role:
             name: robertdebock.fail2ban
 
-    # ----- ----- ----- ----- -----
-    # MEDIA
-    # ----- ----- ----- ----- -----
+        # ----- ----- ----- ----- -----
+        # MEDIA
+        # ----- ----- ----- ----- -----
 
-    - include_role:
-        name: media
-      when: inventory_hostname in groups.media
+        - include_role:
+            name: media
+          when: inventory_hostname in groups.media
 
-    # ----- ----- ----- ----- -----
-    # MINECRAFT
-    # ----- ----- ----- ----- -----
+        # ----- ----- ----- ----- -----
+        # MINECRAFT
+        # ----- ----- ----- ----- -----
 
-    - name: Minecraft role
-      include_role:
-        name: tquin.minecraft_fabric_server
-      when: inventory_hostname in groups.minecraft
-      vars:
-        mcrcon_pass: "{{ secret_mcrcon_pass }}"
-        minecraft_ops: "{{ secret_minecraft_ops }}"
-        minecraft_allowlist: "{{ secret_minecraft_allowlist }}"
+        - name: Minecraft role
+          include_role:
+            name: tquin.minecraft_fabric_server
+          when: inventory_hostname in groups.minecraft
+          vars:
+            mcrcon_pass: "{{ secret_mcrcon_pass }}"
+            minecraft_ops: "{{ secret_minecraft_ops }}"
+            minecraft_allowlist: "{{ secret_minecraft_allowlist }}"
 
-    # ----- ----- ----- ----- -----
-    # BACKUP
-    # ----- ----- ----- ----- -----
+        # ----- ----- ----- ----- -----
+        # BACKUP
+        # ----- ----- ----- ----- -----
 
-    - name: Backup role
-      include_role:
-        name: rclone_backup
-      when: inventory_hostname in groups.backup
-      vars:
-        # HTTP server
-        rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
-        # Google Photos
-        rclone_gphotos_token: "{{ secret_rclone_gphotos_token | string }}"
-        # Azure blob
-        rclone_azure_account: "{{ secret_rclone_azure_account }}"
-        rclone_azure_key: "{{ secret_rclone_azure_key }}"
-        rclone_azure_crypt_pass: "{{ secret_rclone_azure_crypt_pass }}"
+        - name: Backup role
+          include_role:
+            name: rclone_backup
+          when: inventory_hostname in groups.backup
+          vars:
+            # HTTP server
+            rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
+            # Google Photos
+            rclone_gphotos_token: "{{ secret_rclone_gphotos_token | string }}"
+            # Azure blob
+            rclone_azure_account: "{{ secret_rclone_azure_account }}"
+            rclone_azure_key: "{{ secret_rclone_azure_key }}"
+            rclone_azure_crypt_pass: "{{ secret_rclone_azure_crypt_pass }}"
+
+        # ----- ----- ----- ----- -----
+        # MONITORING
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: monitoring
+          when: inventory_hostname in groups.monitoring
+          vars:
+            node_exporter_pass: "{{ secret_node_exporter_pass }}"
 
     # ----- ----- ----- ----- -----
     # WIP TEST

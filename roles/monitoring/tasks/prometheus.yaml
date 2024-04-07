@@ -1,0 +1,75 @@
+# ----- ----- ----- ----- -----
+# Set variables for node/client list
+# ----- ----- ----- ----- -----
+
+- set_fact:
+    prometheus_node_exporter_targets: >-
+      {{ 
+        (prometheus_node_exporter_targets | default([]) ) 
+        + ['"'  + item + ':9100"']
+      }}
+    prometheus_smartctl_exporter_targets: >-
+      {{ 
+        (prometheus_smartctl_exporter_targets | default([]) ) 
+        + ['"'  + item + ':9633"']
+      }}
+  loop: "{{ ansible_play_hosts_all }}"
+
+- set_fact:
+    prometheus_node_exporter_targets: "[ {{ prometheus_node_exporter_targets | join(', ') }} ]"
+    prometheus_smartctl_exporter_targets: "[ {{ prometheus_smartctl_exporter_targets | join(', ') }} ]"
+
+# ----- ----- ----- ----- -----
+# Create service
+# ----- ----- ----- ----- -----
+
+- name: Create Prometheus directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/prometheus/config"
+    - "{{ docker_container_dir }}/prometheus/data"
+
+- name: Copy config files to remote
+  template:
+    src: "prometheus.yml.j2"
+    dest: "{{ docker_container_dir }}/prometheus/config/prometheus.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
+
+- name: Copy rules files to remote
+  copy:
+    src: "{{ item }}"
+    dest: "{{ docker_container_dir }}/prometheus/config/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
+  with_fileglob:
+  - "rules**.yml"
+  - "**rules.yml"
+
+- name: Install and start Prometheus through Docker
+  community.docker.docker_container:
+    name: prometheus
+    image: prom/prometheus
+    user: "{{ username_uid }}:{{ username_guid }}"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    ports:
+      - "9090:9090"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+    volumes:
+      - "{{ docker_container_dir }}/prometheus/config:/etc/prometheus"
+      - "{{ docker_container_dir }}/prometheus/data:/prometheus"
