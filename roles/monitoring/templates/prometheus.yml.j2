@@ -21,6 +21,13 @@ scrape_configs:
     static_configs:
       - targets: {{ prometheus_smartctl_exporter_targets }}
 
+  - job_name: 'zfs-exporter'
+    basic_auth:
+      username: prometheus
+      password: {{ node_exporter_pass }}
+    static_configs:
+      - targets: {{ prometheus_zfs_exporter_targets }}
+
 rule_files:
   - 'rules**.yml'
   - '**rules.yml'
