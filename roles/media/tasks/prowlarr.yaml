@@ -20,8 +20,6 @@
     network_mode: "{{ media_network_modes['prowlarr'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     ports:
       - "9696:9696"
     env:

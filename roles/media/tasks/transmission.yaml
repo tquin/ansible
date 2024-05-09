@@ -21,8 +21,6 @@
     network_mode: "{{ media_network_modes['transmission'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     ports:
       - 9091:9091
       - 51413:51413

@@ -39,8 +39,6 @@
     network_mode: "{{ media_network_modes['youtubedl'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"

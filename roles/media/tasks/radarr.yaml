@@ -21,8 +21,6 @@
     network_mode: "{{ media_network_modes['radarr'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     ports:
       - "7878:7878"
     env:

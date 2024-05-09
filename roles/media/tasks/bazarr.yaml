@@ -21,8 +21,6 @@
     network_mode: "{{ media_network_modes['bazarr'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     ports:
       - "6767:6767"
     env:

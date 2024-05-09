@@ -27,8 +27,6 @@
     ports:
       - "8266:8266"
       - "8265:8265"
-    capabilities:
-      - NET_ADMIN
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"

@@ -24,6 +24,8 @@
       value: "{{ editor }}"
     - name: "init.defaultbranch"
       value: "main"
+    - name: "push.autoSetupRemote"
+      value: true
 
 - name: Set user's default shell
   user:

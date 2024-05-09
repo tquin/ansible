@@ -32,8 +32,6 @@
     network_mode: "{{ media_network_modes['podqueue'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     volumes:
       - "{{ media_container_root_dir }}/podcasts:/data"
       - "{{ docker_container_dir }}/podqueue/config:/config"
