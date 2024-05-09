@@ -1,0 +1,118 @@
+- name: Create Prometheus Node Exporter directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/node_exporter/config"
+    - "{{ docker_container_dir }}/smartctl_exporter/config"
+    - "{{ docker_container_dir }}/zfs_exporter/config"
+
+- name: Copy config file to remote
+  template:
+    src: "web-config.yml.j2"
+    dest: "{{ docker_container_dir }}/{{ item }}/config/web-config.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'
+  loop:
+    - node_exporter
+    - smartctl_exporter
+    - zfs_exporter
+
+# ----- ----- ----- ----- -----
+
+- set_fact:
+    node_exporter_collector_flags: >-
+      {{ 
+        (node_exporter_collector_flags | default([]) ) 
+        + ['--collector.'  + item]
+      }}
+  loop: "{{ node_exporter_extra_collectors }}"
+
+- set_fact:
+    node_exporter_collector_flags: "{{ node_exporter_collector_flags | join(' ') }}"
+
+- name: Install and start Prometheus Node Exporter through Docker
+  community.docker.docker_container:
+    name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
+    user: "0"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    ports:
+      - "9100:9100"
+    env:
+      TZ: "{{ time_zone }}"
+    # Required to view host OS' processes
+    pid_mode: host
+    volumes:
+      - "{{ docker_container_dir }}/node_exporter/config:/config"
+      - '/:/host:ro,rslave'
+    command: >-
+      --web.config.file=/config/web-config.yml
+      --path.rootfs=/host
+      {{ node_exporter_collector_flags }}
+
+# ----- ----- ----- ----- -----
+
+- name: Install and start SMARTctl Exporter through Docker
+  community.docker.docker_container:
+    name: smartctl_exporter
+    image: prometheuscommunity/smartctl-exporter
+    user: "0"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    ports:
+      - "9633:9633"
+    env:
+      TZ: "{{ time_zone }}"
+    volumes:
+      - "{{ docker_container_dir }}/smartctl_exporter/config:/config"
+    command: >-
+      --web.config.file=/config/web-config.yml
+    privileged: true
+
+# ----- ----- ----- ----- -----
+
+- name: Check if zfs is installed
+  lineinfile:
+    path: /proc/filesystems
+    regexp: '\szfs$'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: zfs_check
+
+- name: Install and start ZFS Exporter through Docker
+  when: zfs_check.found
+  community.docker.docker_container:
+    name: zfs_exporter
+    image: jeroen0494/zfs_exporter:2.3.2-jammy
+    user: "0"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "bridge"
+    ports:
+      - "9134:9134"
+    env:
+      TZ: "{{ time_zone }}"
+    volumes:
+      - "{{ docker_container_dir }}/zfs_exporter/config:/config"
+    command: >-
+      /usr/local/bin/zfs_exporter
+      --web.config.file=/config/web-config.yml
+    privileged: true

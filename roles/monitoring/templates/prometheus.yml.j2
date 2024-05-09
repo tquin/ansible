@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+      
+  - job_name: 'node-exporter'
+    basic_auth:
+      username: prometheus
+      password: {{ node_exporter_pass }}
+    static_configs:
+      - targets: {{ prometheus_node_exporter_targets }}
+
+  - job_name: 'smartctl-exporter'
+    basic_auth:
+      username: prometheus
+      password: {{ node_exporter_pass }}
+    static_configs:
+      - targets: {{ prometheus_smartctl_exporter_targets }}
+
+  - job_name: 'zfs-exporter'
+    basic_auth:
+      username: prometheus
+      password: {{ node_exporter_pass }}
+    static_configs:
+      - targets: {{ prometheus_zfs_exporter_targets }}
+
+rule_files:
+  - 'rules**.yml'
+  - '**rules.yml'

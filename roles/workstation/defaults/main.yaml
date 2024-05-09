@@ -24,7 +24,7 @@ appimage_applications:
   - name: "GitButler"
     requires_decompressing: true
     app_url: "https://app.gitbutler.com/downloads/release/linux/x86_64/gz"
-    icon_url: "https://raw.githubusercontent.com/gitbutlerapp/gitbutler/master/gitbutler-app/icons/icon.png"
+    icon_url: "https://raw.githubusercontent.com/gitbutlerapp/gitbutler/master/crates/gitbutler-tauri/icons/icon.png"
 
 # ----- ----- ----- ----- -----
 # GNOME
