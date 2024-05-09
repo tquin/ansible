@@ -1,0 +1,51 @@
+- name: Create Homer directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/homer/assets"
+
+- name: Homer asset files
+  become_user: "{{ username }}"
+  copy:
+    src: "homer_assets/"
+    dest: "{{ docker_container_dir }}/homer/assets/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+
+- name: Homer configuration files
+  become_user: "{{ username }}"
+  template:
+    src: "homer_config.yaml.j2"
+    dest: "{{ docker_container_dir }}/homer/assets/config.yml"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+
+- name: Install and start Homer through Docker
+  community.docker.docker_container:
+    name: homer
+    image: b4bz/homer
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+
+    network_mode: bridge
+    ports:
+      # Default is 8080, but conflict with SWAG
+      - "8081:8081/tcp"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+      PORT: "8081"
+    volumes:
+      - "{{ docker_container_dir }}/homer/assets:/www/assets"

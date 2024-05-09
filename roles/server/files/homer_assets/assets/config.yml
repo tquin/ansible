@@ -1,0 +1,41 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/v5/search for icons options
+
+title: "App dashboard"
+subtitle: "Homer"
+logo: "assets/logos/dark_circle.png"
+
+header: true
+
+columns: "auto"
+connectivityCheck: true
+
+defaults:
+  layout: columns
+  colorTheme: dark
+
+stylesheet:
+  - "assets/catppuccin-mocha.css"
+
+services:
+
+  - name: "Infrastructure"
+    icon: "fas fa-tools"
+    items:
+      - name: "Portainer"
+        logo: "assets/logos/portainer.png"
+        url: "https://ansiblevm-debian12:9443/"
+
+  - name: "Monitoring"
+    icon: "fas fa-binoculars"
+    items:
+      - name: "Grafana"
+        logo: "assets/logos/grafana.png"
+        url: "http://ansiblevm-debian12:3000/dashboards"
+
+      - name: "Prometheus"
+        logo: "assets/logos/prometheus.png"
+        url: "http://ansiblevm-debian12:9090/alerts"
+
+  
