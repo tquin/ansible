@@ -6,3 +6,6 @@
     tailscale_authkey: "{{ secret_tailscale_authkey }}"
     tailscale_args: "--ssh"
     state: latest
+
+- name: Add HTTPS certificate
+  command: "tailscale cert {{ inventory_hostname }}.{{ secret_tailscale_domain }}.ts.net"
