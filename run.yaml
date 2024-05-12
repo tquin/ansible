@@ -105,8 +105,13 @@
           vars:
             node_exporter_pass: "{{ secret_node_exporter_pass }}"
 
-    # ----- ----- ----- ----- -----
-    # WIP TEST
-    # ----- ----- ----- ----- -----
+        # ----- ----- ----- ----- -----
+        # PUBLIC HOSTING
+        # ----- ----- ----- ----- -----
 
-    # - when: inventory_hostname in groups.test
+        - include_role:
+            name: public_hosting
+          when: inventory_hostname in groups.public_hosting
+          vars:
+            cloudflare_email: "{{ secret_cloudflare_email }}"
+            cf_ddns_token: "{{ secret_cf_ddns_token }}"

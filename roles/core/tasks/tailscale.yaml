@@ -8,4 +8,4 @@
     state: latest
 
 - name: Add HTTPS certificate
-  command: "tailscale cert {{ inventory_hostname }}.{{ secret_tailscale_domain }}.ts.net"
+  command: "tailscale cert {{ inventory_hostname | lower }}.{{ secret_tailscale_domain }}.ts.net"

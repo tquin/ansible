@@ -12,7 +12,6 @@ workstation:
   hosts:
     MANCHESTER-BABY:
   children:
-    test:
 
 # ----- ----- ----- ----- -----
 
@@ -20,7 +19,6 @@ server:
   hosts:
     DEBOMBE:
   children:
-    test:
 
     # ----- ----- ----- ----- -----
 
@@ -36,7 +34,6 @@ server:
       hosts:
         DEBOMBE:
       children:
-        test:
 
     # ----- ----- ----- ----- -----
 
@@ -44,12 +41,18 @@ server:
       hosts:
         DEBOMBE:
       children:
-        test:
 
     # ----- ----- ----- ----- -----
 
     monitoring:
       hosts:
         DEBOMBE:
-        ansiblevm-debian12:
       children:
+      
+    # ----- ----- ----- ----- -----
+
+    public_hosting:
+      hosts:
+        DEBOMBE:
+      children:
+        test:

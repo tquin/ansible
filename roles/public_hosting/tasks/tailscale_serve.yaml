@@ -1,0 +1,2 @@
+- name: Publish using Serve
+  command: "tailscale serve --bg {{ ts_serve_internal_port }}"
