@@ -31,6 +31,7 @@
 - name: Install and start Homer through Docker
   community.docker.docker_container:
     name: homer
+    hostname: homer
     image: b4bz/homer
     state: started
     pull: true

@@ -1,4 +1,4 @@
 - include_tasks: wireguard.yaml
 - include_tasks: unattended_upgrades.yaml
 - include_tasks: scheduled_reboot.yaml
-- include_tasks: homer
+- include_tasks: homer.yaml

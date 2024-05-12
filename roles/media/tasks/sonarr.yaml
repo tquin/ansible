@@ -12,6 +12,7 @@
 - name: Install and start Sonarr through Docker
   community.docker.docker_container:
     name: sonarr
+    hostname: sonarr
     image: hotio/sonarr
     state: started
     pull: true
