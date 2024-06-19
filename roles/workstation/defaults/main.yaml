@@ -49,7 +49,7 @@ gnome_pinned_apps:
   - md.obsidian.Obsidian.desktop
 
 gnome_extensions:
-  - id: 6 # https://extensions.gnome.org/extension/6/applications-menu/
+  # - id: 6 # https://extensions.gnome.org/extension/6/applications-menu/
   - id: 7 # https://extensions.gnome.org/extension/7/removable-drive-menu/
   - id: 8 # https://extensions.gnome.org/extension/8/places-status-indicator/
   - id: 307 # https://extensions.gnome.org/extension/307/dash-to-dock/

@@ -8,3 +8,4 @@
 - import_tasks: youtubedl.yaml
 - import_tasks: podqueue.yaml
 - import_tasks: jellyfin.yaml
+- import_tasks: overseerr.yaml

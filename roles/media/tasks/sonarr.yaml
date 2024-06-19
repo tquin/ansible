@@ -12,6 +12,7 @@
 - name: Install and start Sonarr through Docker
   community.docker.docker_container:
     name: sonarr
+    hostname: sonarr
     image: hotio/sonarr
     state: started
     pull: true
@@ -21,8 +22,6 @@
     network_mode: "{{ media_network_modes['sonarr'] }}"
     dns_servers: 
       - "{{ docker_dns_server }}"
-    capabilities:
-      - NET_ADMIN
     ports:
       - "8989:8989"
     env:

@@ -43,6 +43,10 @@ services:
   - name: "Media"
     icon: "fas fa-film"
     items:
+      - name: "Overseerr"
+        logo: "assets/logos/overseerr.png"
+        url: "http://{{ inventory_hostname }}:5055/"
+
       - name: "Plex"
         logo: "assets/logos/plex.png"
         url: "http://{{ inventory_hostname }}:32400/web/index.html"

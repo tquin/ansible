@@ -15,6 +15,7 @@ media_network_modes:
   transmission: "{{ wireguard_network_name }}"
   youtubedl: "bridge"
   jellyfin: "bridge"
+  overseerr: "host"
 
 youtubedl_interval: "3h"
 youtubedl_quality: "1080"

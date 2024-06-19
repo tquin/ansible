@@ -1,4 +1,4 @@
-- name: Create Radarr directories
+- name: Create Overseerr directories
   file:
     path: "{{ item }}"
     state: directory
@@ -6,35 +6,35 @@
     group: "{{ username }}"
     mode: '755'
   loop:
-    - "{{ docker_container_dir }}/radarr/config"
+    - "{{ docker_container_dir }}/overseerr/config"
     - "{{ media_container_root_dir }}"
 
-- name: Install and start Radarr through Docker
+- name: Install and start Overseerr through Docker
   community.docker.docker_container:
-    name: radarr
-    hostname: radarr
-    image: hotio/radarr
+    name: overseerr
+    hostname: overseerr
+    image: sctx/overseerr
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['radarr'] }}"
-    dns_servers: 
+    network_mode: "{{ media_network_modes['overseerr'] }}"
+    dns_servers:
       - "{{ docker_dns_server }}"
     ports:
-      - "7878:7878"
+      - "5055:5055"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGID: "{{ username_guid }}"
+      PORT: "5055"
     volumes:
-      - "{{ docker_container_dir }}/radarr/config:/config"
-      - "{{ media_container_root_dir }}:/data"
+      - "{{ docker_container_dir }}/overseerr/config:/app/config"
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{
         "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['radarr'] == wireguard_network_name )
+        if ( media_network_modes['overseerr'] == wireguard_network_name )
         else ""
       }}
