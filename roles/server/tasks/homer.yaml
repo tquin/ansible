@@ -41,12 +41,10 @@
 
     network_mode: bridge
     ports:
-      # Default is 8080, but conflict with SWAG
-      - "8081:8081/tcp"
+      - "8080:8080/tcp"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGUID: "{{ username_guid }}"
-      PORT: "8081"
     volumes:
       - "{{ docker_container_dir }}/homer/assets:/www/assets"

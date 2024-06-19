@@ -1,0 +1,30 @@
+- name: Create Portainer directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/portainer/data"
+
+- name: Install and start Portainer through Docker
+  community.docker.docker_container:
+    name: portainer
+    image: portainer/portainer-ce:latest
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: bridge
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ docker_container_dir }}/portainer/data:/data"

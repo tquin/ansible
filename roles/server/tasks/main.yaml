@@ -2,3 +2,4 @@
 - include_tasks: unattended_upgrades.yaml
 - include_tasks: scheduled_reboot.yaml
 - include_tasks: homer.yaml
+- include_tasks: portainer.yaml

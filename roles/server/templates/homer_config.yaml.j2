@@ -55,17 +55,20 @@ services:
         logo: "assets/logos/jellyfin.png"
         url: "http://{{ inventory_hostname }}:8096/web/index.html#!/home.html"
         type: "Emby"
+        #apikey: "<---insert-api-key-here--->"
         libraryType: "movies"
 
       - name: "Sonarr"
         logo: "assets/logos/sonarr.png"
         url: "http://{{ inventory_hostname }}:8989/"
         type: "Sonarr"
+        # apikey: "<---insert-api-key-here--->"
 
       - name: "Radarr"
         logo: "assets/logos/radarr.png"
         url: "http://{{ inventory_hostname }}:7878/"
         type: "Radarr"
+        # apikey: "<---insert-api-key-here--->"
 
       - name: "Bazarr"
         logo: "assets/logos/bazarr.png"
@@ -79,6 +82,7 @@ services:
         logo: "assets/logos/prowlarr.png"
         url: "http://{{ inventory_hostname }}:9696/"
         type: "Prowlarr"
+        # apikey: "<---insert-api-key-here--->"
 
       - name: "Tdarr"
         logo: "assets/logos/tdarr.png"
