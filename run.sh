@@ -17,5 +17,9 @@ done
 echo "PLAYBOOK_VERBOSE_LEVEL: $PLAYBOOK_VERBOSE_LEVEL"
 
 ansible-galaxy install -r requirements.yaml $GALAXY_REQS_ARGS
-sudo ansible-playbook setup.yaml
+
+# `sudo` would make root the owner of this file
+sudo ansible-playbook $PLAYBOOK_VERBOSE_LEVEL setup.yaml
+sudo chown "$USER:$USER" .fact_cache/localhost
+
 ansible-playbook $PLAYBOOK_VERBOSE_LEVEL run.yaml

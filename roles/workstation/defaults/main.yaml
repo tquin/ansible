@@ -16,6 +16,8 @@ flatpak_packages:
   - im.riot.Riot # Element Matrix client
   - io.gitlab.adhami3310.Impression # ISO writer
   - com.github.d4nj1.tlpui # TLP frontend for power usage
+  - org.gnome.World.PikaBackup # Borg frontend
+  - io.missioncenter.MissionCenter
 
 appimage_install_dir: "/home/{{ username }}/.local/bin"
 appimage_icon_dir: "/usr/share/pixmaps"
@@ -57,6 +59,7 @@ gnome_extensions:
   - id: 1460 # https://extensions.gnome.org/extension/1460/vitals/
   - id: 6242 # https://extensions.gnome.org/extension/6242/emoji-copy/
   - id: 3733 # https://extensions.gnome.org/extension/3733/tiling-assistant/
+  - id: 6631 # https://extensions.gnome.org/extension/6631/proton-vpn-button/
 
 gnome_systemd_manager_value: >-
   ['{"name":"Obsidian","service":"gdrive-obsidian.service","type":"system"}',

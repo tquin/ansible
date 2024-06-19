@@ -25,6 +25,7 @@ common_packages:
   - powertop
   - virt-manager
   - unzip
+  - borgbackup
 
   # Requirements for rust_cargo.yaml
   - cmake
