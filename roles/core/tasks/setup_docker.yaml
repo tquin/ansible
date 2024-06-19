@@ -36,3 +36,11 @@
     enabled: true
     state: started
     name: docker.service
+
+# ----- ----- ----- ----- -----
+
+- name: Add user to docker group for sudo-less commands
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
