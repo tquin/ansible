@@ -3,19 +3,62 @@ media_container_root_dir: "/media"
 podqueue_opml_file_name: "podqueue.opml"
 
 # Control which containers route through Wireguard or not
-media_network_modes:
-  # Plex is a special case where `host` is reccomended over `default` or `bridge`
-  plex: "host"
-  podqueue: "bridge"
-  sonarr: "{{ wireguard_network_name }}"
-  radarr: "{{ wireguard_network_name }}"
-  bazarr: "{{ wireguard_network_name }}"
-  prowlarr: "{{ wireguard_network_name }}"
-  tdarr: "bridge"
-  transmission: "{{ wireguard_network_name }}"
-  youtubedl: "bridge"
-  jellyfin: "bridge"
-  overseerr: "host"
+media_container_state:
+  - name: bazarr
+    network: container:wireguard
+    ports:
+      - "6767:6767"
+
+  - name: jellyfin
+    network: "bridge"
+    ports:
+      - "8096:8096/tcp"
+
+  - name: overseerr
+    network: "host"
+    ports:
+      - "5055:5055"
+
+  - name: plex
+    network: host
+    ports:
+      - "32400:32400/tcp"
+
+  - name: podqueue
+    network: "bridge"
+    ports: []
+
+  - name: prowlarr
+    network: container:wireguard
+    ports:
+      - "9696:9696"
+
+  - name: radarr
+    network: container:wireguard
+    ports:
+      - "7878:7878"
+
+  - name: sonarr
+    network: container:wireguard
+    ports:
+      - "8989:8989"
+
+  - name: tdarr
+    network: "bridge"
+    ports:
+      - "8266:8266"
+      - "8265:8265"
+
+  - name: transmission
+    network: container:wireguard
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+
+  - name: youtubedl
+    network: "bridge"
+    ports: []
 
 youtubedl_interval: "3h"
 youtubedl_quality: "1080"
@@ -23,3 +66,10 @@ youtubedl_quality: "1080"
 # Channel or Playlist URLs
 youtubedl_content:
   - https://www.youtube.com/@programmersarealsohuman5909
+
+# ----- ----- ----- ----- -----
+# Wireguard Docker
+# ----- ----- ----- ----- -----
+
+wireguard_conf_file: wireguard.conf.j2
+wireguard_dns_ip: 10.2.0.1

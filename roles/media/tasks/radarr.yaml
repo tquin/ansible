@@ -9,21 +9,24 @@
     - "{{ docker_container_dir }}/radarr/config"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    radarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    radarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='radarr']"
+
 - name: Install and start Radarr through Docker
   community.docker.docker_container:
     name: radarr
-    hostname: radarr
     image: hotio/radarr
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['radarr'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - "7878:7878"
+    network_mode: "{{ radarr_network }}"
+    ports: "{{ radarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -34,7 +37,7 @@
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['radarr'] == wireguard_network_name )
+        "sh /common/vpn_routes_startup.sh"
+        if ( radarr_network == 'container:wireguard' )
         else ""
       }}

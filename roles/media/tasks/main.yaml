@@ -1,3 +1,5 @@
+- include_tasks: wireguard.yaml
+
 - import_tasks: plex.yaml
 - import_tasks: transmission.yaml
 - import_tasks: prowlarr.yaml

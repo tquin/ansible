@@ -19,14 +19,6 @@
     dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
     mode: '660'
 
-- name: Copy startup script for other containers
-  template:
-    src: "vpn_routes_startup.sh.j2"
-    dest: "{{ docker_container_dir }}/common/vpn_routes_startup.sh"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: '660'
-
 # ----- ----- ----- ----- -----
 # Host kernel modules
 # ----- ----- ----- ----- -----
@@ -52,15 +44,24 @@
     persistent: present
 
 # ----- ----- ----- ----- -----
-# Create network & container
+# Determine required port set
 # ----- ----- ----- ----- -----
 
-- name: Create wireguard docker network
-  community.docker.docker_network:
-    name: "{{ wireguard_network_name }}"
-    ipam_config:
-      - subnet: "{{ wireguard_subnet }}"
-        gateway: "{{ wireguard_default_gateway }}"
+# TODO - maybe combine wireguard_container_ports and media_published_ports
+# together and then say "item.ports if item.network = blah"
+
+- set_fact:
+    wireguard_container_ports: >-
+      {{
+        ( wireguard_container_ports | default([]) + [item.ports] | flatten )
+        if item.network == "container:wireguard" else
+        ( wireguard_container_ports | default([]) )
+      }}
+  with_items: "{{ media_container_state }}"
+
+# ----- ----- ----- ----- -----
+# Create container
+# ----- ----- ----- ----- -----
 
 - name: Install and start wireguard through Docker
   community.docker.docker_container:
@@ -78,14 +79,32 @@
     volumes:
       - "{{ docker_container_dir }}/wireguard/config:/config"
       - "/lib/modules:/lib/modules"
-    ports:
-      - "51820:51820/udp"
+    ports: "{{ wireguard_container_ports }}"
     sysctls:
       net.ipv4.conf.all.src_valid_mark: 1
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGUID: "{{ username_guid }}"
-    networks:
-      - name: "{{ wireguard_network_name }}"
-        ipv4_address: "{{ wireguard_static_ip }}"
+
+# ----- ----- ----- ----- -----
+# Create network & container
+# ----- ----- ----- ----- -----
+
+- name: Get wireguard container IP
+  community.docker.docker_container_info:
+    name: wireguard
+  register: wireguard_container_info
+
+- name: Set wg container net info
+  set_fact:
+    wireguard_container_ip: "{{ wireguard_container_info.container.NetworkSettings.IPAddress }}"
+    wireguard_local_gateway: "{{ wireguard_container_info.container.NetworkSettings.Gateway }}"
+
+- name: Copy startup script for other containers
+  template:
+    src: "vpn_routes_startup.sh.j2"
+    dest: "{{ docker_container_dir }}/common/vpn_routes_startup.sh"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '660'

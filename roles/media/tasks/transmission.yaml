@@ -9,6 +9,13 @@
     - "{{ docker_container_dir }}/transmission/config"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    transmission_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    transmission_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='transmission']"
+
 - name: Install and start Transmission through Docker
   community.docker.docker_container:
     name: transmission
@@ -18,13 +25,8 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['transmission'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+    network_mode: "{{ transmission_network }}"
+    ports: "{{ transmission_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -35,7 +37,7 @@
       - "{{ docker_container_dir }}/common:/common"
     command: >-
       {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['transmission'] == wireguard_network_name )
+        "sh /common/vpn_routes_startup.sh"
+        if ( transmission_network == 'container:wireguard' )
         else ""
       }}
