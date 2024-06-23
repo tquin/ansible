@@ -1,0 +1,48 @@
+- name: Create wireguard directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/wireguard/config"
+
+- set_fact:
+    wireguard_container_ports: >-
+      {{
+        ( wireguard_container_ports | default([]) + [item.ports] | flatten )
+        if item.network == "container:wireguard" else
+        ( wireguard_container_ports | default([]) )
+      }}
+  with_items: "{{ media_container_state }}"
+
+- name: Install and start wireguard through Docker
+  community.docker.docker_container:
+    name: wireguard
+    image: qmcgaw/gluetun
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    capabilities:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      - "{{ docker_container_dir }}/wireguard/config:/gluetun"
+    ports: "{{ wireguard_container_ports }}"
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+      VPN_SERVICE_PROVIDER: "custom"
+      VPN_TYPE: "wireguard"
+      WIREGUARD_PRIVATE_KEY: "{{ secret_wireguard_private_key }}"
+      VPN_ENDPOINT_IP: "{{ wireguard_endpoint_ip }}"
+      VPN_ENDPOINT_PORT: "{{ wireguard_endpoint_port }}"
+      WIREGUARD_PUBLIC_KEY: "{{ wireguard_public_key}}"
+      WIREGUARD_ADDRESSES: "{{ wireguard_tunnel_address }}"

@@ -8,6 +8,13 @@
   loop:
     - "{{ docker_container_dir }}/prowlarr/config"
 
+- set_fact:
+    prowlarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    prowlarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='prowlarr']"
+
 - name: Install and start Prowlarr through Docker
   community.docker.docker_container:
     name: prowlarr
@@ -17,11 +24,8 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['prowlarr'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - "9696:9696"
+    network_mode: "{{ prowlarr_network }}"
+    ports: "{{ prowlarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -29,9 +33,3 @@
     volumes:
       - "{{ docker_container_dir }}/prowlarr/config:/config"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['prowlarr'] == wireguard_network_name )
-        else ""
-      }}

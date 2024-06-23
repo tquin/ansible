@@ -9,6 +9,13 @@
     - "{{ docker_container_dir }}/bazarr/config"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    bazarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    bazarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='bazarr']"
+
 - name: Install and start Bazarr through Docker
   community.docker.docker_container:
     name: bazarr
@@ -18,11 +25,8 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['bazarr'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - "6767:6767"
+    network_mode: "{{ bazarr_network }}"
+    ports: "{{ bazarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -31,9 +35,3 @@
       - "{{ docker_container_dir }}/bazarr/config:/config"
       - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['bazarr'] == wireguard_network_name )
-        else ""
-      }}

@@ -12,6 +12,13 @@
     - "{{ docker_container_dir }}/tdarr/transcode_cache"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    tdarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    tdarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='tdarr']"
+
 - name: Install and start Tdarr through Docker
   community.docker.docker_container:
     name: tdarr
@@ -21,12 +28,8 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['tdarr'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - "8266:8266"
-      - "8265:8265"
+    network_mode: "{{ tdarr_network }}"
+    ports: "{{ tdarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -44,9 +47,3 @@
       - "{{ docker_container_dir }}/tdarr/transcode_cache:/temp"
       - "{{ media_container_root_dir }}:/media"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['tdarr'] == wireguard_network_name )
-        else ""
-      }}

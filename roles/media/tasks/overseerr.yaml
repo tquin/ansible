@@ -9,21 +9,24 @@
     - "{{ docker_container_dir }}/overseerr/config"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    overseerr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    overseerr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='overseerr']"
+
 - name: Install and start Overseerr through Docker
   community.docker.docker_container:
     name: overseerr
-    hostname: overseerr
     image: sctx/overseerr
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['overseerr'] }}"
-    dns_servers:
-      - "{{ docker_dns_server }}"
-    ports:
-      - "5055:5055"
+    network_mode: "{{ overseerr_network }}"
+    ports: "{{ overseerr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -32,9 +35,3 @@
     volumes:
       - "{{ docker_container_dir }}/overseerr/config:/app/config"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['overseerr'] == wireguard_network_name )
-        else ""
-      }}

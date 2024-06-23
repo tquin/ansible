@@ -9,21 +9,24 @@
     - "{{ docker_container_dir }}/sonarr/config"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    sonarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    sonarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='sonarr']"
+
 - name: Install and start Sonarr through Docker
   community.docker.docker_container:
     name: sonarr
-    hostname: sonarr
     image: hotio/sonarr
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['sonarr'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    ports:
-      - "8989:8989"
+    network_mode: "{{ sonarr_network }}"
+    ports: "{{ sonarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
@@ -32,9 +35,3 @@
       - "{{ docker_container_dir }}/sonarr/config:/config"
       - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['sonarr'] == wireguard_network_name )
-        else ""
-      }}

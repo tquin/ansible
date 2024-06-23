@@ -10,6 +10,13 @@
     - "{{ docker_container_dir }}/plex/transcode"
     - "{{ media_container_root_dir }}"
 
+- set_fact:
+    plex_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    plex_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='plex']"
+
 - name: Install and start Plex through Docker
   community.docker.docker_container:
     name: plex
@@ -19,12 +26,8 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['plex'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
-    # Ports not needed in Host network mode
-    # ports:
-    #  - "32400:32400/tcp"
+    network_mode: "{{ plex_network }}"
+    ports: "{{ plex_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PLEX_UID: "{{ username_uid }}"
@@ -34,9 +37,3 @@
       - "{{ docker_container_dir }}/plex/transcode:/transcode"
       - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['plex'] == wireguard_network_name )
-        else ""
-      }}

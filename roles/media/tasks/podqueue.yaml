@@ -19,6 +19,13 @@
     # Note: this has to be a string, not an int!!
     mode: '660'
 
+- set_fact:
+    podqueue_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    podqueue_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='podqueue']"
+
 - name: Install and start podqueue through Docker
   community.docker.docker_container:
     name: podqueue
@@ -29,16 +36,9 @@
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ media_network_modes['podqueue'] }}"
-    dns_servers: 
-      - "{{ docker_dns_server }}"
+    network_mode: "{{ podqueue_network }}"
+    ports: "{{ podqueue_ports }}"
     volumes:
       - "{{ media_container_root_dir }}/podcasts:/data"
       - "{{ docker_container_dir }}/podqueue/config:/config"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "bash /common/vpn_routes_startup.sh"
-        if ( media_network_modes['podqueue'] == wireguard_network_name )
-        else ""
-      }}

@@ -6,16 +6,6 @@
 dnf_automatic_upgrade_type: default
 
 # ----- ----- ----- ----- -----
-# Wireguard Docker
-# ----- ----- ----- ----- -----
-
-wireguard_conf_file: wireguard.conf.j2
-wireguard_subnet: 172.20.0.0/24
-wireguard_dns_ip: 10.2.0.1
-wireguard_default_gateway: 172.20.0.1
-wireguard_static_ip: 172.20.0.50
-
-# ----- ----- ----- ----- -----
 # Scheduled reboots
 # ----- ----- ----- ----- -----
 
