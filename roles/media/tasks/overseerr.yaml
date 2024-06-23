@@ -35,9 +35,3 @@
     volumes:
       - "{{ docker_container_dir }}/overseerr/config:/app/config"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "sh /common/vpn_routes_startup.sh"
-        if ( overseerr_network == 'container:wireguard' )
-        else ""
-      }}

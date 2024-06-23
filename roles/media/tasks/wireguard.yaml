@@ -1,8 +1,4 @@
-# ----- ----- ----- ----- -----
-# Copy files to remote
-# ----- ----- ----- ----- -----
-
-- name: Create Wireguard directories
+- name: Create wireguard directories
   file:
     path: "{{ item }}"
     state: directory
@@ -11,44 +7,6 @@
     mode: '755'
   loop:
     - "{{ docker_container_dir }}/wireguard/config"
-    - "{{ docker_container_dir }}/common/"
-
-- name: Copy wireguard .conf file
-  template:
-    src: "{{ wireguard_conf_file }}"
-    dest: "{{ docker_container_dir }}/wireguard/config/wg0.conf"
-    mode: '660'
-
-# ----- ----- ----- ----- -----
-# Host kernel modules
-# ----- ----- ----- ----- -----
-
-- name: Wireguard package name (Debian)
-  when: ansible_os_family == 'Debian'
-  set_fact:
-    wireguard_package: wireguard
-
-- name: Wireguard package name (RedHat)
-  when: ansible_os_family == 'RedHat'
-  set_fact:
-    wireguard_package: wireguard-tools
-
-- name: Install wireguard package
-  package:
-    name: "{{ wireguard_package }}"
-
-- name: Load the wireguard kernel module
-  community.general.modprobe:
-    name: wireguard
-    state: present
-    persistent: present
-
-# ----- ----- ----- ----- -----
-# Determine required port set
-# ----- ----- ----- ----- -----
-
-# TODO - maybe combine wireguard_container_ports and media_published_ports
-# together and then say "item.ports if item.network = blah"
 
 - set_fact:
     wireguard_container_ports: >-
@@ -59,26 +17,21 @@
       }}
   with_items: "{{ media_container_state }}"
 
-# ----- ----- ----- ----- -----
-# Create container
-# ----- ----- ----- ----- -----
-
 - name: Install and start wireguard through Docker
   community.docker.docker_container:
     name: wireguard
-    image: linuxserver/wireguard
+    image: qmcgaw/gluetun
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    privileged: true
     capabilities:
       - NET_ADMIN
-      - SYS_MODULE
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
     volumes:
-      - "{{ docker_container_dir }}/wireguard/config:/config"
-      - "/lib/modules:/lib/modules"
+      - "{{ docker_container_dir }}/wireguard/config:/gluetun"
     ports: "{{ wireguard_container_ports }}"
     sysctls:
       net.ipv4.conf.all.src_valid_mark: 1
@@ -86,25 +39,10 @@
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGUID: "{{ username_guid }}"
-
-# ----- ----- ----- ----- -----
-# Create network & container
-# ----- ----- ----- ----- -----
-
-- name: Get wireguard container IP
-  community.docker.docker_container_info:
-    name: wireguard
-  register: wireguard_container_info
-
-- name: Set wg container net info
-  set_fact:
-    wireguard_container_ip: "{{ wireguard_container_info.container.NetworkSettings.IPAddress }}"
-    wireguard_local_gateway: "{{ wireguard_container_info.container.NetworkSettings.Gateway }}"
-
-- name: Copy startup script for other containers
-  template:
-    src: "vpn_routes_startup.sh.j2"
-    dest: "{{ docker_container_dir }}/common/vpn_routes_startup.sh"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: '660'
+      VPN_SERVICE_PROVIDER: "custom"
+      VPN_TYPE: "wireguard"
+      WIREGUARD_PRIVATE_KEY: "{{ secret_wireguard_private_key }}"
+      VPN_ENDPOINT_IP: "{{ wireguard_endpoint_ip }}"
+      VPN_ENDPOINT_PORT: "{{ wireguard_endpoint_port }}"
+      WIREGUARD_PUBLIC_KEY: "{{ wireguard_public_key}}"
+      WIREGUARD_ADDRESSES: "{{ wireguard_tunnel_address }}"

@@ -71,5 +71,8 @@ youtubedl_content:
 # Wireguard Docker
 # ----- ----- ----- ----- -----
 
-wireguard_conf_file: wireguard.conf.j2
-wireguard_dns_ip: 10.2.0.1
+wireguard_conf_file: "wireguard.conf.j2"
+wireguard_tunnel_address: "10.2.0.2/32"
+wireguard_endpoint_ip: "103.214.20.98"
+wireguard_endpoint_port: "51820"
+wireguard_public_key: "cyTFQG65skA/WgLJyt+WCvj2Y2i0wB+snKe0gWGd+Xo="

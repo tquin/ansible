@@ -35,9 +35,3 @@
       - "{{ docker_container_dir }}/sonarr/config:/config"
       - "{{ media_container_root_dir }}:/data"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "sh /common/vpn_routes_startup.sh"
-        if ( sonarr_network == 'container:wireguard' )
-        else ""
-      }}

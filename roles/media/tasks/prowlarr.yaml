@@ -33,9 +33,3 @@
     volumes:
       - "{{ docker_container_dir }}/prowlarr/config:/config"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "sh /common/vpn_routes_startup.sh"
-        if ( prowlarr_network == 'container:wireguard' )
-        else ""
-      }}

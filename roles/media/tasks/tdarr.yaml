@@ -47,9 +47,3 @@
       - "{{ docker_container_dir }}/tdarr/transcode_cache:/temp"
       - "{{ media_container_root_dir }}:/media"
       - "{{ docker_container_dir }}/common:/common"
-    command: >-
-      {{
-        "sh /common/vpn_routes_startup.sh"
-        if ( tdarr_network == 'container:wireguard' )
-        else ""
-      }}
