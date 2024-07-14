@@ -1,2 +1,2 @@
 - include_tasks: cf-ddns.yaml
-- include_tasks: tailscale_serve.yaml
+- include_tasks: caddy.yaml

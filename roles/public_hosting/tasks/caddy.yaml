@@ -1,0 +1,64 @@
+- name: Create Caddy directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/caddy/build"
+    - "{{ docker_container_dir }}/caddy/config"
+    - "{{ docker_container_dir }}/caddy/data"
+    - "{{ docker_container_dir }}/caddy/logs"
+
+- name: Copy caddy files to remote
+  become_user: "{{ username }}"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+  loop:
+    - {src: "caddy.Dockerfile.j2", dest: "{{ docker_container_dir }}/caddy/build/Dockerfile"}
+    - {src: "Caddyfile.j2", dest: "{{ docker_container_dir }}/caddy/config/Caddyfile"}
+
+- name: Build custom caddy image
+  community.docker.docker_image:
+    name: caddy-custom
+    build:
+      path: "{{ docker_container_dir }}/caddy/build"
+      args:
+        log_volume: /var/log/myapp
+        listen_port: 8080
+    source: build
+
+- name: Get tailscale interface IP (100.x.x.x)
+  become_user: "{{ username }}"
+  command:
+    cmd: tailscale ip -4
+  register: tailscale_ip
+  changed_when: false
+
+- name: Install and start Caddy through Docker
+  community.docker.docker_container:
+    name: caddy
+    hostname: caddy
+    image: caddy-custom
+    state: started
+    pull: false # because we built locally
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: host # For tailscale interface binding
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+      TAILNET_IP: "{{ tailscale_ip.stdout }}"
+      CLOUDFLARE_API_TOKEN: "{{ cf_dns_token }}"
+    volumes:
+    - "{{ docker_container_dir }}/caddy/config:/etc/caddy"
+    - "{{ docker_container_dir }}/caddy/data:/data"
+    - "{{ docker_container_dir }}/caddy/logs:/logs"

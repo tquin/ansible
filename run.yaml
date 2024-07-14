@@ -113,5 +113,5 @@
             name: public_hosting
           when: inventory_hostname in groups.public_hosting
           vars:
-            cloudflare_email: "{{ secret_cloudflare_email }}"
-            cf_ddns_token: "{{ secret_cf_ddns_token }}"
+            cf_dns_token: "{{ secret_cf_dns_token }}"
+            caddy_email: "{{ secret_cloudflare_email }}"

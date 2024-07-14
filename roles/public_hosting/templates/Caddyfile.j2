@@ -1,0 +1,30 @@
+{
+    log {
+        output file /logs/access.log
+    }
+    email {{ caddy_email }}
+}
+
+(ts_host) {
+    bind {env.TAILNET_IP}
+
+    # Tailscale only
+    @blocked not remote_ip 100.64.0.0/10
+
+    tls {
+        resolvers 1.1.1.1
+        dns cloudflare {
+            "api_token" {env.CLOUDFLARE_API_TOKEN}
+        }
+
+    }
+
+    respond @blocked "Unauthorized" 403
+}
+
+{% for item in caddy_subdomain_mapping %}
+{{ item.name }}.{{ caddy_domain }} {
+    import ts_host
+    reverse_proxy localhost:{{ item.port }}
+}
+{% endfor %}

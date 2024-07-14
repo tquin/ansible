@@ -17,5 +17,5 @@
       PGUID: "{{ username_guid }}"
       PGID: "{{ username_guid }}"
       PROXIED: "true"
-      CF_API_TOKEN: "{{ cf_ddns_token }}"
+      CF_API_TOKEN: "{{ cf_dns_token }}"
       DOMAINS: "{{ cf_ddns_domains | join(',') }}"

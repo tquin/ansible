@@ -1,13 +1,20 @@
-cf_zone: "example.com"
+# ----- ----- ----- ----- -----
+# caddy
+# ----- ----- ----- ----- -----
+
+caddy_version: "2.8"
+# Used for certs
+caddy_email: "" # Fill from vault
+caddy_domain: "example.com"
+cf_dns_token: "" # Fill from vault
+
+caddy_subdomain_mapping:
+  - { name: homer, port: 8080}
+
+# ----- ----- ----- ----- -----
+# ddns
+# ----- ----- ----- ----- -----
+
 cf_ddns_domains:
   - apple.example.com
   - banana.example.com
-
-ts_domain: "{{ inventory_hostname }}.{{ secret_tailscale_domain }}.ts.net"
-ts_serve_internal_port: "5055" # Overseer
-
-# src must be under cf_zone
-cf_dns_forwards:
-  - type: CNAME
-    src: cantalope.example.com
-    dest: "{{ ts_domain }}"
