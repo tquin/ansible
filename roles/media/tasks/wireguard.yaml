@@ -46,3 +46,7 @@
       VPN_ENDPOINT_PORT: "{{ wireguard_endpoint_port }}"
       WIREGUARD_PUBLIC_KEY: "{{ wireguard_public_key}}"
       WIREGUARD_ADDRESSES: "{{ wireguard_tunnel_address }}"
+
+- name: Let the container start before continuing
+  pause:
+    seconds: 10

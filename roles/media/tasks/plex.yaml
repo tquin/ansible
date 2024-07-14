@@ -32,6 +32,7 @@
       TZ: "{{ time_zone }}"
       PLEX_UID: "{{ username_uid }}"
       PLEX_GID: "{{ username_guid }}"
+      ADVERTISE_IP: "http://{{ ansible_default_ipv4.address }}:32400/"
     volumes:
       - "{{ docker_container_dir }}/plex/config:/config"
       - "{{ docker_container_dir }}/plex/transcode:/transcode"

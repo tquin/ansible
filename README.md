@@ -77,4 +77,4 @@ Optionally, you can choose to re-download the latest version of each dependency 
   - DB backups
 - file share / samba
 - borg backups
-- dynamic dns
+- ubuntu 24.04 testing
