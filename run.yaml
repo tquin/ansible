@@ -105,6 +105,14 @@
           vars:
             node_exporter_pass: "{{ secret_node_exporter_pass }}"
 
+        - include_role:
+            name: nextcloud
+          when: inventory_hostname in groups.nextcloud
+          vars:
+            nextcloud_tailscale_sidecar_token: "{{ secret_nextcloud_tailscale_sidecar_token }}"
+            tailscale_domain: "{{ secret_tailscale_domain }}"
+            cf_dns_token: "{{ secret_cf_dns_token }}"
+
         # ----- ----- ----- ----- -----
         # PUBLIC HOSTING
         # ----- ----- ----- ----- -----

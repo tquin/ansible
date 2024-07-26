@@ -1,0 +1,10 @@
+nextcloud_data_dir: /data/nextcloud
+nextcloud_tailscale_sidecar_token: ""
+nextcloud_is_public: no # TS serve or funnel?
+
+tailscale_domain: "apple-banana"
+cf_zone: "example.com"
+nextcloud_tailscale_cf_cname:
+  - type: CNAME
+    src: "nextcloud.{{ cf_zone }}"
+    dest: "{{ inventory_hostname }}-ts-nextcloud.{{ tailscale_domain }}.ts.net"
