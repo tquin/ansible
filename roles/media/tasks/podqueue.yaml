@@ -38,6 +38,11 @@
     restart_policy: unless-stopped
     network_mode: "{{ podqueue_network }}"
     ports: "{{ podqueue_ports }}"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      PQ_SERVER: "true"
     volumes:
       - "{{ media_container_root_dir }}/podcasts:/data"
       - "{{ docker_container_dir }}/podqueue/config:/config"

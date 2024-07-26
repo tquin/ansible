@@ -9,7 +9,22 @@ caddy_domain: "example.com"
 cf_dns_token: "" # Fill from vault
 
 caddy_subdomain_mapping:
-  - { name: homer, port: 8080}
+  # Infra
+  - { name: homer, port: 8080 }
+  - { name: portainer, port: 9443 }
+  - { name: grafana, port: 3000 }
+  - { name: prometheus, port: 9090 }
+  # Media
+  - { name: plex, port: 32400 }
+  - { name: jellyfin, port: 8096 }
+  - { name: sonarr, port: 8989 }
+  - { name: radarr, port: 7878 }
+  - { name: bazarr, port: 6767 }
+  - { name: transmission, port: 9091 }
+  - { name: prowlarr, port: 9696 }
+  - { name: tdarr, port: 8265 }
+  - { name: overseer, port: 5055 }
+  - { name: request, port: 5055 } # Overseer friendlier name
 
 # ----- ----- ----- ----- -----
 # ddns

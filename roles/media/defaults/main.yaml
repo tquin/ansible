@@ -15,7 +15,7 @@ media_container_state:
       - "8096:8096/tcp"
 
   - name: overseerr
-    network: "host"
+    network: "bridge"
     ports:
       - "5055:5055"
 
