@@ -90,10 +90,10 @@
             rclone_rc_pass: "{{ secret_rclone_rc_pass }}"
             # Google Photos
             rclone_gphotos_token: "{{ secret_rclone_gphotos_token | string }}"
-            # Azure blob
-            rclone_azure_account: "{{ secret_rclone_azure_account }}"
-            rclone_azure_key: "{{ secret_rclone_azure_key }}"
-            rclone_azure_crypt_pass: "{{ secret_rclone_azure_crypt_pass }}"
+            # Backblaze B2
+            rclone_b2_account: "{{ secret_rclone_b2_account }}"
+            rclone_b2_key: "{{ secret_rclone_b2_key }}"
+            rclone_b2_crypt_pass: "{{ secret_rclone_b2_crypt_pass }}"
 
         # ----- ----- ----- ----- -----
         # MONITORING

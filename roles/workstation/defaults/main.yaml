@@ -18,6 +18,7 @@ flatpak_packages:
   - com.github.d4nj1.tlpui # TLP frontend for power usage
   - org.gnome.World.PikaBackup # Borg frontend
   - io.missioncenter.MissionCenter
+  - dev.zed.Zed
 
 appimage_install_dir: "/home/{{ username }}/.local/bin"
 appimage_icon_dir: "/usr/share/pixmaps"

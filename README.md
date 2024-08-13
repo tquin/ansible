@@ -76,5 +76,6 @@ Optionally, you can choose to re-download the latest version of each dependency 
 - Plex
   - DB backups
 - file share / samba
-- borg backups
+- pika config
 - ubuntu 24.04 testing
+- logrotate / rsnapshot for minecraft, to keep weeklies/monthlies/yearlies

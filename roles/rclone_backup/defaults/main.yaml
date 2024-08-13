@@ -6,6 +6,8 @@ rclone_rc_pass: "" # Should be passed from a vault
 rclone_sync_interval: 3600 # seconds == 1 hour
 rclone_container_config_path: "{{ docker_container_dir }}/rclone/config"
 
+rclone_b2_bucket_name: "my-bucket"
+
 # All local disk paths in must be relative to this file path
 # Within the docker container, it will be called "/data"
 rclone_data_path: "/data"
@@ -27,22 +29,21 @@ rclone_data_pairs:
 
 # The secrets should be passed in the play from a vault
 rclone_rc_remotes:
-  - name: azure
-    type: azureblob
-    parameters:
-      account: "{{ rclone_azure_account }}"
-      key: "{{ rclone_azure_key }}"
-      access_tier: Archive
-
-  - name: azure-crypt
-    type: crypt
-    parameters:
-      remote: "azure:"
-      password: "{{ rclone_azure_crypt_pass }}"
-      show_mapping: "true"
-
   - name: gphotos
     type: google photos
     parameters:
       read_only: "true"
       token: "{{ rclone_gphotos_token }}"
+
+  - name: blaze-b2
+    type: b2
+    parameters:
+      account: "{{ rclone_b2_account }}"
+      key: "{{ rclone_b2_key }}"
+
+  - name: b2-crypt
+    type: crypt
+    parameters:
+      remote: "blaze-b2:{{ rclone_b2_bucket_name }}"
+      password: "{{ rclone_b2_crypt_pass }}"
+      show_mapping: "true"
