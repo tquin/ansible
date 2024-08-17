@@ -1,7 +1,0 @@
-- name: Forward the cloudflare domain to the ts tunnel endpoint
-  community.general.cloudflare_dns:
-    zone: "{{ cf_zone }}"
-    record: "{{ nextcloud_tailscale_cf_cname.src }}"
-    type: CNAME
-    value: "{{ nextcloud_tailscale_cf_cname.dest }}"
-    api_token: "{{ cf_dns_token }}"

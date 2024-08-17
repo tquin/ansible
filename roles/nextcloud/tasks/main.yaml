@@ -1,3 +1,1 @@
 - include_tasks: nextcloud_aio.yaml
-- include_tasks: tailscale_sidecar.yaml
-- include_tasks: cloudflare_dns.yaml
