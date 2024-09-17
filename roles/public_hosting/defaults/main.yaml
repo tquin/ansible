@@ -25,6 +25,8 @@ caddy_subdomain_mapping:
   - { name: tdarr, port: 8265 }
   - { name: overseer, port: 5055 }
   - { name: request, port: 5055 } # Overseer friendlier name
+  # Minecraft
+  - { name: minecraft, port: 25565 }
 
 # ----- ----- ----- ----- -----
 # ddns
