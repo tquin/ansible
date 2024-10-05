@@ -1,0 +1,41 @@
+- name: Create Tailscale sidecar container directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/ts-wireguard-exit/state"
+    - "{{ docker_container_dir }}/ts-wireguard-exit/config"
+
+- name: Install and start Tailscale sidecar
+  community.docker.docker_container:
+    name: ts-wg-exit
+    # hostname = tailscale node & magic DNS name
+    # Add the ansible hostname to avoid name collisions
+    image: tailscale/tailscale:latest
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "container:wireguard"
+    env:
+      # Keep the node auth'd even if the container starts + stops
+      TS_AUTHKEY: "{{ tailscale_sidecar_token }}?ephemeral=false"
+      TS_EXTRA_ARGS: >-
+        --advertise-tags=tag:container
+        --advertise-exit-node
+        --hostname={{ inventory_hostname }}-ts-wg-exit
+        --reset
+      TS_STATE_DIR: /var/lib/tailscale
+      # Wireguard is already using /dev/net/tun, so use userspace instead
+      TS_USERSPACE: "true"
+    volumes:
+      - "{{ docker_container_dir }}/ts-wireguard-exit/state:/var/lib/tailscale"
+      - "{{ docker_container_dir }}/ts-wireguard-exit/config:/config"
+      - "/dev/net/tun:/dev/net/tun"
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
