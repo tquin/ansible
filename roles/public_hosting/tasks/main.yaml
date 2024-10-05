@@ -1,2 +1,3 @@
 - include_tasks: cf-ddns.yaml
 - include_tasks: caddy.yaml
+- include_tasks: ts_exit_node.yaml
