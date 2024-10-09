@@ -27,6 +27,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 
@@ -42,6 +43,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 
@@ -49,6 +51,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 
@@ -62,5 +65,4 @@ server:
     public_hosting:
       hosts:
         DEBOMBE:
-        ansiblevm-debian12:
       children:
