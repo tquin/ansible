@@ -14,6 +14,7 @@ caddy_subdomain_mapping:
   - { name: portainer, port: 9443 }
   - { name: grafana, port: 3000 }
   - { name: prometheus, port: 9090 }
+  - { name: nextcloud, port: 11000 }
   # Media
   - { name: plex, port: 32400 }
   - { name: jellyfin, port: 8096 }

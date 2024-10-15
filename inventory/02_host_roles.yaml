@@ -55,6 +55,7 @@ server:
     nextcloud:
       hosts:
         ansiblevm-fedora40:
+        DEBOMBE:
       children:
       
     # ----- ----- ----- ----- -----
@@ -62,5 +63,4 @@ server:
     public_hosting:
       hosts:
         DEBOMBE:
-        ansiblevm-debian12:
       children:

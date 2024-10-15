@@ -1,0 +1,70 @@
+- name: Create Nextcloud container directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/nextcloud"
+
+- name: Create Nextcloud data directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "33" # Maps to `www-data` user inside the container
+    group: "0"
+    mode: '755'
+  loop:
+    - "{{ nextcloud_data_dir }}"
+
+- name: Create the AIO volume
+  community.docker.docker_volume:
+    name: nextcloud_aio_mastercontainer
+
+# Namespace sharing doesn't work for the AIO to spawn its childern
+- name: Create the shared Nextcloud network
+  community.docker.docker_network:
+    name: nextcloud-aio
+
+- name: Install and start Nextcloud AIO through Docker
+  community.docker.docker_container:
+    name: nextcloud-aio-mastercontainer
+    image: nextcloud/all-in-one:latest
+    network_mode: nextcloud-aio
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    init: true
+    restart_policy: unless-stopped
+    ports:
+      # 8080 is conflicted with homer on the host
+      - "8081:8080"
+      - "8443:8443"
+    env:
+      TZ: "{{ time_zone }}"
+      APACHE_PORT: "11000"
+      APACHE_IP_BINDING: "0.0.0.0"
+      NEXTCLOUD_DATADIR: "{{ nextcloud_data_dir }}"
+      # Because we use ts magicdns
+      SKIP_DOMAIN_VALIDATION: "true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+
+- name: Get the AIO container's IP
+  community.docker.docker_container_info:
+    name: nextcloud-aio-apache
+  register: nextcloud_apache_info
+
+- name: Exit if initial AIO setup not completed
+  ansible.builtin.fail:
+    msg: "You need to do the initial AIO setup at {{ inventory_hostname }}:8081"
+  when: not nextcloud_apache_info.exists
+
+- set_fact:
+    nextcloud_apache_info: "{{ nextcloud_apache_info.container.NetworkSettings.Networks['nextcloud-aio'].IPAddress }}"
+
+- debug:
+    msg: "{{ nextcloud_apache_info }}"
