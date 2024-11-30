@@ -41,7 +41,7 @@
       PGUID: "{{ username_guid }}"
       VPN_SERVICE_PROVIDER: "custom"
       VPN_TYPE: "wireguard"
-      WIREGUARD_PRIVATE_KEY: "{{ secret_wireguard_private_key }}"
+      WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
       VPN_ENDPOINT_IP: "{{ wireguard_endpoint_ip }}"
       VPN_ENDPOINT_PORT: "{{ wireguard_endpoint_port }}"
       WIREGUARD_PUBLIC_KEY: "{{ wireguard_public_key}}"

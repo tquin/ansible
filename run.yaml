@@ -63,6 +63,10 @@
         - include_role:
             name: media
           when: inventory_hostname in groups.media
+          vars:
+            wireguard_public_key: "{{ secret_wireguard_public_key }}"
+            wireguard_endpoint_ip: "{{ secret_wireguard_endpoint_ip }}"
+            wireguard_private_key: "{{ secret_wireguard_private_key }}"
 
         # ----- ----- ----- ----- -----
         # MINECRAFT
