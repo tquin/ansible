@@ -26,6 +26,8 @@
     restart_policy: unless-stopped
     network_mode: "{{ prowlarr_network }}"
     ports: "{{ prowlarr_ports }}"
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"

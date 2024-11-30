@@ -24,7 +24,7 @@ rclone_data_pairs:
 
   - service_name: "photos-archive"
     src: "photos/honey"
-    dest: "azure-crypt:photos/honey"
+    dest: "b2-crypt:photos/honey"
     operation: copy
 
 # The secrets should be passed in the play from a vault
