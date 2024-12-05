@@ -128,3 +128,13 @@
             cf_dns_token: "{{ secret_cf_dns_token }}"
             caddy_email: "{{ secret_cloudflare_email }}"
             tailscale_sidecar_token: "{{ secret_tailscale_sidecar_token }}"
+
+        # ----- ----- ----- ----- -----
+        # PHOTOS
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: photos
+          when: inventory_hostname in groups.photos
+          vars:
+            immich_db_pass: "{{ secret_immich_db_pass }}"

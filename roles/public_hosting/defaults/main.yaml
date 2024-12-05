@@ -28,6 +28,9 @@ caddy_subdomain_mapping:
   - { name: request, port: 5055 } # Overseer friendlier name
   # Minecraft
   - { name: minecraft, port: 25565 }
+  # Immich photos
+  - { name: immich, port: 2283 }
+  - { name: photos, port: 2283 }
 
 # ----- ----- ----- ----- -----
 # ddns
