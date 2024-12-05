@@ -1,0 +1,7 @@
+photos_dir: "/data/photos/immich"
+
+external_library_dirs:
+  - "/data/photos/existing"
+
+# Fill these secrets from the vault
+immich_db_pass: ""

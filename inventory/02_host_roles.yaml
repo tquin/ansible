@@ -34,7 +34,6 @@ server:
       hosts:
         DEBOMBE:
       children:
-        test:
 
     # ----- ----- ----- ----- -----
 
@@ -54,7 +53,6 @@ server:
 
     nextcloud:
       hosts:
-        ansiblevm-fedora40:
         DEBOMBE:
       children:
       
@@ -64,3 +62,11 @@ server:
       hosts:
         DEBOMBE:
       children:
+
+    # ----- ----- ----- ----- -----
+
+    photos:
+      hosts:
+        DEBOMBE:
+      children:
+        test:
