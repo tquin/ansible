@@ -138,3 +138,11 @@
           when: inventory_hostname in groups.photos
           vars:
             immich_db_pass: "{{ secret_immich_db_pass }}"
+
+        # ----- ----- ----- ----- -----
+        # RECIPES
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: recipes
+          when: inventory_hostname in groups.recipes

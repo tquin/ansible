@@ -1,0 +1,2 @@
+mealie_memory_limit: "1000M"
+mealie_base_url: "localhost:9925"

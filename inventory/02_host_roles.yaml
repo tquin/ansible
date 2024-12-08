@@ -70,3 +70,11 @@ server:
         DEBOMBE:
       children:
         test:
+
+    # ----- ----- ----- ----- -----
+
+    recipes:
+      hosts:
+        DEBOMBE:
+      children:
+        test:

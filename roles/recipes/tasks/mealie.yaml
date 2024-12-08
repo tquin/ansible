@@ -1,0 +1,35 @@
+- name: Create Mealie directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/mealie"
+    - "{{ docker_container_dir }}/mealie/data"
+
+# ----- ----- ----- ----- -----
+
+- name: Install and start Mealie through Docker
+  community.docker.docker_container:
+    name: mealie
+    image: ghcr.io/mealie-recipes/mealie:v2.3.0
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: immich
+    ports:
+      - "9925:9000"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      ALLOW_SIGNUP: "false"
+      BASE_URL: "{{ mealie_base_url }}"
+    memory: "{{ mealie_memory_limit }}"
+    volumes:
+      - "{{ docker_container_dir }}/mealie/data:/app/data"

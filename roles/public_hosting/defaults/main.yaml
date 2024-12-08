@@ -31,6 +31,9 @@ caddy_subdomain_mapping:
   # Immich photos
   - { name: immich, port: 2283 }
   - { name: photos, port: 2283 }
+  # Mealie recipes
+  - { name: mealie, port: 9925 }
+  - { name: recipes, port: 9925 }
 
 # ----- ----- ----- ----- -----
 # ddns
