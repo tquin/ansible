@@ -62,6 +62,7 @@
 - name: Install and start Immich ML through Docker
   community.docker.docker_container:
     name: immich_machine_learning
+    hostname: immich-machine-learning
     image: ghcr.io/immich-app/immich-machine-learning:release
     state: started
     user: "{{ username_uid }}:{{ username_guid }}"
@@ -119,6 +120,7 @@
 - name: Install and start Immich through Docker
   community.docker.docker_container:
     name: immich_server
+    hostname: immich-server
     image: ghcr.io/immich-app/immich-server:release
     state: started
     user: "{{ username_uid }}:{{ username_guid }}"
