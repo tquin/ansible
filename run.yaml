@@ -98,6 +98,9 @@
             rclone_b2_account: "{{ secret_rclone_b2_account }}"
             rclone_b2_key: "{{ secret_rclone_b2_key }}"
             rclone_b2_crypt_pass: "{{ secret_rclone_b2_crypt_pass }}"
+            # Proton Drive
+            proton_username: "{{ secret_proton_username }}"
+            proton_pass: "{{ secret_proton_pass }}"
 
         # ----- ----- ----- ----- -----
         # MONITORING

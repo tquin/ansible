@@ -27,6 +27,13 @@ rclone_data_pairs:
     dest: "b2-crypt:photos/honey"
     operation: copy
 
+# Control which remotes are enabled per host
+rclone_enabled_remotes:
+  gphotos: true
+  blaze-b2: true
+  b2-crypt: true
+  proton-drive: true
+
 # The secrets should be passed in the play from a vault
 rclone_rc_remotes:
   - name: gphotos
@@ -47,3 +54,10 @@ rclone_rc_remotes:
       remote: "blaze-b2:{{ rclone_b2_bucket_name }}"
       password: "{{ rclone_b2_crypt_pass }}"
       show_mapping: "true"
+
+  - name: proton-drive
+    type: protondrive
+    parameters:
+      username: "{{ proton_username }}"
+      password: "{{ proton_pass }}"
+      # 2FA requested in the role due to timeout
