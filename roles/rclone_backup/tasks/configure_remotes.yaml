@@ -1,11 +1,47 @@
+- set_fact:
+    rclone_enabled_remotes_data: >-
+      {{ rclone_enabled_remotes_data
+          | default([]) +
+          [item]
+      }}
+  loop: "{{ rclone_rc_remotes }}"
+  when: rclone_enabled_remotes[item.name] is true
+  no_log: true
+
 # Note: this doesn't use meta/ deps because
 # the install needs to happen first.
 - name: Configure rclone remotes
   include_role:
-    name: tigattack.rclone_rc_remotes
+    name: tigattack.rclone_rc_remotes.pr5
   vars:
-    rclone_host: "{{ rclone_rc_host}}"
+    rclone_host: "{{ rclone_rc_host }}"
     rclone_port: "{{ rclone_rc_port }}"
     rclone_username: "{{ rclone_rc_user }}"
     rclone_password: "{{ rclone_rc_pass }}"
-    rclone_remotes: "{{ rclone_rc_remotes }}"
+    rclone_remotes: "{{ rclone_enabled_remotes_data }}"
+
+- name: Proton Drive - handle time-sensitive variables
+  when: rclone_enabled_remotes['proton-drive'] is true
+  block:
+
+    - name: Proton Drive - test pre-existing auth
+      community.docker.docker_container_exec:
+        container: rclone
+        command: "rclone lsd proton-drive:" 
+      register: proton_2fa_current_result
+      failed_when: false
+
+    - name: Proton Drive - get 2FA user input
+      when: proton_2fa_current_result.rc != 0
+      pause:
+        prompt: Please enter your Proton 2FA code
+      register: proton_2fa
+
+    - name: Proton Drive - test 2FA user input
+      when: proton_2fa_current_result.rc != 0
+      community.docker.docker_container_exec:
+        container: rclone
+        command: "rclone lsd proton-drive: --protondrive-2fa {{ proton_2fa.user_input }}" 
+      register: proton_2fa_new_result
+      failed_when: proton_2fa_new_result.rc != 0
+

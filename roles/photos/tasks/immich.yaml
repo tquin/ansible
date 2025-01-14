@@ -1,0 +1,138 @@
+- name: Create photos directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/immich"
+    - "{{ docker_container_dir }}/immich/model_cache"
+    - "{{ docker_container_dir }}/immich/postgres"
+    - "{{ photos_dir }}"
+
+- name: Create external photos directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop: "{{ external_library_dirs }}"
+
+- name: Copy Immich files
+  become_user: "{{ username }}"
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ docker_container_dir }}/immich/{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+  loop:
+    - ".env"
+
+# ----- ----- ----- ----- -----
+
+- set_fact:
+    immich_volume_mounts:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ photos_dir}}:/usr/src/app/upload"
+
+# Combine the variable extenal mounts with the constant paths
+- set_fact:
+    immich_volume_mounts: >-
+      {{ (
+          immich_volume_mounts
+          | default([])
+          + [item + ":" + item + ":ro"]
+        ) | unique
+      }}
+  loop: "{{ external_library_dirs }}"
+
+- debug:
+    msg: "{{ immich_volume_mounts }}"
+
+# ----- ----- ----- ----- -----
+
+- name: Create the shared Immich network
+  community.docker.docker_network:
+    name: immich
+
+- name: Install and start Immich ML through Docker
+  community.docker.docker_container:
+    name: immich_machine_learning
+    hostname: immich-machine-learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: immich
+    env_file: "{{ docker_container_dir }}/immich/.env"
+    volumes:
+      - "{{ docker_container_dir }}/immich/model_cache:/cache"
+
+- name: Install and start Immich Redis through Docker
+  community.docker.docker_container:
+    name: immich_redis
+    hostname: redis
+    image: docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: immich
+    healthcheck:
+      test: ["CMD", "redis-cli ping || exit 1"]
+    volumes:
+      - "{{ docker_container_dir }}/immich/postgres:/data"
+
+- name: Install and start Immich DB through Docker
+  community.docker.docker_container:
+    name: immich_postgres
+    hostname: database
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: immich
+    env_file: "{{ docker_container_dir }}/immich/.env"
+    command: [
+        'postgres',
+        '-c', 'shared_preload_libraries=vectors.so',
+        '-c', 'search_path="$$user", public, vectors',
+        '-c', 'logging_collector=on',
+        '-c', 'max_wal_size=2GB',
+        '-c', 'shared_buffers=512MB',
+        '-c', 'wal_compression=on'
+    ]
+    volumes:
+      - "{{ docker_container_dir }}/immich/postgres:/var/lib/postgresql/data"
+
+- name: Install and start Immich through Docker
+  community.docker.docker_container:
+    name: immich_server
+    hostname: immich-server
+    image: ghcr.io/immich-app/immich-server:release
+    state: started
+    user: "{{ username_uid }}:{{ username_guid }}"
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: immich
+    env_file: "{{ docker_container_dir }}/immich/.env"
+    ports:
+      - '2283:2283'
+    volumes: "{{ immich_volume_mounts }}"
+    # For hardware transcoding
+    devices:
+      - /dev/dri:/dev/dri

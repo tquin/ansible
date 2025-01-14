@@ -63,6 +63,10 @@
         - include_role:
             name: media
           when: inventory_hostname in groups.media
+          vars:
+            wireguard_public_key: "{{ secret_wireguard_public_key }}"
+            wireguard_endpoint_ip: "{{ secret_wireguard_endpoint_ip }}"
+            wireguard_private_key: "{{ secret_wireguard_private_key }}"
 
         # ----- ----- ----- ----- -----
         # MINECRAFT
@@ -94,6 +98,9 @@
             rclone_b2_account: "{{ secret_rclone_b2_account }}"
             rclone_b2_key: "{{ secret_rclone_b2_key }}"
             rclone_b2_crypt_pass: "{{ secret_rclone_b2_crypt_pass }}"
+            # Proton Drive
+            proton_username: "{{ secret_proton_username }}"
+            proton_pass: "{{ secret_proton_pass }}"
 
         # ----- ----- ----- ----- -----
         # MONITORING
@@ -106,6 +113,14 @@
             node_exporter_pass: "{{ secret_node_exporter_pass }}"
 
         # ----- ----- ----- ----- -----
+        # NEXTCLOUD
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: nextcloud
+          when: inventory_hostname in groups.nextcloud
+
+        # ----- ----- ----- ----- -----
         # PUBLIC HOSTING
         # ----- ----- ----- ----- -----
 
@@ -116,3 +131,21 @@
             cf_dns_token: "{{ secret_cf_dns_token }}"
             caddy_email: "{{ secret_cloudflare_email }}"
             tailscale_sidecar_token: "{{ secret_tailscale_sidecar_token }}"
+
+        # ----- ----- ----- ----- -----
+        # PHOTOS
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: photos
+          when: inventory_hostname in groups.photos
+          vars:
+            immich_db_pass: "{{ secret_immich_db_pass }}"
+
+        # ----- ----- ----- ----- -----
+        # RECIPES
+        # ----- ----- ----- ----- -----
+
+        - include_role:
+            name: recipes
+          when: inventory_hostname in groups.recipes
