@@ -27,6 +27,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 
@@ -41,6 +42,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 
@@ -48,6 +50,7 @@ server:
       hosts:
         DEBOMBE:
       children:
+        test:
 
     # ----- ----- ----- ----- -----
 

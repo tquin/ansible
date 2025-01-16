@@ -28,10 +28,15 @@ The only steps needed to do manually on a new machine is to install from a fresh
   * `usermod -aG sudo <username>`
   * Then reboot for the sudo to take effect
 * If needed, install and start the SSH server
-  * Check with `systemctl status sshd.service`
-  * `su -c 'apt install -y openssh-server'`
-  * `su -c 'dnf install -y openssh-server'`
-  * `sudo systemctl enable --now sshd.service`
+  * Check with:
+    * Debian & Fedora: `systemctl status sshd.service`
+    * Ubuntu 24.04: `systemctl status ssh.service`
+  * Install:
+    * `su -c 'apt install -y openssh-server'`
+    * `su -c 'dnf install -y openssh-server'`
+  * Then enable:
+    * Debian & Fedora:`sudo systemctl enable --now sshd.service`
+    * Ubuntu: `sudo systemctl enable --now ssh.service`
 * Copy the controller SSH key to the ansible_client
   * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
 * Fill in the specific client hostname/IP details in the `inventory/` files on the controller
