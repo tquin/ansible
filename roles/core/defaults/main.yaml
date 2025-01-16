@@ -35,7 +35,7 @@ common_packages:
 
 ubuntu_packages:
   - 7zip
-  - eza # fancy ls (old)
+  - eza # fancy ls (new)
 
 debian_packages:
   # Requirements for setup_docker.yaml

@@ -6,7 +6,7 @@ rclone_rc_pass: "" # Should be passed from a vault
 rclone_sync_interval: 3600 # seconds == 1 hour
 rclone_container_config_path: "{{ docker_container_dir }}/rclone/config"
 
-rclone_b2_bucket_name: "my-bucket"
+rclone_b2_bucket_name: "ansiblevm-test-bucket"
 
 # All local disk paths in must be relative to this file path
 # Within the docker container, it will be called "/data"
