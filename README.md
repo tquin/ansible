@@ -17,7 +17,7 @@ ansible-vault edit group_vars/all/secret_vars.yaml
 The only steps needed to do manually on a new machine is to install from a fresh ISO, configure a user account with sudo, and add the SSH key to the Ansible controller. Everything after that, including SSH hardening, can be done via the playbook.
 
 * Install OS from ISO
-  * ✔ Ubuntu Jammy 22.04
+  * ✔ Ubuntu Noble 24.04
   * ✔ Debian Bookworm 12
   * ✔ Fedora 40
 * Minimum specs for test VMs

@@ -30,6 +30,7 @@
         command: "rclone lsd proton-drive:" 
       register: proton_2fa_current_result
       failed_when: false
+      changed_when: false
 
     - name: Proton Drive - get 2FA user input
       when: proton_2fa_current_result.rc != 0
