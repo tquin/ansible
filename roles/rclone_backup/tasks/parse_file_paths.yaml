@@ -13,7 +13,8 @@
           "service_name": item.service_name,
           "src": ("/data/" + item.src if (item.src | regex_search('^[^:]*/.*$')) else item.src),
           "dest": ("/data/" + item.dest if (item.dest | regex_search('^[^:]*/.*$')) else item.dest),
-          "operation": item.operation
+          "operation": item.operation,
+          "cli_options": (item.cli_options | default(""))
         } ]
       }}
   loop: "{{ rclone_data_pairs }}"
@@ -27,7 +28,8 @@
           "service_name": item.service_name,
           "src": ("{{ rclone_data_path }}" + "/" + item.src if (item.src | regex_search('^[^:]*/.*$')) else item.src),
           "dest": ("{{ rclone_data_path }}" + "/" + item.dest if (item.dest | regex_search('^[^:]*/.*$')) else item.dest),
-          "operation": item.operation
+          "operation": item.operation,
+          "cli_options": (item.cli_options | default(""))
         } ]
       }}
   loop: "{{ rclone_data_pairs }}"
