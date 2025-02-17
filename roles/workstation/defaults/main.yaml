@@ -62,6 +62,7 @@ gnome_extensions:
   - id: 3733 # https://extensions.gnome.org/extension/3733/tiling-assistant/
   - id: 6631 # https://extensions.gnome.org/extension/6631/proton-vpn-button/
   - id: 6048 # https://extensions.gnome.org/extension/6048/peek-top-bar-on-fullscreen/
+  - id: 1007 # https://extensions.gnome.org/extension/1007/window-is-ready-notification-remover/
 
 gnome_systemd_manager_value: >-
   ['{"name":"Obsidian","service":"gdrive-obsidian.service","type":"system"}',
