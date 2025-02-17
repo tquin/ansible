@@ -1,0 +1,52 @@
+- name: Create Minecraft container directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/minecraft_server"
+
+- name: Write minecraft server template files
+  template:
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    # Note: this has to be a string, not an int!!
+    mode: '660'
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - src: server.properties.j2
+      dest: "{{ docker_container_dir }}/minecraft_server/server.properties"
+
+- name: Install and start Minecraft through Docker
+  community.docker.docker_container:
+    name: minecraft_server
+    image: "ghcr.io/itzg/minecraft-server"
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    init: true
+    restart_policy: unless-stopped
+    ports:
+      - "{{ minecraft_port }}:25565"
+    env:
+      TZ: "{{ time_zone }}"
+      EULA: "TRUE"
+      TYPE: "FABRIC"
+      VERSION: "{{ minecraft_version }}"
+      MEMORY: "{{ minecraft_ram_mb }}m"
+      MAX_MEMORY: "{{ minecraft_ram_mb }}m"
+      OVERRIDE_SERVER_PROPERTIES: "false"
+      ENABLE_WHITELIST: minecraft_use_allowlist
+      OPS: "{{ minecraft_ops | join(',') }}"
+      WHITELIST: "{{ minecraft_allowlist | join(',') }}"
+      RCON_PASSWORD: "{{ mcrcon_pass }}"
+      MODRINTH_PROJECTS: "{{ minecraft_mods | join(',') }}"
+      LEVEL: "{{ minecraft_world_name }}"
+      SPAWN_PROTECTION: "0"
+      SEED: "{{ minecraft_seed }}"
+    volumes:
+      - "{{ docker_container_dir }}/minecraft_server:/data"

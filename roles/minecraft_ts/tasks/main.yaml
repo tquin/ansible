@@ -1,0 +1,2 @@
+- include_tasks: minecraft_server.yaml
+- include_tasks: tailscale_sidecar.yaml

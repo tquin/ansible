@@ -1,0 +1,28 @@
+tailscale_domain: "apple-banana"
+tailscale_sidecar_token: ""
+mcrcon_pass: ""
+
+# enable / disable the funnel
+minecraft_is_public: yes
+
+minecraft_port: 25565
+minecraft_version: 1.21.4
+minecraft_seed: "8624896"
+minecraft_ram_mb: 2048
+minecraft_difficulty: hard
+minecraft_world_name: my_world_name
+minecraft_motd: "A Minecraft Server"
+
+# This should be the 'slug' from the URL, eg: modrinth.com/mods/<slug>
+minecraft_mods:
+  - fabric-api
+  - sodium
+  - lithium
+  - fabric-language-kotlin
+  # - indium
+
+minecraft_use_allowlist: true
+minecraft_allowlist:
+  - Etho
+minecraft_ops:
+  - Etho
