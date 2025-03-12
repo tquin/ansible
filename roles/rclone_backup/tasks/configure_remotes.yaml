@@ -12,7 +12,7 @@
 # the install needs to happen first.
 - name: Configure rclone remotes
   include_role:
-    name: tigattack.rclone_rc_remotes.pr5
+    name: tigattack.rclone_rc_remotes
   vars:
     rclone_host: "{{ rclone_rc_host }}"
     rclone_port: "{{ rclone_rc_port }}"
