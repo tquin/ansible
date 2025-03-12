@@ -1,11 +1,11 @@
-tailscale_domain: "apple-banana"
-tailscale_sidecar_token: ""
+# fill from vault
 mcrcon_pass: ""
+minecraft_tunnel_key: "" # Tunnel with playit.gg
 
 # enable / disable the funnel
 minecraft_is_public: yes
 
-minecraft_port: 25565
+minecraft_port: 25566
 minecraft_version: 1.21.4
 minecraft_seed: "8624896"
 minecraft_ram_mb: 2048
@@ -19,7 +19,8 @@ minecraft_mods:
   - sodium
   - lithium
   - fabric-language-kotlin
-  # - indium
+minecraft_datapacks: []
+minecraft_resource_pack_link: ""
 
 minecraft_use_allowlist: true
 minecraft_allowlist:

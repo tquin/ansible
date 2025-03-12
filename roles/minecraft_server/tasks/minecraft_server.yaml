@@ -8,18 +8,6 @@
   loop:
     - "{{ docker_container_dir }}/minecraft_server"
 
-- name: Write minecraft server template files
-  template:
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    # Note: this has to be a string, not an int!!
-    mode: '660'
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  loop:
-    - src: server.properties.j2
-      dest: "{{ docker_container_dir }}/minecraft_server/server.properties"
-
 - name: Install and start Minecraft through Docker
   community.docker.docker_container:
     name: minecraft_server
@@ -31,7 +19,7 @@
     init: true
     restart_policy: unless-stopped
     ports:
-      - "{{ minecraft_port }}:25565"
+      - "{{ minecraft_port }}:{{ minecraft_port }}"
     env:
       TZ: "{{ time_zone }}"
       EULA: "TRUE"
@@ -39,14 +27,18 @@
       VERSION: "{{ minecraft_version }}"
       MEMORY: "{{ minecraft_ram_mb }}m"
       MAX_MEMORY: "{{ minecraft_ram_mb }}m"
-      OVERRIDE_SERVER_PROPERTIES: "false"
-      ENABLE_WHITELIST: minecraft_use_allowlist
       OPS: "{{ minecraft_ops | join(',') }}"
+      ENABLE_WHITELIST: "{{ minecraft_use_allowlist | string }}"
       WHITELIST: "{{ minecraft_allowlist | join(',') }}"
       RCON_PASSWORD: "{{ mcrcon_pass }}"
       MODRINTH_PROJECTS: "{{ minecraft_mods | join(',') }}"
       LEVEL: "{{ minecraft_world_name }}"
       SPAWN_PROTECTION: "0"
       SEED: "{{ minecraft_seed }}"
+      DIFFICULTY: "{{ minecraft_difficulty }}"
+      MOTD: "{{ minecraft_motd }}"
+      SIMULATION_DISTANCE: "10"
+      VIEW_DISTANCE: "12"
+      SERVER_PORT: "{{ minecraft_port | string }}"
     volumes:
       - "{{ docker_container_dir }}/minecraft_server:/data"
