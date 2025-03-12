@@ -1,0 +1,14 @@
+- name: Install and start Minecraft Tunnel through Docker
+  community.docker.docker_container:
+    name: minecraft_tunnel
+    image: ghcr.io/playit-cloud/playit-agent:0.15
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    init: true
+    restart_policy: unless-stopped
+    network_mode: host
+    env:
+      TZ: "{{ time_zone }}"
+      SECRET_KEY: "{{ minecraft_tunnel_key }}"

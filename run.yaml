@@ -81,14 +81,13 @@
         #     minecraft_ops: "{{ secret_minecraft_ops }}"
         #     minecraft_allowlist: "{{ secret_minecraft_allowlist }}"
 
-        - name: Minecraft role - tailscale sidecar
+        - name: Minecraft role (container)
           include_role:
-            name: minecraft_ts
+            name: minecraft_server
           when: inventory_hostname in groups.minecraft
           vars:
-            tailscale_domain: "{{ secret_tailscale_domain }}"
-            tailscale_sidecar_token: "{{ secret_tailscale_sidecar_token }}"
             mcrcon_pass: "{{ secret_mcrcon_pass }}"
+            minecraft_tunnel_key: "{{ secret_minecraft_tunnel_key }}"
 
         # ----- ----- ----- ----- -----
         # BACKUP
