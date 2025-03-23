@@ -8,13 +8,14 @@
   loop:
     - "{{ docker_container_dir }}/mealie"
     - "{{ docker_container_dir }}/mealie/data"
+    - "{{ docker_container_dir }}/mealie/nltk_data"
 
 # ----- ----- ----- ----- -----
 
 - name: Install and start Mealie through Docker
   community.docker.docker_container:
     name: mealie
-    image: ghcr.io/mealie-recipes/mealie:v2.3.0
+    image: ghcr.io/mealie-recipes/mealie:v2.8.0
     state: started
     user: "{{ username_uid }}:{{ username_guid }}"
     pull: true
@@ -33,3 +34,4 @@
     memory: "{{ mealie_memory_limit }}"
     volumes:
       - "{{ docker_container_dir }}/mealie/data:/app/data"
+      - "{{ docker_container_dir }}/mealie/nltk_data:/nltk_data"
