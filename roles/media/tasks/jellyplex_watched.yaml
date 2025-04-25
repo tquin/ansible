@@ -1,0 +1,55 @@
+- name: Create jellyplex-watched directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/jellyplex-watched/logs"
+
+- set_fact:
+    jellyplex_watched_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    jellyplex_watched_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='jellyplex-watched']"
+
+- set_fact:
+    jellyplex_watched_user_mapping_json: >-
+      {{
+        jellyplex_watched_user_mapping_json | default({})
+        | combine({
+            item[0]: item[1]
+          })
+      }}
+  loop: "{{ jellyplex_watched_user_mapping }}"
+
+- name: Install and start jellyplex-watched through Docker
+  community.docker.docker_container:
+    name: jellyplex-watched
+    image: luigi311/jellyplex-watched:7.0.3
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ jellyplex_watched_network }}"
+    ports: "{{ jellyplex_watched_ports }}"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGUID: "{{ username_guid }}"
+      # Note these are Python-style True/False strings, not yaml bools
+      DRYRUN: "False"
+      RUN_ONLY_ONCE: "False"
+      SLEEP_DURATION: "3600" # in seconds
+      SSL_BYPASS: "True"
+      LOG_FILE: "/logs/jellyplex-watched.log"
+      USER_MAPPING: "{{ jellyplex_watched_user_mapping_json | to_json }}"
+      PLEX_BASEURL: "http://{{ ansible_hostname }}:32400"
+      PLEX_TOKEN: "{{ plex_api_key }}"
+      JELLYFIN_BASEURL: "http://{{ ansible_hostname }}:8096"
+      JELLYFIN_TOKEN: "{{ jellyfin_api_key }}"
+    volumes:
+      "{{ docker_container_dir }}/jellyplex-watched/logs:/logs"

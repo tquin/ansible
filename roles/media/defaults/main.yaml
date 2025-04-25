@@ -67,11 +67,20 @@ media_container_state:
     network: "bridge"
     ports: []
 
+  - name: jellyplex-watched
+    network: "bridge"
+    ports: []
+
 youtubedl_interval: "3h"
 youtubedl_quality: "1080"
 
 # Channel or Playlist URLs
 youtubedl_content: []
+
+# Order doesn't matter, map Plex <-> Jellyfin usernames
+jellyplex_watched_user_mapping:
+  - ["plex_alice", "jelly_alice"]
+  - ["plex_bob", "jelly_odenkirk"]
 
 # ----- ----- ----- ----- -----
 # Wireguard Docker

@@ -67,6 +67,8 @@
             wireguard_public_key: "{{ secret_wireguard_public_key }}"
             wireguard_endpoint_ip: "{{ secret_wireguard_endpoint_ip }}"
             wireguard_private_key: "{{ secret_wireguard_private_key }}"
+            jellyfin_api_key: "{{ secret_jellyfin_api_key }}"
+            plex_api_key: "{{ secret_plex_api_key }}"
 
         # ----- ----- ----- ----- -----
         # MINECRAFT
