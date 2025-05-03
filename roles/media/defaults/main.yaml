@@ -88,4 +88,5 @@ jellyplex_watched_user_mapping:
 
 wireguard_conf_file: "wireguard.conf.j2"
 wireguard_tunnel_address: "10.2.0.2/32"
+wireguard_dns_address: "10.2.0.1"
 wireguard_endpoint_port: "51820"
