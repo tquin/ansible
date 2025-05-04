@@ -1,3 +1,13 @@
+- name: Create Code directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "755"
+  loop:
+    - "{{ vscode_settings_path | dirname }}"
+
 - name: Check that settings.json exists
   stat:
     path: "{{ vscode_settings_path }}"
@@ -10,7 +20,7 @@
     content: "{\n}"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '0644'
+    mode: "0644"
 
 # ----- ----- ----- ----- -----
 
@@ -19,12 +29,23 @@
     path: "{{ vscode_settings_path }}"
     regexp: "{{ item.rex }}"
     line: "{{ item.content }}"
-    insertbefore: '}$'
+    insertbefore: "}$"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '0644'
+    mode: "0644"
   loop:
     - rex: 'telemetry\.telemetryLevel'
       content: '"telemetry.telemetryLevel": "{{ vscode_telemetry_level }}",'
     - rex: 'workbench\.colorTheme'
       content: '"workbench.colorTheme": "{{ vscode_colour_theme }}",'
+
+# ----- ----- ----- ----- -----
+
+- name: Install extensions
+  shell: "{{ vscode_binary }} --install-extension {{ item }}"
+  become: false
+  register: result
+  when:
+    - vscode_extension is defined
+  loop: "{{ vscode_extension }}"
+  changed_when: result.stdout is not search('is already installed.')

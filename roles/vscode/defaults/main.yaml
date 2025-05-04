@@ -10,18 +10,28 @@ vscode_extension:
   - redhat.vscode-yaml
   - redhat.vscode-xml
   - ibm.output-colorizer
-  - mohsen1.prettify-json
-  - arcsector.vscode-splunk-search-syntax
   - hilleer.yaml-plus-json
   - ms-azuretools.vscode-docker
   - eamodio.gitlens
   - tamasfe.even-better-toml
+  - usernamehw.errorlens
+  - tamasfe.even-better-toml
+  - rust-lang.rust-analyzer
   # Themes
   - akamud.vscode-theme-onedark
+  - github.github-vscode-theme
+  # TBD - not available in Open VSX yet
+  # - mohsen1.prettify-json
+  # - arcsector.vscode-splunk-search-syntax
+  # - zamerick.vscode-caddyfile-syntax
+  # - tquin.logscale-syntax
 
-vscode_settings_path: "/home/{{ username }}/.config/Code/User/settings.json"
+# Used for extension install command
+vscode_binary: "flatpak run com.vscodium.codium"
 
-vscode_colour_theme: "Atom One Dark"
+vscode_settings_path: "/home/{{ username }}/.var/app/com.vscodium.codium/config/VSCodium/User/settings.json"
+
+vscode_colour_theme: "Github Dark Default"
 
 # One of: all, error, crash, off
 vscode_telemetry_level: "off"
