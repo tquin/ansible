@@ -4,12 +4,12 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '755'
+    mode: "755"
   loop:
     - "{{ appimage_install_dir }}"
     - "{{ appimage_icon_dir }}"
     - "/tmp/appimage_unzip"
-  loop_control: 
+  loop_control:
     loop_var: dir_item
 
 # Direct executable download
@@ -20,39 +20,47 @@
     dest: "{{ appimage_install_dir }}/{{ item.name }}.AppImage"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '774'
+    mode: "774"
 
 # Zipped file download
 - when: item.requires_decompressing
   block:
-
     # ----- ----- ----- ----- -----
     # Zipped file handling loop
     # ----- ----- ----- ----- -----
 
     - name: Download latest AppImage executable, zipped
+      get_url:
+        url: "{{ item.app_url }}"
+        dest: "/tmp/{{ item.name }}_appimage.compressed"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "774"
+        timeout: 300 # 5 mins for large ~200MiB apps
+
+    - name: Unzip AppImage container
       ansible.builtin.unarchive:
-        src: "{{ item.app_url }}"
+        src: "/tmp/{{ item.name }}_appimage.compressed"
         dest: "/tmp/appimage_unzip"
         remote_src: yes
         owner: "{{ username }}"
         group: "{{ username }}"
-        mode: '774'
+        mode: "774"
 
     - name: List the unzipped files
       find:
         paths: "/tmp/appimage_unzip"
         file_type: file
-        patterns: '*.AppImage,*.appimage'
+        patterns: "*.AppImage,*.appimage"
         age_stamp: mtime
       register: unzipped_files
 
     - set_fact:
         unzipped_file_name: >-
           {{
-            (unzipped_files.files 
-              | sort(attribute='mtime', reverse=true) 
-            | first).path 
+            (unzipped_files.files
+              | sort(attribute='mtime', reverse=true)
+            | first).path
           }}
 
     - debug:
@@ -65,7 +73,7 @@
         remote_src: yes
         owner: "{{ username }}"
         group: "{{ username }}"
-        mode: '774'
+        mode: "774"
 
     - name: Clean up unzipped file
       file:
@@ -82,7 +90,7 @@
     dest: "{{ appimage_icon_dir }}/{{ item.name }}.{{ item.icon_url | regex_search('[^\\.]+$') }}"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '664'
+    mode: "664"
 
 - name: Copy Desktop file template to remote
   template:
@@ -90,7 +98,7 @@
     dest: "/tmp/{{ item.name }}.desktop"
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: '664'
+    mode: "664"
 
 - name: Add AppImage XDG desktop entry
   command: "desktop-file-install /tmp/{{ item.name }}.desktop"
