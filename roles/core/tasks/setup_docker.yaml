@@ -15,7 +15,9 @@
   get_url:
     url: https://download.docker.com/linux/fedora/docker-ce.repo
     dest: /etc/yum.repos.d
-    mode: '660'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "660"
 
 # ----- ----- ----- ----- -----
 

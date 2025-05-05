@@ -20,7 +20,6 @@ common_packages:
   - bat # fancy cat
   - speedtest-cli
   - stow
-  - neofetch
   - tlp # CPU / power profiles
   - powertop
   - virt-manager
@@ -35,7 +34,8 @@ common_packages:
 
 ubuntu_packages:
   - 7zip
-  - eza # fancy ls (new)
+  - eza
+  - neofetch # old - wait for `fastfetch`
 
 debian_packages:
   # Requirements for setup_docker.yaml
@@ -44,13 +44,14 @@ debian_packages:
   - wget
   - software-properties-common
   - gnupg2
-  - exa # fancy ls (old)
+  - exa # old - wait for `eza`
+  - neofetch # old - wait for `fastfetch`
 
 fedora_packages:
-  - eza # fancy ls (new)
   - btrfs-assistant
   # Requirements for setup_docker.yaml
   - dnf-plugins-core
+  - fastfetch
 
 # ----- ----- ----- ----- -----
 
@@ -60,6 +61,7 @@ cargo_packages:
   - bacon
   - ripgrep
   - gping
+  - eza
 
 cargo_dir: "/home/{{ username }}/.cargo/bin"
 

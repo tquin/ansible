@@ -1,20 +1,19 @@
 ---
-
 roles:
-    - name: artis3n.tailscale
-    - name: petermosmans.customize-gnome
-    - name: ctorgalson.nerdfonts
-    - name: exploide.dnf-automatic
-    - name: robertdebock.fail2ban
-    - name: tquin.minecraft_fabric_server
-    - name: ngetchell.vscode
-    - name: tigattack.rclone_rc_remotes
-    - name: aisbergg.snapper
-    - name: radek_sprta.sanoid
-    - name: aisbergg.btrfsmaintenance
-    - name: robertdebock.cron
+  - name: petermosmans.customize-gnome
+  - name: ctorgalson.nerdfonts
+  - name: exploide.dnf-automatic
+  - name: robertdebock.fail2ban
+  - name: tquin.minecraft_fabric_server
+  - name: ngetchell.vscode
+  - name: tigattack.rclone_rc_remotes
+  - name: aisbergg.snapper
+  - name: radek_sprta.sanoid
+  - name: aisbergg.btrfsmaintenance
+  - name: robertdebock.cron
 
 collections:
-    - name: community.general
-    - name: community.docker
-    - name: debops.debops
+  - name: community.general
+  - name: community.docker
+  - name: debops.debops
+  - name: artis3n.tailscale

@@ -8,7 +8,7 @@ prod:
     MANCHESTER-BABY:
       ansible_host: disabled # 100.68.26.36
     DEBOMBE:
-      ansible_host: disabled # 100.105.52.65 
+      ansible_host: disabled # 100.105.52.65
 
 # ----- ----- ----- ----- -----
 
@@ -23,5 +23,5 @@ test:
       ansible_host: 192.168.124.104
     ansiblevm-debian12:
       ansible_host: 192.168.124.103
-    ansiblevm-fedora40:
-      ansible_host: 192.168.124.168
+    ansiblevm-fedora42:
+      ansible_host: 192.168.124.93

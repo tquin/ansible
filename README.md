@@ -19,10 +19,10 @@ The only steps needed to do manually on a new machine is to install from a fresh
 * Install OS from ISO
   * ✔ Ubuntu Noble 24.04
   * ✔ Debian Bookworm 12
-  * ✔ Fedora 40
+  * ✔ Fedora 42
 * Minimum specs for test VMs
   * 4GB RAM (mostly for Rust compiles)
-  * 50+GB disk space
+  * 50-100GB disk space
 * Ensure your user has sudo privileges
   * `su -` to root
   * `usermod -aG sudo <username>`
@@ -63,7 +63,7 @@ Optionally, you can choose to re-download the latest version of each dependency 
 
 **Workstation**
 
-- GNOME actions require an active display session (not locked) during processing to allow actions. Use the Caffeine extension once installed to support this. 
+- GNOME actions require an active display session (not locked) during processing to allow actions. Use the Caffeine extension once installed to support this.
 
 - `gdrive_obsidian` requires interactive authentication after installion. Run `rclone config reconnect gdrive-obsidian:` on the client after running the playbook.
 
@@ -82,5 +82,4 @@ Optionally, you can choose to re-download the latest version of each dependency 
   - DB backups
 - file share / samba
 - pika config
-- ubuntu 24.04 testing
 - logrotate / rsnapshot for minecraft, to keep weeklies/monthlies/yearlies

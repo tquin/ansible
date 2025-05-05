@@ -1,3 +1,25 @@
+# ----- ----- ----- ----- -----
+# Configure package managers
+# ----- ----- ----- ----- -----
+
+- name: Configure DNF settings
+  when: ansible_os_family == 'RedHat'
+  community.general.ini_file:
+    path: /etc/dnf/dnf.conf
+    section: main
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    backup: true
+  with_items:
+    - key: fastestmirror
+      value: "True"
+    - key: max_parallel_downloads
+      value: "10"
+
+# ----- ----- ----- ----- -----
+# Update & Install
+# ----- ----- ----- ----- -----
+
 - name: Update apt packages
   when: ansible_os_family == 'Debian'
   apt:
@@ -9,8 +31,6 @@
   dnf:
     name: "*"
     state: latest
-
-# ----- ----- ----- ----- -----
 
 - name: Install essential packages
   package:
@@ -35,6 +55,8 @@
     name: "{{ fedora_packages }}"
     state: latest
 
+# ----- ----- ----- ----- -----
+# Cleanup
 # ----- ----- ----- ----- -----
 
 - name: Autoremove apt packages

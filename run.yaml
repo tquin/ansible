@@ -5,12 +5,7 @@
   environment:
     PATH: "{{ ansible_env.PATH }}:/home/{{ username }}/.cargo/bin"
 
-  # ----- ----- ----- ----- -----
-  # Task imports
-  # ----- ----- ----- ----- -----
-
   tasks:
-
     # ----- ----- ----- ----- -----
     # CORE
     # ----- ----- ----- ----- -----
@@ -19,7 +14,6 @@
         name: core
       vars:
         node_exporter_hash: "{{ secret_node_exporter_hash }}"
-
 
     - include_role:
         name: fs_snapshots
