@@ -17,6 +17,7 @@ vscode_extension:
   - usernamehw.errorlens
   - tamasfe.even-better-toml
   - rust-lang.rust-analyzer
+  - tquin.logscale-syntax
   # Themes
   - akamud.vscode-theme-onedark
   - github.github-vscode-theme
@@ -24,7 +25,6 @@ vscode_extension:
   # - mohsen1.prettify-json
   # - arcsector.vscode-splunk-search-syntax
   # - zamerick.vscode-caddyfile-syntax
-  # - tquin.logscale-syntax
 
 # Used for extension install command
 vscode_binary: "flatpak run com.vscodium.codium"
