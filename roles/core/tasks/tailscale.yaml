@@ -7,5 +7,15 @@
     tailscale_args: "--ssh"
     state: latest
 
+# Requires sudo, can't be done under user
 - name: Add HTTPS certificate
   command: "tailscale cert {{ inventory_hostname | lower }}.{{ secret_tailscale_domain }}.ts.net"
+
+- name: "Chown Tailscale cert files to {{ username }}"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop:
+    - "{{ inventory_hostname | lower }}.{{ secret_tailscale_domain }}.ts.net.key"
+    - "{{ inventory_hostname | lower }}.{{ secret_tailscale_domain }}.ts.net.crt"
