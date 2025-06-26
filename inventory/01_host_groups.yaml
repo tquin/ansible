@@ -6,9 +6,14 @@ prod:
 
   hosts:
     MANCHESTER-BABY:
-      ansible_host: disabled # 100.68.26.36
+      ansible_host: disabled
+      # ansible_host: 100.68.26.36
     DEBOMBE:
-      ansible_host: disabled # 100.105.52.65
+      ansible_host: disabled
+      # ansible_host: 100.105.52.65
+    EDVAC:
+      ansible_host: disabled
+      # ansible_host: 100.84.109.86
 
 # ----- ----- ----- ----- -----
 

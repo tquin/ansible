@@ -20,6 +20,7 @@ flatpak_packages:
   - io.missioncenter.MissionCenter
   - dev.zed.Zed
   - com.vscodium.codium
+  - app.zen_browser.zen
 
 appimage_install_dir: "/home/{{ username }}/.local/bin"
 appimage_icon_dir: "/usr/share/pixmaps"

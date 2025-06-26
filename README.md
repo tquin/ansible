@@ -8,7 +8,12 @@ ansible-vault edit group_vars/all/secret_vars.yaml
 ```
 
 * Generate an SSH key on the controller
-  * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible -C <email>`
+  * `ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/ansible_controller -C <email>`
+
+Install ansible with whatever package manager your controller uses:
+```
+sudo dnf install ansible
+```
 
 ---
 
@@ -38,7 +43,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
     * Debian & Fedora:`sudo systemctl enable --now sshd.service`
     * Ubuntu: `sudo systemctl enable --now ssh.service`
 * Copy the controller SSH key to the ansible_client
-  * `ssh-copy-id -i ~/.ssh/ansible <username>@<ansible_client>`
+  * `ssh-copy-id -i ~/.ssh/ansible_controller <username>@<ansible_client>`
 * Fill in the specific client hostname/IP details in the `inventory/` files on the controller
 * Optionally add the hostname into other host groups if you like (eg: add to `[workstation]` if you want GUI apps installed)
 * Test the key is working without requiring a password

@@ -62,7 +62,7 @@ cargo_packages:
   - ripgrep
   - gping
   - eza
-  - git-delta
+  # - git-delta # Broken on Fedora 42
 
 cargo_dir: "/home/{{ username }}/.cargo/bin"
 
