@@ -31,7 +31,7 @@ vscode_binary: "flatpak run com.vscodium.codium"
 
 vscode_settings_path: "/home/{{ username }}/.var/app/com.vscodium.codium/config/VSCodium/User/settings.json"
 
-vscode_colour_theme: "Github Dark Default"
+vscode_colour_theme: "GitHub Dark Default"
 
 # One of: all, error, crash, off
 vscode_telemetry_level: "off"
