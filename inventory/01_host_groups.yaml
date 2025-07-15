@@ -30,3 +30,9 @@ test:
       ansible_host: 192.168.124.103
     ansiblevm-fedora42:
       ansible_host: 192.168.124.93
+    ansiblevm-edvac-ubuntu2404:
+      ansible_host: 192.168.124.104
+    ansiblevm-edvac-debian12:
+      ansible_host: 192.168.124.103
+    ansiblevm-edvac-fedora42:
+      ansible_host: 192.168.124.93
