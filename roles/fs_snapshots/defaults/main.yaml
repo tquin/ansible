@@ -27,6 +27,9 @@ sanoid_templates:
     autosnap: "yes"
     autoprune: "yes"
 
+# Should snapping a dataset also snap all its children?
+zfs_snap_recursive: no
+
 # Ignore the Ubuntu Root-on-ZFS datasets, eg. /var and /usr
 # This will still include 'rpool/USERDATA for /home'
 # See: https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html#step-3-system-installation

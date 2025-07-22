@@ -47,7 +47,7 @@
         + [{
           "name": item,
           "use_template": "default",
-          "recursive": "yes",
+          "recursive": ( zfs_snap_recursive | default(no) ),
         }]
       }}
   loop: "{{ zfs_datasets_allowlist }}"
