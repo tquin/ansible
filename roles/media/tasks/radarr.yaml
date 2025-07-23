@@ -19,7 +19,7 @@
 - name: Install and start Radarr through Docker
   community.docker.docker_container:
     name: radarr
-    image: hotio/radarr
+    image: ghcr.io/hotio/radarr
     state: started
     pull: true
     cleanup: false

@@ -19,7 +19,7 @@
 - name: Install and start Bazarr through Docker
   community.docker.docker_container:
     name: bazarr
-    image: hotio/bazarr
+    image: ghcr.io/hotio/bazarr
     state: started
     pull: true
     cleanup: false

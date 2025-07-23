@@ -19,7 +19,7 @@
 - name: Install and start Sonarr through Docker
   community.docker.docker_container:
     name: sonarr
-    image: hotio/sonarr
+    image: ghcr.io/hotio/sonarr
     state: started
     pull: true
     cleanup: false

@@ -18,7 +18,7 @@
 - name: Install and start Prowlarr through Docker
   community.docker.docker_container:
     name: prowlarr
-    image: hotio/prowlarr
+    image: ghcr.io/hotio/prowlarr
     state: started
     pull: true
     cleanup: false
