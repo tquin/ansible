@@ -1,38 +1,37 @@
-prod:
-  vars:
-    ansible_user: "{{ username }}"
-    ansible_connection: ssh
-    ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
+all:
+  children:
+    prod:
+      vars:
+        ansible_user: "{{ username }}"
+        ansible_connection: ssh
+        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
 
-  hosts:
-    MANCHESTER-BABY:
-      ansible_host: disabled
-      # ansible_host: 100.68.26.36
-    DEBOMBE:
-      ansible_host: disabled
-      # ansible_host: 100.105.52.65
-    EDVAC:
-      ansible_host: disabled
-      # ansible_host: 100.84.109.86
+      hosts:
+        MANCHESTER-BABY:
+          ansible_host: 100.68.26.36
+        DEBOMBE:
+          ansible_host: 100.105.52.65
+        EDVAC:
+          ansible_host: 100.84.109.86
 
-# ----- ----- ----- ----- -----
+    # ----- ----- ----- ----- -----
 
-test:
-  vars:
-    ansible_user: "{{ username }}"
-    ansible_connection: ssh
-    ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
+    test:
+      vars:
+        ansible_user: "{{ username }}"
+        ansible_connection: ssh
+        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
 
-  hosts:
-    ansiblevm-ubuntu2404:
-      ansible_host: 192.168.124.104
-    ansiblevm-debian12:
-      ansible_host: 192.168.124.103
-    ansiblevm-fedora42:
-      ansible_host: 192.168.124.93
-    ansiblevm-edvac-ubuntu2404:
-      ansible_host: 192.168.124.104
-    ansiblevm-edvac-debian12:
-      ansible_host: 192.168.124.103
-    ansiblevm-edvac-fedora42:
-      ansible_host: 192.168.124.93
+      hosts:
+        ansiblevm-ubuntu2404:
+          ansible_host: 192.168.124.104
+        ansiblevm-debian12:
+          ansible_host: 192.168.124.103
+        ansiblevm-fedora42:
+          ansible_host: 192.168.124.93
+        ansiblevm-edvac-ubuntu2404:
+          ansible_host: 192.168.124.104
+        ansiblevm-edvac-debian12:
+          ansible_host: 192.168.124.103
+        ansiblevm-edvac-fedora42:
+          ansible_host: 192.168.124.93
