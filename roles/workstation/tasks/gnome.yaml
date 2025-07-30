@@ -40,15 +40,8 @@
   vars:
     gnome_user: "{{ username }}"
 
-- name: Set GNOME extension settings
-  become_user: "{{ username }}"
-  community.general.dconf:
-    key: "/org/gnome/shell/extensions/{{ item.key }}"
-    value: "{{ item.value | string }}"
-  loop: "{{ gnome_extension_settings }}"
-
-- name: Set GNOME prefs/tweaks settings
+- name: Set GNOME dconf settings
   community.general.dconf:
     key: "{{ item.key | string }}"
     value: "{{ item.value | string }}"
-  loop: "{{ gnome_preferences_settings }}"
+  loop: "{{ gnome_dconf_settings }}"
