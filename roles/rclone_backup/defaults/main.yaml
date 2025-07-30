@@ -32,7 +32,8 @@ rclone_enabled_remotes:
   gphotos: true
   blaze-b2: true
   b2-crypt: true
-  proton-drive: true
+  # requires user interaction, disable for test runs
+  proton-drive: false
 
 # The secrets should be passed in the play from a vault
 rclone_rc_remotes:

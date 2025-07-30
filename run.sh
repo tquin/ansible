@@ -1,25 +1,39 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 for ARGUMENT in "$@"; do
-    if [[ "$ARGUMENT" = "--upgrade" || "$ARGUMENT" = "--force" || "$ARGUMENT" = "-f" ]]; then
-        # -f (force) will re-download latest collections/roles
-        GALAXY_REQS_ARGS="-f"
-    fi
-
-    if [[ "$ARGUMENT" = "--verbose" || "$ARGUMENT" = "-v" ]]; then
-        PLAYBOOK_VERBOSE_LEVEL="-v"
-    else
-        PLAYBOOK_VERBOSE_LEVEL=""
-    fi
+    case $ARGUMENT in
+        --upgrade|--force)
+            GALAXY_UPGRADE_ARG="-f"
+            ;;
+        --verbose|-v)
+            PLAYBOOK_VERBOSE_ARG="-v"
+            ;;
+        --hosts=*|-h=*)
+            PLAYBOOK_TARGET_HOSTS="${ARGUMENT#*=}"
+            ;;
+        --hosts|-h)
+            if [[ -n $2 && $2 != -* ]]; then
+                PLAYBOOK_TARGET_HOSTS="$2"
+                shift 2  # Skip both the flag and its value
+            else
+                echo "Error: $1 requires a value" >&2
+                exit 1
+            fi
+            ;;
+        *)
+    esac
 done
 
-echo "PLAYBOOK_VERBOSE_LEVEL: $PLAYBOOK_VERBOSE_LEVEL"
+echo "GALAXY_UPGRADE_ARG: ${GALAXY_UPGRADE_ARG:-""}"
+echo "PLAYBOOK_VERBOSE_ARG: ${PLAYBOOK_VERBOSE_ARG:-""}"
+echo "PLAYBOOK_TARGET_HOSTS: ${PLAYBOOK_TARGET_HOSTS:-"test"}"
 
-ansible-galaxy install -r requirements.yaml $GALAXY_REQS_ARGS
+ansible-galaxy install -r requirements.yaml $GALAXY_UPGRADE_ARG
 
-# `sudo` would make root the owner of this file
-sudo ansible-playbook $PLAYBOOK_VERBOSE_LEVEL setup.yaml
+sudo ansible-playbook $PLAYBOOK_VERBOSE_ARG setup.yaml
+# sudo above makes root the owner of this file
 sudo chown "$USER:$USER" .fact_cache/localhost
 
-ansible-playbook $PLAYBOOK_VERBOSE_LEVEL run.yaml
+ansible-playbook $PLAYBOOK_VERBOSE_ARG --limit "${PLAYBOOK_TARGET_HOSTS:-"test"}" run.yaml

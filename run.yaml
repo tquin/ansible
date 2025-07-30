@@ -1,5 +1,5 @@
 - name: Core playbook
-  hosts: "*"
+  hosts: all
   become: yes
 
   environment:
