@@ -23,7 +23,7 @@ The only steps needed to do manually on a new machine is to install from a fresh
 
 * Install OS from ISO
   * ✔ Ubuntu Noble 24.04
-  * ✔ Debian Bookworm 12
+  * ✔ Debian Trixie 13
   * ✔ Fedora 42
 * Minimum specs for test VMs
   * 4GB RAM (mostly for Rust compiles)

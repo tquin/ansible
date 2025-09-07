@@ -18,6 +18,7 @@ common_packages:
   - htop
   - btop # fancy htop
   - bat # fancy cat
+  - eza # fancy ls
   - speedtest-cli
   - stow
   - tlp # CPU / power profiles
@@ -35,24 +36,21 @@ common_packages:
 
 ubuntu_packages:
   - 7zip
-  - eza
   - neofetch # old - wait for `fastfetch`
 
 debian_packages:
+  - fastfetch
   # Requirements for setup_docker.yaml
   - apt-transport-https
   - ca-certificates
   - wget
-  - software-properties-common
   - gnupg2
-  - exa # old - wait for `eza`
-  - neofetch # old - wait for `fastfetch`
 
 fedora_packages:
   - btrfs-assistant
+  - fastfetch
   # Requirements for setup_docker.yaml
   - dnf-plugins-core
-  - fastfetch
 
 # ----- ----- ----- ----- -----
 

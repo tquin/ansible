@@ -1,14 +1,23 @@
 - name: Add Apt signing key from official docker repo
   when: ansible_os_family == 'Debian'
-  apt_key:
-    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+  ansible.builtin.deb822_repository:
+    name: docker
+    types:
+      - deb
+    uris:
+      - "https://download.docker.com/linux/{{ ansible_distribution | lower }}"
     state: present
+    signed_by: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    architectures:
+      - amd64
+    suites:
+      - "{{ ansible_distribution_release }}"
+    components:
+      - stable
 
-- name: Add Docker apt repository
-  when: ansible_os_family == 'Debian'
-  apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
-    state: present
+- name: Update apt to load new repo
+  ansible.builtin.apt:
+    update_cache: yes
 
 - name: Add Docker dnf repository
   when: ansible_os_family == 'RedHat'

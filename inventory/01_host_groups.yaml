@@ -4,7 +4,7 @@ all:
       vars:
         ansible_user: "{{ username }}"
         ansible_connection: ssh
-        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
+        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible_controller"
 
       hosts:
         MANCHESTER-BABY:
@@ -20,13 +20,13 @@ all:
       vars:
         ansible_user: "{{ username }}"
         ansible_connection: ssh
-        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible"
+        ansible_ssh_private_key_file: "/home/{{ username }}/.ssh/ansible_controller"
 
       hosts:
         ansiblevm-ubuntu2404:
           ansible_host: 192.168.124.104
-        ansiblevm-debian12:
-          ansible_host: 192.168.124.103
+        ansiblevm-manchesterbaby-debian13:
+          ansible_host: 192.168.124.6
         ansiblevm-fedora42:
           ansible_host: 192.168.124.93
         ansiblevm-edvac-ubuntu2404:
