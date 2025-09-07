@@ -25,6 +25,7 @@ common_packages:
   - virt-manager
   - unzip
   - borgbackup
+  - alacritty
 
   # Requirements for rust_cargo.yaml
   - cmake

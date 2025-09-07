@@ -1,5 +1,5 @@
 # ----- ----- ----- ----- -----
-# Flatpak & Appimages
+# Packages
 # ----- ----- ----- ----- -----
 
 flatpak_packages:
@@ -99,9 +99,3 @@ font_types:
   - Regular
   - Bold
   - Medium
-
-# ----- ----- ----- ----- -----
-# Alacritty
-# ----- ----- ----- ----- -----
-
-alacritty_version: "v0.13.0"
