@@ -63,6 +63,8 @@
             wireguard_private_key: "{{ secret_wireguard_private_key }}"
             jellyfin_api_key: "{{ secret_jellyfin_api_key }}"
             plex_api_key: "{{ secret_plex_api_key }}"
+            sonarr_api_key: "{{ secret_sonarr_api_key }}"
+            radarr_api_key: "{{ secret_radarr_api_key }}"
 
         # ----- ----- ----- ----- -----
         # MINECRAFT

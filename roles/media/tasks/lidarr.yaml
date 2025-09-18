@@ -31,7 +31,6 @@
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGID: "{{ username_guid }}"
-      UMASK: '002'
     volumes:
       - "{{ docker_container_dir }}/lidarr/config:/config"
       - "{{ media_container_root_dir }}:/data"

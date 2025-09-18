@@ -1,0 +1,50 @@
+- set_fact:
+    swaparr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    swaparr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='swaparr']"
+
+- name: Install and start Swapparr (for Radarr) through Docker
+  community.docker.docker_container:
+    name: swaparr-radarr
+    image: ghcr.io/thijmengthn/swaparr
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ swaparr_network }}"
+    ports: "{{ swaparr_ports }}"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      PLATFORM: "radarr"
+      BASEURL: "localhost:7878"
+      APIKEY: "{{ radarr_api_key }}"
+      MAX_DOWNLOAD_TIME: "{{ swaparr_MAX_DOWNLOAD_TIME }}"
+      SCAN_INTERVAL: "{{ swaparr_SCAN_INTERVAL }}"
+      MAX_STRIKES: "{{ swaparr_MAX_STRIKES }}"
+
+- name: Install and start Swapparr (for Sonarr) through Docker
+  community.docker.docker_container:
+    name: swaparr-sonarr
+    image: ghcr.io/thijmengthn/swaparr
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ swaparr_network }}"
+    ports: "{{ swaparr_ports }}"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      BASEURL: "localhost:8989"
+      APIKEY: "{{ sonarr_api_key }}"
+      PLATFORM: "sonarr"
+      MAX_DOWNLOAD_TIME: "{{ swaparr_MAX_DOWNLOAD_TIME }}"
+      SCAN_INTERVAL: "{{ swaparr_SCAN_INTERVAL }}"
+      MAX_STRIKES: "{{ swaparr_MAX_STRIKES }}"
