@@ -38,4 +38,3 @@
       - "{{ docker_container_dir }}/jellyfin/config:/config"
       - "{{ docker_container_dir }}/jellyfin/cache:/cache"
       - "{{ media_container_root_dir }}:/media"
-      - "{{ docker_container_dir }}/common:/common"

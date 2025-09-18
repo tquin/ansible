@@ -34,4 +34,3 @@
       PORT: "5055"
     volumes:
       - "{{ docker_container_dir }}/overseerr/config:/app/config"
-      - "{{ docker_container_dir }}/common:/common"

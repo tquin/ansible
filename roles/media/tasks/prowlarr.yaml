@@ -34,4 +34,3 @@
       PGID: "{{ username_guid }}"
     volumes:
       - "{{ docker_container_dir }}/prowlarr/config:/config"
-      - "{{ docker_container_dir }}/common:/common"

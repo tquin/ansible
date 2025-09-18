@@ -54,4 +54,3 @@
     volumes:
       - "{{ media_container_root_dir }}/youtubedl:/downloads"
       - "{{ docker_container_dir }}/youtubedl/config:/config"
-      - "{{ docker_container_dir }}/common:/common"

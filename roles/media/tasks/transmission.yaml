@@ -34,4 +34,3 @@
     volumes:
       - "{{ docker_container_dir }}/transmission/config:/config"
       - "{{ media_container_root_dir }}/torrents:/downloads"
-      - "{{ docker_container_dir }}/common:/common"

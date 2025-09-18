@@ -37,4 +37,3 @@
       - "{{ docker_container_dir }}/plex/config:/config"
       - "{{ docker_container_dir }}/plex/transcode:/transcode"
       - "{{ media_container_root_dir }}:/data"
-      - "{{ docker_container_dir }}/common:/common"

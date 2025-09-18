@@ -46,4 +46,3 @@
       - "{{ docker_container_dir }}/tdarr/logs:/app/logs"
       - "{{ docker_container_dir }}/tdarr/transcode_cache:/temp"
       - "{{ media_container_root_dir }}:/media"
-      - "{{ docker_container_dir }}/common:/common"
