@@ -50,6 +50,11 @@ media_container_state:
     ports:
       - "8989:8989"
 
+  - name: lidarr
+    network: container:wireguard
+    ports:
+      - "8686:8686"
+
   - name: tdarr
     network: "bridge"
     ports:

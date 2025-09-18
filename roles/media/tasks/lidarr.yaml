@@ -1,0 +1,37 @@
+- name: Create Lidarr directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '755'
+  loop:
+    - "{{ docker_container_dir }}/lidarr/config"
+    - "{{ media_container_root_dir }}"
+
+- set_fact:
+    lidarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    lidarr_network: "{{ item.network }}"
+  loop: "{{ media_container_state | community.general.json_query(_query) }}"
+  vars:
+    _query: "[?name=='lidarr']"
+
+- name: Install and start Lidarr through Docker
+  community.docker.docker_container:
+    name: lidarr
+    image: ghcr.io/hotio/lidarr
+    state: started
+    pull: true
+    cleanup: false
+    detach: true
+    restart_policy: unless-stopped
+    network_mode: "{{ lidarr_network }}"
+    ports: "{{ lidarr_ports }}"
+    env:
+      TZ: "{{ time_zone }}"
+      PUID: "{{ username_uid }}"
+      PGID: "{{ username_guid }}"
+      UMASK: '002'
+    volumes:
+      - "{{ docker_container_dir }}/lidarr/config:/config"
+      - "{{ media_container_root_dir }}:/data"
