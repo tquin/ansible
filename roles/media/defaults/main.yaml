@@ -35,6 +35,10 @@ media_container_state:
     network: "bridge"
     ports: []
 
+  - name: swaparr
+    network: "bridge"
+    ports: []
+
   - name: prowlarr
     network: container:wireguard
     ports:
@@ -49,6 +53,11 @@ media_container_state:
     network: container:wireguard
     ports:
       - "8989:8989"
+
+  - name: lidarr
+    network: container:wireguard
+    ports:
+      - "8686:8686"
 
   - name: tdarr
     network: "bridge"
@@ -81,6 +90,11 @@ youtubedl_content: []
 jellyplex_watched_user_mapping:
   - ["plex_alice", "jelly_alice"]
   - ["plex_bob", "jelly_odenkirk"]
+
+# swaparr
+swaparr_MAX_DOWNLOAD_TIME: "1d"
+swaparr_MAX_STRIKES: "5"
+swaparr_SCAN_INTERVAL: "1h"
 
 # ----- ----- ----- ----- -----
 # Wireguard Docker

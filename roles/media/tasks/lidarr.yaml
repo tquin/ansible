@@ -1,4 +1,4 @@
-- name: Create Sonarr directories
+- name: Create Lidarr directories
   file:
     path: "{{ item }}"
     state: directory
@@ -6,31 +6,31 @@
     group: "{{ username }}"
     mode: '755'
   loop:
-    - "{{ docker_container_dir }}/sonarr/config"
+    - "{{ docker_container_dir }}/lidarr/config"
     - "{{ media_container_root_dir }}"
 
 - set_fact:
-    sonarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
-    sonarr_network: "{{ item.network }}"
+    lidarr_ports: "{{ (item.ports) if item.network != 'container:wireguard' else [] }}"
+    lidarr_network: "{{ item.network }}"
   loop: "{{ media_container_state | community.general.json_query(_query) }}"
   vars:
-    _query: "[?name=='sonarr']"
+    _query: "[?name=='lidarr']"
 
-- name: Install and start Sonarr through Docker
+- name: Install and start Lidarr through Docker
   community.docker.docker_container:
-    name: sonarr
-    image: ghcr.io/hotio/sonarr
+    name: lidarr
+    image: ghcr.io/hotio/lidarr
     state: started
     pull: true
     cleanup: false
     detach: true
     restart_policy: unless-stopped
-    network_mode: "{{ sonarr_network }}"
-    ports: "{{ sonarr_ports }}"
+    network_mode: "{{ lidarr_network }}"
+    ports: "{{ lidarr_ports }}"
     env:
       TZ: "{{ time_zone }}"
       PUID: "{{ username_uid }}"
       PGID: "{{ username_guid }}"
     volumes:
-      - "{{ docker_container_dir }}/sonarr/config:/config"
+      - "{{ docker_container_dir }}/lidarr/config:/config"
       - "{{ media_container_root_dir }}:/data"

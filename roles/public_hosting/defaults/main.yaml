@@ -19,6 +19,7 @@ caddy_subdomain_mapping:
   - { name: plex, port: 32400 }
   - { name: jellyfin, port: 8096 }
   - { name: sonarr, port: 8989 }
+  - { name: lidarr, port: 8686 }
   - { name: radarr, port: 7878 }
   - { name: bazarr, port: 6767 }
   - { name: transmission, port: 9091 }
