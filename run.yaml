@@ -30,13 +30,6 @@
         - include_role:
             name: vscode
 
-        - include_role:
-            name: gdrive_obsidian
-          vars:
-            gdrive_client_id: "{{ secret_gdrive_client_id }}"
-            gdrive_client_secret: "{{ secret_gdrive_client_secret }}"
-            gdrive_root_folder_id: "{{ secret_gdrive_root_folder_id }}"
-
     # ----- ----- ----- ----- -----
     # SERVER
     # ----- ----- ----- ----- -----
